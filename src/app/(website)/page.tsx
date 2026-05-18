@@ -235,6 +235,8 @@ function HowItWorks() {
 
 function FeaturedPrize() {
   const router = useRouter()
+  const { token } = useAuth()
+  const isAuthenticated = !!token
   return (
     <Section id="prizes">
       <SectionTitle eyebrow="Featured" title="The prize on the line" subtitle="Brand new, sealed, and ready to ship to the winner free of charge." />
@@ -268,10 +270,16 @@ function FeaturedPrize() {
             </div>
             
             <button 
-              onClick={() => router.push('/dashboard')}
+              onClick={() => {
+                if (isAuthenticated) {
+                  router.push(`/draws/${currentDraw.id}`)
+                } else {
+                  router.push('/login')
+                }
+              }}
               className="w-full py-5 bg-gradient-to-r from-primary to-primary-dark text-white rounded-2xl font-bold text-xl shadow-[0_10px_30px_rgba(255,105,0,0.3)] hover:scale-[1.02] transition-all cursor-pointer flex justify-center items-center gap-3"
             >
-              Sign In to Participate <ArrowRightOutlined />
+              {isAuthenticated ? 'Participate Now' : 'Sign In to Participate'} <ArrowRightOutlined />
             </button>
           </div>
         </div>
