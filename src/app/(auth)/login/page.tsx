@@ -4,6 +4,7 @@ import { LockOutlined, MailOutlined } from '@ant-design/icons'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { AuthCard } from '@/components/auth/AuthCard'
+import { useAuth } from '@/hooks/useAuth'
 
 interface LoginFormValues {
   email: string
@@ -13,11 +14,19 @@ interface LoginFormValues {
 
 export default function LoginPage() {
   const router = useRouter()
+  const { login } = useAuth()
   const [form] = Form.useForm<LoginFormValues>()
 
   const onFinish = (values: LoginFormValues) => {
-    console.log('Login:', values)
-    message.success('Logged in successfully')
+    // Mock auth — sets token so isAuthenticated becomes true across the app
+    const mockToken = 'mock-token-' + Date.now()
+    const mockUser = {
+      id: 'user-001',
+      name: values.email.split('@')[0] ?? 'User',
+      email: values.email,
+    }
+    login(mockUser, mockToken)
+    message.success('Signed in successfully!')
     router.push('/dashboard')
   }
 

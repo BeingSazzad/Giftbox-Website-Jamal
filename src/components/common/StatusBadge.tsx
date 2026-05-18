@@ -14,8 +14,8 @@ const STYLES: Record<ParticipationStatus, { label: string; cls: string }> = {
     cls: 'text-danger bg-danger/12 border-danger/40',
   },
   completed: {
-    label: 'Approved',
-    cls: 'text-success bg-success/12 border-success/40',
+    label: 'Completed',
+    cls: 'text-sky-400 bg-sky-400/12 border-sky-400/40',
   },
 }
 

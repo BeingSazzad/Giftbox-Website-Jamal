@@ -1,4 +1,6 @@
-import heroImg from '@/assets/hero.png'
+import macbookImg from '@/assets/images/macbook_m3.png'
+import galaxyImg from '@/assets/images/galaxy_s24.png'
+import ipadImg from '@/assets/images/ipad_pro.png'
 
 export type ParticipationStatus = 'pending' | 'approved' | 'rejected' | 'completed'
 
@@ -26,25 +28,21 @@ export interface Participation {
 }
 
 const macbookDescription =
-  "The MacBook Pro M3 delivers groundbreaking performance with Apple's revolutionary M3 chip, featuring advanced GPU architecture and enhanced CPU capabilities. Perfect for professionals and creatives who demand the best in portable computing power."
+  "The MacBook Pro M3 delivers groundbreaking performance with Apple's revolutionary M3 chip, featuring advanced GPU architecture and enhanced CPU capabilities."
 
 const ipadDescription =
-  'The iPad Pro 12.9" offers an expansive Liquid Retina XDR display with ProMotion technology, powered by the M2 chip for desktop-class performance. Ideal for creative professionals, students, and anyone seeking the ultimate tablet experience.'
+  'The iPad Pro 12.9" offers an expansive Liquid Retina XDR display with ProMotion technology, powered by the M2 chip for desktop-class performance.'
 
 const samsungDescription =
-  'The Samsung Galaxy S24 Ultra brings flagship power with a 200MP camera, Snapdragon 8 Gen 3, and a vibrant Dynamic AMOLED 2X display — built for creators and power users.'
-
-const macbookImg = 'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=600&q=80'
-const samsungImg = 'https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?auto=format&fit=crop&w=600&q=80'
-const ipadImg = 'https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?auto=format&fit=crop&w=600&q=80'
+  'The Samsung Galaxy S24 Ultra brings flagship power with a 200MP camera, Snapdragon 8 Gen 3, and a vibrant Dynamic AMOLED 2X display.'
 
 export const participations: Participation[] = [
   {
     id: 'p-001',
     prizeTitle: 'MacBook Pro M3',
-    prizeImage: macbookImg,
+    prizeImage: macbookImg.src,
     prizeDescription: macbookDescription,
-    ticketNumber: 'TKT-2024-001234',
+    ticketNumber: 'TKT-2026-000101',
     ticketPrice: 2000,
     currency: 'CDF',
     submittedOn: '2026-04-17',
@@ -53,9 +51,9 @@ export const participations: Participation[] = [
   {
     id: 'p-002',
     prizeTitle: 'Samsung Galaxy S24 Ultra',
-    prizeImage: samsungImg,
+    prizeImage: galaxyImg.src,
     prizeDescription: samsungDescription,
-    ticketNumber: 'TKT-2024-001234',
+    ticketNumber: 'TKT-2026-000102',
     ticketPrice: 2000,
     currency: 'CDF',
     submittedOn: '2026-02-10',
@@ -65,9 +63,9 @@ export const participations: Participation[] = [
   {
     id: 'p-003',
     prizeTitle: 'Samsung Galaxy S24 Ultra',
-    prizeImage: samsungImg,
+    prizeImage: galaxyImg.src,
     prizeDescription: samsungDescription,
-    ticketNumber: 'TKT-2024-001234',
+    ticketNumber: 'TKT-2026-000103',
     ticketPrice: 2000,
     currency: 'CDF',
     submittedOn: '2026-02-10',
@@ -76,31 +74,31 @@ export const participations: Participation[] = [
       {
         id: 'w-1',
         name: 'Sazzad Chowdhury',
-        ticketNumber: '2024-001234',
+        ticketNumber: 'TKT-2026-000103',
         photo: 'https://i.pravatar.cc/200?img=12',
       },
     ],
-    userWonTicketNumber: '2024-001234',
+    userWonTicketNumber: 'TKT-2026-000103',
   },
   {
     id: 'p-004',
     prizeTitle: 'iPad Pro 12.9"',
-    prizeImage: ipadImg,
+    prizeImage: ipadImg.src,
     prizeDescription: ipadDescription,
-    ticketNumber: 'TKT-2024-001234',
+    ticketNumber: 'TKT-2026-000104',
     ticketPrice: 2000,
     currency: 'CDF',
     submittedOn: '2026-04-12',
     status: 'rejected',
     rejectionReason:
-      'We were unable to verify your payment. Please contact support for more information and to resolve this issue.',
+      'We were unable to verify your payment. Please contact support for more information.',
   },
   {
     id: 'p-005',
     prizeTitle: 'iPad Pro 12.9"',
-    prizeImage: ipadImg,
+    prizeImage: ipadImg.src,
     prizeDescription: ipadDescription,
-    ticketNumber: 'TKT-2024-001234',
+    ticketNumber: 'TKT-2026-000105',
     ticketPrice: 2000,
     currency: 'CDF',
     submittedOn: '2026-03-22',
@@ -109,19 +107,19 @@ export const participations: Participation[] = [
       {
         id: 'w-1',
         name: 'Sazzad Chowdhury',
-        ticketNumber: '2024-001234',
+        ticketNumber: 'TKT-2026-000105',
         photo: 'https://i.pravatar.cc/200?img=12',
       },
       {
         id: 'w-2',
         name: 'Ronald Richards',
-        ticketNumber: '2024-001234',
+        ticketNumber: 'TKT-2026-000106',
         photo: 'https://i.pravatar.cc/200?img=33',
       },
       {
         id: 'w-3',
         name: 'Annette Black',
-        ticketNumber: '2024-001234',
+        ticketNumber: 'TKT-2026-000107',
         photo: 'https://i.pravatar.cc/200?img=68',
       },
     ],

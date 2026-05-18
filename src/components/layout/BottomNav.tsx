@@ -35,7 +35,7 @@ export function BottomNav() {
     >
       <div className="flex items-stretch px-2 pt-1.5 pb-1.5">
         {tabs.map((tab) => {
-          const isActive = pathname.startsWith(tab.to) && tab.to !== '/'
+          const isActive = tab.to === '/' ? pathname === '/' : pathname.startsWith(tab.to)
           return (
             <Link
               key={tab.to}

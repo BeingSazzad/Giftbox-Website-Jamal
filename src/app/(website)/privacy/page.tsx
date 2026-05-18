@@ -115,51 +115,49 @@ export default function PrivacyPolicyPage() {
         </div>
 
         {/* Intro banner */}
-        <div className="bg-gradient-to-r from-[#190f36]/80 to-[#10072b]/80 border border-white/8 rounded-3xl p-6 md:p-8 mt-8 backdrop-blur-2xl flex items-start gap-5 shadow-xl">
-          <div className="w-11 h-11 rounded-2xl bg-primary/10 text-primary flex items-center justify-center text-lg shrink-0 border border-primary/10">
+        <div className="mt-10 mb-14 max-w-5xl flex items-start gap-5">
+          <div className="w-11 h-11 rounded-2xl bg-primary/10 text-primary flex items-center justify-center text-lg shrink-0">
             <LockFilled />
           </div>
           <div>
-            <h2 className="text-white text-base font-black m-0 mb-1.5 tracking-tight">Our Privacy Commitment</h2>
-            <p className="text-white/55 text-sm leading-relaxed m-0 max-w-4xl">
+            <h2 className="text-white text-xl font-bold m-0 mb-2 tracking-tight">Our Privacy Commitment</h2>
+            <p className="text-white/60 text-base leading-relaxed m-0">
               At Gift Box, we are committed to protecting your personal information and being fully transparent about what data we collect and how it is used. This policy outlines our core privacy practices to ensure your trust and safety on our platform.
             </p>
           </div>
         </div>
 
         {/* Document — no boxes, continuous flowing text */}
-        <div className="mt-10 max-w-3xl mx-auto">
-          <div className="bg-[#100927]/50 border border-white/6 rounded-3xl backdrop-blur-md shadow-xl divide-y divide-white/5">
-            {sections.map((s) => (
-              <section
-                key={s.id}
-                id={s.id}
-                className="px-7 md:px-10 py-7 scroll-mt-28"
-              >
-                <h2 className="flex items-center gap-3 text-white text-base font-black m-0 mb-4 tracking-tight">
-                  <span className="text-primary/70 text-sm font-black tabular-nums">{s.number}.</span>
-                  {s.title}
-                </h2>
+        <div className="max-w-5xl space-y-10">
+          {sections.map((s) => (
+            <section
+              key={s.id}
+              id={s.id}
+              className="scroll-mt-28"
+            >
+              <h2 className="flex items-center gap-3 text-white text-lg font-bold m-0 mb-4 tracking-tight">
+                <span className="text-primary/70 text-base font-black tabular-nums">{s.number}.</span>
+                {s.title}
+              </h2>
 
-                {s.paragraphs?.map((p, i) => (
-                  <p key={i} className="m-0 mb-3 last:mb-0 text-white/55 text-sm leading-[1.75]">
-                    {p}
-                  </p>
-                ))}
+              {s.paragraphs?.map((p, i) => (
+                <p key={i} className="m-0 mb-4 last:mb-0 text-white/60 text-base leading-[1.8]">
+                  {p}
+                </p>
+              ))}
 
-                {s.bullets && (
-                  <ul className="m-0 pl-0 list-none space-y-2.5">
-                    {s.bullets.map((b, i) => (
-                      <li key={i} className="flex items-start gap-2.5 text-white/55 text-sm leading-[1.75]">
-                        <span className="text-primary/60 mt-[5px] shrink-0 text-[8px]">●</span>
-                        {b}
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </section>
-            ))}
-          </div>
+              {s.bullets && (
+                <ul className="m-0 pl-0 list-none space-y-3">
+                  {s.bullets.map((b, i) => (
+                    <li key={i} className="flex items-start gap-3 text-white/60 text-base leading-[1.8]">
+                      <span className="text-primary/60 mt-2 shrink-0 text-[8px]">●</span>
+                      {b}
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </section>
+          ))}
         </div>
       </div>
     </WebShell>

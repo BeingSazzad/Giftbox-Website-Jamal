@@ -51,7 +51,6 @@ export default function ContactPage() {
   }
 
   const onFinish = (values: ContactFormValues) => {
-    console.log('Contact Inquiry:', { ...values, photo: photo?.name })
     message.success('Message sent! Our support team will get back to you shortly.')
     form.resetFields()
     setPhoto(null)

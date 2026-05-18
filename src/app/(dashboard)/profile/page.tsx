@@ -14,7 +14,8 @@ import {
 } from '@ant-design/icons'
 import { Modal, Form, Input, Button, DatePicker, Select, Switch, message } from 'antd'
 import { useState, useRef, useEffect, Suspense } from 'react'
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation'
+import { useAuth } from '@/hooks/useAuth'
 import dayjs from 'dayjs'
 import { WebShell } from '@/components/layout/WebShell'
 
@@ -23,10 +24,14 @@ type SettingsTab = 'profile' | 'password' | 'preferences' | 'support'
 function SettingsHubContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
+  const { logout } = useAuth()
   const [activeTab, setActiveTab] = useState<SettingsTab>('profile')
   const [logoutOpen, setLogoutOpen] = useState(false)
   const [avatar, setAvatar] = useState('https://i.pravatar.cc/200?img=12')
   const fileInputRef = useRef<HTMLInputElement>(null)
+  const avatarBlobRef = useRef<string | null>(null)
+
+  useEffect(() => () => { if (avatarBlobRef.current) URL.revokeObjectURL(avatarBlobRef.current) }, [])
   
   // Forms
   const [profileForm] = Form.useForm()
@@ -51,7 +56,10 @@ function SettingsHubContent() {
       message.error('Please choose a valid image file')
       return
     }
-    setAvatar(URL.createObjectURL(file))
+    if (avatarBlobRef.current) URL.revokeObjectURL(avatarBlobRef.current)
+    const url = URL.createObjectURL(file)
+    avatarBlobRef.current = url
+    setAvatar(url)
     message.success('Avatar updated successfully')
   }
 
@@ -391,6 +399,7 @@ function SettingsHubContent() {
         open={logoutOpen}
         onCancel={() => setLogoutOpen(false)}
         onOk={() => {
+          logout()
           setLogoutOpen(false)
           router.push('/login')
         }}

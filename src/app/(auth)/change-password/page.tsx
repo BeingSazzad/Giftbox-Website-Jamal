@@ -15,7 +15,6 @@ export default function ChangePasswordPage() {
   const [form] = Form.useForm<ChangePasswordValues>()
 
   const onFinish = (values: ChangePasswordValues) => {
-    console.log('Change password:', values)
     message.success('Password updated')
     router.push('/profile')
   }

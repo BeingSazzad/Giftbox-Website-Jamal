@@ -1,7 +1,7 @@
 'use client';
 import { Button, message } from 'antd'
 import { ArrowLeftOutlined, CloudUploadOutlined, ExclamationCircleFilled, CreditCardOutlined, CopyOutlined, CheckOutlined } from '@ant-design/icons'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation';
 import { WebShell } from '@/components/layout/WebShell'
 import { SuccessModal } from '@/components/common/SuccessModal'
@@ -17,6 +17,9 @@ export default function PaymentProofPage() {
   const [submitting, setSubmitting] = useState(false)
   const [showSuccess, setShowSuccess] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
+  const blobUrlRef = useRef<string | null>(null)
+
+  useEffect(() => () => { if (blobUrlRef.current) URL.revokeObjectURL(blobUrlRef.current) }, [])
 
   const handlePick = () => inputRef.current?.click()
 
@@ -30,8 +33,11 @@ export default function PaymentProofPage() {
       message.error('File must be 10MB or less')
       return
     }
+    if (blobUrlRef.current) URL.revokeObjectURL(blobUrlRef.current)
+    const url = URL.createObjectURL(f)
+    blobUrlRef.current = url
     setFile(f)
-    setPreview(URL.createObjectURL(f))
+    setPreview(url)
   }
 
   const handleCopy = async (text: string, label: string) => {

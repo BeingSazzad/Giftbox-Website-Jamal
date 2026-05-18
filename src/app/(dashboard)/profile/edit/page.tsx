@@ -1,6 +1,6 @@
 'use client';
 import { Button, DatePicker, Form, Input, message } from 'antd'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation';
 import dayjs, { type Dayjs } from 'dayjs'
 import { WebShell } from '@/components/layout/WebShell'
@@ -19,6 +19,9 @@ export default function EditProfilePage() {
   const [form] = Form.useForm<EditProfileValues>()
   const [avatar, setAvatar] = useState<string>('https://i.pravatar.cc/200?img=12')
   const inputRef = useRef<HTMLInputElement>(null)
+  const avatarBlobRef = useRef<string | null>(null)
+
+  useEffect(() => () => { if (avatarBlobRef.current) URL.revokeObjectURL(avatarBlobRef.current) }, [])
 
   const handleAvatarPick = () => inputRef.current?.click()
 
@@ -28,11 +31,13 @@ export default function EditProfilePage() {
       message.error('Please choose an image file')
       return
     }
-    setAvatar(URL.createObjectURL(f))
+    if (avatarBlobRef.current) URL.revokeObjectURL(avatarBlobRef.current)
+    const url = URL.createObjectURL(f)
+    avatarBlobRef.current = url
+    setAvatar(url)
   }
 
   const onFinish = (values: EditProfileValues) => {
-    console.log('Save profile:', values)
     message.success('Profile updated')
     router.push('/profile')
   }

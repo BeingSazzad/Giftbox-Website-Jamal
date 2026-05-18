@@ -23,14 +23,12 @@ export default function ForgotPasswordPage() {
   const [email, setEmail] = useState('')
 
   const handleRequest = (values: RequestValues) => {
-    console.log('Reset request:', values)
     setEmail(values.email)
     message.success(`Reset link sent to ${values.email}`)
     setStep('reset')
   }
 
   const handleReset = (values: ResetValues) => {
-    console.log('Reset password:', values)
     message.success('Password updated. Please sign in.')
     router.push('/login')
   }

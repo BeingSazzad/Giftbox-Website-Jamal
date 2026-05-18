@@ -4,6 +4,7 @@ import { LockOutlined, MailOutlined, PhoneOutlined, UserOutlined } from '@ant-de
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { AuthCard } from '@/components/auth/AuthCard'
+import { useAuth } from '@/hooks/useAuth'
 
 interface RegisterFormValues {
   fullName: string
@@ -15,12 +16,19 @@ interface RegisterFormValues {
 
 export default function RegisterPage() {
   const router = useRouter()
+  const { login } = useAuth()
   const [form] = Form.useForm<RegisterFormValues>()
 
   const onFinish = (values: RegisterFormValues) => {
-    console.log('Register:', values)
-    message.success('Account created. Verify your email to continue.')
-    router.push('/verify-otp')
+    const mockToken = 'mock-token-' + Date.now()
+    const mockUser = {
+      id: 'user-' + Date.now(),
+      name: values.fullName,
+      email: values.email,
+    }
+    login(mockUser, mockToken)
+    message.success('Account created successfully!')
+    router.push('/dashboard')
   }
 
   return (

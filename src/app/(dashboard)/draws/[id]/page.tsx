@@ -11,23 +11,27 @@ import {
   SendOutlined,
 } from '@ant-design/icons'
 import type { ReactNode } from 'react'
-import { useRef, useState } from 'react'
-import { useRouter, useParams } from 'next/navigation';
+import { useEffect, useRef, useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { WebShell } from '@/components/layout/WebShell'
 import { SuccessModal } from '@/components/common/SuccessModal'
 import { currentDraw, paymentNumbers } from '@/data/draws'
+
+import { BackHeader } from '@/components/layout/BackHeader'
 
 const MAX_FILE_SIZE = 10 * 1024 * 1024
 
 export default function DrawDetailsPage() {
   const router = useRouter()
-  const { id } = useParams<{ id: string }>()
   const [file, setFile] = useState<File | null>(null)
   const [preview, setPreview] = useState<string | null>(null)
   const [dragOver, setDragOver] = useState(false)
   const [submitting, setSubmitting] = useState(false)
   const [showSuccess, setShowSuccess] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
+  const blobUrlRef = useRef<string | null>(null)
+
+  useEffect(() => () => { if (blobUrlRef.current) URL.revokeObjectURL(blobUrlRef.current) }, [])
 
   const handlePick = () => inputRef.current?.click()
 
@@ -41,8 +45,11 @@ export default function DrawDetailsPage() {
       message.error('File must be 10MB or less')
       return
     }
+    if (blobUrlRef.current) URL.revokeObjectURL(blobUrlRef.current)
+    const url = URL.createObjectURL(f)
+    blobUrlRef.current = url
     setFile(f)
-    setPreview(URL.createObjectURL(f))
+    setPreview(url)
   }
 
   const handleCopy = async (text: string, label: string) => {
@@ -69,15 +76,7 @@ export default function DrawDetailsPage() {
   return (
     <WebShell maxWidth={1200}>
       {/* Page Header */}
-      <div className="flex items-center gap-3.5 mb-6 md:mb-8">
-        <button type="button" onClick={() => router.back()} className="icon-btn-round">
-          <ArrowLeftOutlined style={{ fontSize: 15 }} />
-        </button>
-        <div>
-          <h1 className="m-0 text-white text-2xl md:text-3xl font-bold">How to Participate</h1>
-          <p className="m-0 text-white/50 text-sm mt-1">Follow the steps below to enter the draw</p>
-        </div>
-      </div>
+      <BackHeader title="How to Participate" subtitle="Follow the steps below to enter the draw" />
 
       <div className="grid grid-cols-1 lg:grid-cols-[1.3fr_1fr] gap-6 md:gap-8 items-start">
 

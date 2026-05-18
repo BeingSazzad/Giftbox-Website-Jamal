@@ -1,4 +1,4 @@
-import heroImg from '@/assets/hero.png'
+import gamingLaptopImg from '@/assets/images/gaming_laptop.png'
 
 export interface Draw {
   id: string
@@ -21,7 +21,7 @@ export const currentDraw: Draw = {
   title: 'Gaming Laptop RTX 4060',
   description:
     "The RTX 4060 gaming laptop offers a powerful balance of high-end performance and efficiency, featuring NVIDIA's Ada Lovelace architecture.",
-  image: 'https://images.unsplash.com/photo-1603302576837-37561b2e2302?auto=format&fit=crop&w=600&q=80',
+  image: gamingLaptopImg.src,
   ticketPrice: 2500,
   currency: 'CDF',
   endsAt: new Date(Date.now() + 6 * 24 * 60 * 60 * 1000 + 18 * 60 * 60 * 1000).toISOString(),

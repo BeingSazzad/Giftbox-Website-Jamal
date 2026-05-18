@@ -172,80 +172,49 @@ export default function TermsPage() {
         </div>
 
         {/* Intro banner */}
-        <div className="bg-gradient-to-r from-[#190f36]/80 to-[#10072b]/80 border border-white/8 rounded-3xl p-6 md:p-8 mt-8 backdrop-blur-2xl flex items-start gap-5 shadow-xl">
-          <div className="w-11 h-11 rounded-2xl bg-primary/10 text-primary flex items-center justify-center text-lg shrink-0 border border-primary/10">
+        <div className="mt-10 mb-14 max-w-5xl flex items-start gap-5">
+          <div className="w-11 h-11 rounded-2xl bg-primary/10 text-primary flex items-center justify-center text-lg shrink-0">
             <FileTextOutlined />
           </div>
           <div>
-            <h2 className="text-white text-base font-black m-0 mb-1.5 tracking-tight">Gift Box Legal Agreement</h2>
-            <p className="text-white/55 text-sm leading-relaxed m-0 max-w-4xl">
+            <h2 className="text-white text-xl font-bold m-0 mb-2 tracking-tight">Gift Box Legal Agreement</h2>
+            <p className="text-white/60 text-base leading-relaxed m-0">
               Please read these Terms and Conditions carefully before using the Gift Box platform. By accessing or using our services, you agree to be bound by these terms. If you disagree with any part of these terms, you may not use the services.
             </p>
           </div>
         </div>
 
-        {/* Body: sidebar + document */}
-        <div className="grid grid-cols-12 gap-8 mt-10 relative">
+        {/* Document content — continuous, no boxes */}
+        <div className="max-w-5xl space-y-10">
+          {sections.map((s) => (
+            <section
+              key={s.id}
+              id={s.id}
+              className="scroll-mt-28"
+            >
+              <h2 className="flex items-center gap-3 text-white text-lg font-bold m-0 mb-4 tracking-tight">
+                <span className="text-primary/70 text-base font-black tabular-nums">{s.number}.</span>
+                {s.title}
+              </h2>
 
-          {/* Sticky sidebar index */}
-          <div className="hidden lg:block lg:col-span-4">
-            <div className="sticky top-26 bg-[#12082b]/60 border border-white/5 rounded-3xl p-5 backdrop-blur-xl shadow-lg">
-              <h3 className="text-white/35 text-[10px] font-black uppercase tracking-widest mb-4 px-1">Document Directory</h3>
-              <nav className="flex flex-col gap-0.5 max-h-[65vh] overflow-y-auto pr-1">
-                {sections.map((s) => (
-                  <button
-                    key={s.id}
-                    onClick={() => handleScrollTo(s.id)}
-                    className={`w-full text-left px-3 py-2.5 rounded-xl text-[13px] font-semibold transition-all cursor-pointer border-0 bg-transparent flex items-center gap-2.5 ${
-                      activeSection === s.id
-                        ? 'text-primary bg-primary/8'
-                        : 'text-white/45 hover:text-white/80 hover:bg-white/3'
-                    }`}
-                  >
-                    <span className={`text-[11px] font-black w-5 shrink-0 ${activeSection === s.id ? 'text-primary' : 'text-white/25'}`}>{s.number}.</span>
-                    <span className="truncate">{s.title}</span>
-                  </button>
-                ))}
-              </nav>
-            </div>
-          </div>
-
-          {/* Document content — continuous, no boxes */}
-          <div className="col-span-12 lg:col-span-8">
-            <div className="bg-[#100927]/50 border border-white/6 rounded-3xl backdrop-blur-md shadow-xl divide-y divide-white/5">
-              {sections.map((s) => (
-                <section
-                  key={s.id}
-                  id={s.id}
-                  className="px-7 md:px-10 py-7 scroll-mt-28"
-                >
-                  {/* Section heading — no box, just styled heading */}
-                  <h2 className="flex items-center gap-3 text-white text-base font-black m-0 mb-4 tracking-tight">
-                    <span className="text-primary/70 text-sm font-black tabular-nums">{s.number}.</span>
-                    {s.title}
-                  </h2>
-
-                  {s.paragraphs?.map((p, i) => (
-                    <p key={i} className="m-0 mb-3 last:mb-0 text-white/55 text-sm leading-[1.75]">
-                      {p}
-                    </p>
-                  ))}
-
-                  {s.bullets && (
-                    <ul className="m-0 pl-0 list-none space-y-2.5">
-                      {s.bullets.map((b, i) => (
-                        <li key={i} className="flex items-start gap-2.5 text-white/55 text-sm leading-[1.75]">
-                          <span className="text-primary/60 mt-[5px] shrink-0 text-[8px]">●</span>
-                          {b}
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-                </section>
+              {s.paragraphs?.map((p, i) => (
+                <p key={i} className="m-0 mb-4 last:mb-0 text-white/60 text-base leading-[1.8]">
+                  {p}
+                </p>
               ))}
-            </div>
-          </div>
 
+              {s.bullets && (
+                <ul className="m-0 pl-0 list-none space-y-3">
+                  {s.bullets.map((b, i) => (
+                    <li key={i} className="flex items-start gap-3 text-white/60 text-base leading-[1.8]">
+                      <span className="text-primary/60 mt-2 shrink-0 text-[8px]">●</span>
+                      {b}
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </section>
+          ))}
         </div>
       </div>
     </WebShell>
