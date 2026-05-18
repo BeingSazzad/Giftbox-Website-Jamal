@@ -1,46 +1,97 @@
 'use client'
 import { WebShell } from '@/components/layout/WebShell'
 import { BackHeader } from '@/components/layout/BackHeader'
-import { LockFilled, SafetyCertificateFilled, EyeFilled, SettingFilled, ProfileFilled, PrinterOutlined } from '@ant-design/icons'
-import React from 'react'
+import { PrinterOutlined, LockFilled } from '@ant-design/icons'
 
 interface PolicySection {
+  id: string
+  number: string
   title: string
-  body: string
-  icon: React.ReactNode
-  badge: string
+  paragraphs?: string[]
+  bullets?: string[]
 }
 
 const sections: PolicySection[] = [
   {
+    id: 'collect',
+    number: '1',
     title: 'Information We Collect',
-    body: 'We collect personal information including name, email, phone number, and payment details necessary for draw participation and prize distribution.',
-    icon: <ProfileFilled />,
-    badge: 'Collection'
+    paragraphs: [
+      'We collect personal information including name, email address, phone number, and payment details necessary for draw participation and prize distribution.',
+      'We may also collect device information such as IP address, browser type, and usage data to improve the platform experience.',
+    ],
   },
   {
+    id: 'usage',
+    number: '2',
     title: 'How We Use Your Data',
-    body: 'Your information is used to process entries, verify payments, communicate results, and improve our services. We never sell your data to third parties.',
-    icon: <EyeFilled />,
-    badge: 'Usage'
+    bullets: [
+      'To process your draw entries and verify payments.',
+      'To communicate draw results and prize delivery arrangements.',
+      'To improve our services and personalise your experience on the platform.',
+      'We never sell your personal data to third parties.',
+    ],
   },
   {
+    id: 'security',
+    number: '3',
     title: 'Data Security',
-    body: 'We implement industry-standard security measures to protect your personal information from unauthorized access, alteration, or destruction.',
-    icon: <SafetyCertificateFilled />,
-    badge: 'Protection'
+    paragraphs: [
+      'We implement industry-standard security measures including encryption and access controls to protect your personal information from unauthorized access, alteration, disclosure, or destruction.',
+      'While we take all reasonable precautions, no method of transmission over the internet is 100% secure. We cannot guarantee absolute security.',
+    ],
   },
   {
+    id: 'rights',
+    number: '4',
     title: 'Your Rights',
-    body: 'You have the right to access, modify, or delete your personal data. Contact support to exercise those rights.',
-    icon: <LockFilled />,
-    badge: 'Control'
+    bullets: [
+      'You have the right to access the personal data we hold about you.',
+      'You may request correction of inaccurate information at any time.',
+      'You can request deletion of your account and associated personal data.',
+      'To exercise any of these rights, please contact our support team.',
+    ],
   },
   {
+    id: 'cookies',
+    number: '5',
     title: 'Cookies & Tracking',
-    body: 'We use cookies to enhance user experience and analyze app usage. You can manage cookie preferences in your device settings.',
-    icon: <SettingFilled />,
-    badge: 'Preferences'
+    paragraphs: [
+      'We use cookies and similar tracking technologies to enhance user experience, analyze platform usage, and remember your preferences.',
+      'You can manage cookie preferences in your device or browser settings. Disabling cookies may affect some features of the platform.',
+    ],
+  },
+  {
+    id: 'sharing',
+    number: '6',
+    title: 'Data Sharing',
+    paragraphs: [
+      'We do not sell, trade, or otherwise transfer your personal information to outside parties except to trusted third parties who assist us in operating the platform, conducting our business, or serving users — provided that those parties agree to keep this information confidential.',
+    ],
+  },
+  {
+    id: 'retention',
+    number: '7',
+    title: 'Data Retention',
+    paragraphs: [
+      'We retain your personal data for as long as your account remains active or as needed to provide you services. You may request account deletion at any time by contacting support.',
+    ],
+  },
+  {
+    id: 'changes',
+    number: '8',
+    title: 'Changes to This Policy',
+    paragraphs: [
+      'Gift Box reserves the right to update this Privacy Policy at any time. We will notify you of significant changes via the platform or your registered contact details. Continued use of the platform after changes constitutes acceptance of the revised policy.',
+    ],
+  },
+  {
+    id: 'contact',
+    number: '9',
+    title: 'Contact',
+    paragraphs: [
+      'If you have any questions or concerns about this Privacy Policy or how your data is handled, please contact us at: support@coffretcadeau.cd or via WhatsApp: +243 xxx xxx xxx',
+    ],
   },
 ]
 
@@ -48,73 +99,67 @@ export default function PrivacyPolicyPage() {
   return (
     <WebShell maxWidth={1200}>
       <div className="relative py-4">
-        {/* Decorative ambient neon glows */}
-        <div className="absolute top-10 left-10 w-[350px] h-[350px] rounded-full bg-primary/2 blur-[100px] pointer-events-none" />
-        <div className="absolute bottom-10 right-10 w-[350px] h-[350px] rounded-full bg-primary/3 blur-[120px] pointer-events-none" />
+        {/* Ambient glows */}
+        <div className="absolute top-0 right-0 w-[500px] h-[500px] rounded-full bg-primary/3 blur-[130px] pointer-events-none" />
+        <div className="absolute bottom-20 left-0 w-[350px] h-[350px] rounded-full bg-primary/2 blur-[100px] pointer-events-none" />
 
+        {/* Top bar */}
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border-b border-white/5 pb-6">
           <BackHeader title="Privacy Policy" subtitle="Last updated: April 10, 2024" />
           <button
             onClick={() => window.print()}
-            className="flex items-center gap-2 px-4.5 py-2.5 bg-white/5 hover:bg-white/10 border border-white/8 hover:border-white/15 text-white/80 hover:text-white rounded-xl text-xs font-bold transition-all shadow-sm cursor-pointer mt-2 md:mt-0 shrink-0"
+            className="flex items-center gap-2 px-4 py-2.5 bg-white/5 hover:bg-white/10 border border-white/8 hover:border-white/15 text-white/70 hover:text-white rounded-xl text-xs font-bold transition-all cursor-pointer mt-2 md:mt-0 shrink-0"
           >
-            <PrinterOutlined style={{ fontSize: 13 }} /> Print Document
+            <PrinterOutlined style={{ fontSize: 12 }} /> Print Document
           </button>
         </div>
 
-        {/* Introduction Panel */}
-        <div className="bg-gradient-to-r from-[#190f36]/80 to-[#10072b]/80 border border-white/8 rounded-3xl p-6 md:p-8 mt-8 backdrop-blur-2xl flex flex-col md:flex-row items-start gap-6 shadow-xl">
-          <div className="w-12 h-12 rounded-2xl bg-primary/10 text-primary flex items-center justify-center text-xl shrink-0 shadow-inner">
+        {/* Intro banner */}
+        <div className="bg-gradient-to-r from-[#190f36]/80 to-[#10072b]/80 border border-white/8 rounded-3xl p-6 md:p-8 mt-8 backdrop-blur-2xl flex items-start gap-5 shadow-xl">
+          <div className="w-11 h-11 rounded-2xl bg-primary/10 text-primary flex items-center justify-center text-lg shrink-0 border border-primary/10">
             <LockFilled />
           </div>
           <div>
-            <h2 className="text-white text-lg font-black m-0 mb-2 tracking-tight">Our Privacy Commitment</h2>
-            <p className="text-white/60 text-sm leading-relaxed m-0 max-w-4xl">
-              At Gift Box, we take your privacy seriously. We are committed to protecting your personal information and being transparent about what data we collect and how it is used. This policy outlines our core practices to ensure your trust and safety on our platform.
+            <h2 className="text-white text-base font-black m-0 mb-1.5 tracking-tight">Our Privacy Commitment</h2>
+            <p className="text-white/55 text-sm leading-relaxed m-0 max-w-4xl">
+              At Gift Box, we are committed to protecting your personal information and being fully transparent about what data we collect and how it is used. This policy outlines our core privacy practices to ensure your trust and safety on our platform.
             </p>
           </div>
         </div>
 
-        {/* Suitable grid layout for web */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-10">
-          {sections.map((s, index) => {
-            // Give the first item a larger card/banner style (Bento grid concept)
-            const isFullWidth = index === 0;
-            return (
+        {/* Document — no boxes, continuous flowing text */}
+        <div className="mt-10 max-w-3xl mx-auto">
+          <div className="bg-[#100927]/50 border border-white/6 rounded-3xl backdrop-blur-md shadow-xl divide-y divide-white/5">
+            {sections.map((s) => (
               <section
-                key={s.title}
-                className={`bg-gradient-to-b from-[#140b2d]/75 to-[#0b041c]/75 rounded-3xl p-6 md:p-8 border border-white/5 hover:border-primary/20 hover:shadow-[0_8px_30px_rgba(254,147,1,0.04)] transition-all duration-300 flex flex-col justify-between ${
-                  isFullWidth ? 'md:col-span-2 lg:col-span-3 lg:flex-row lg:items-center lg:gap-8' : ''
-                }`}
+                key={s.id}
+                id={s.id}
+                className="px-7 md:px-10 py-7 scroll-mt-28"
               >
-                <div className={`${isFullWidth ? 'lg:flex-1' : ''}`}>
-                  <div className="flex items-center gap-3.5 mb-4">
-                    <div className="w-11 h-11 rounded-2xl bg-primary/10 text-primary flex items-center justify-center text-xl shrink-0 shadow-inner border border-primary/10">
-                      {s.icon}
-                    </div>
-                    <div>
-                      <span className="text-[9px] font-black uppercase tracking-widest text-primary/75 bg-primary/10 px-2 py-0.5 rounded-md">
-                        {s.badge}
-                      </span>
-                      <h3 className="m-0 mt-1 text-white text-base font-black tracking-tight">{s.title}</h3>
-                    </div>
-                  </div>
-                  
-                  <p className="m-0 text-white/60 text-sm leading-relaxed font-medium">
-                    {s.body}
-                  </p>
-                </div>
+                <h2 className="flex items-center gap-3 text-white text-base font-black m-0 mb-4 tracking-tight">
+                  <span className="text-primary/70 text-sm font-black tabular-nums">{s.number}.</span>
+                  {s.title}
+                </h2>
 
-                {isFullWidth && (
-                  <div className="hidden lg:block w-36 h-36 shrink-0 bg-primary/5 rounded-3xl border border-dashed border-primary/10 flex items-center justify-center">
-                    <div className="text-primary/30 text-5xl">
-                      {s.icon}
-                    </div>
-                  </div>
+                {s.paragraphs?.map((p, i) => (
+                  <p key={i} className="m-0 mb-3 last:mb-0 text-white/55 text-sm leading-[1.75]">
+                    {p}
+                  </p>
+                ))}
+
+                {s.bullets && (
+                  <ul className="m-0 pl-0 list-none space-y-2.5">
+                    {s.bullets.map((b, i) => (
+                      <li key={i} className="flex items-start gap-2.5 text-white/55 text-sm leading-[1.75]">
+                        <span className="text-primary/60 mt-[5px] shrink-0 text-[8px]">●</span>
+                        {b}
+                      </li>
+                    ))}
+                  </ul>
                 )}
               </section>
-            );
-          })}
+            ))}
+          </div>
         </div>
       </div>
     </WebShell>
