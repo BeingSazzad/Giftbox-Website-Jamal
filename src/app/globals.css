@@ -1,0 +1,168 @@
+@import "tailwindcss";
+
+@theme {
+  /* Brand */
+  --color-primary: #FE9301;
+  --color-primary-light: #FFB900;
+  --color-primary-dark: #FF6900;
+
+  /* Background scale (dark purple palette) */
+  --color-night: #0a0518;
+  --color-deep: #0f0823;
+  --color-purple-deep: #1a0f3d;
+  --color-surface: #1f1545;
+  --color-surface-2: #2a1854;
+  --color-hairline: #2a2a35;
+
+  /* Status */
+  --color-success: #22c39a;
+  --color-danger: #ff5b5b;
+
+  /* Body text base */
+  --color-body: #e5e7eb;
+
+  /* Font */
+  --font-sans: var(--font-sans), system-ui, sans-serif;
+}
+
+html,
+body,
+#root {
+  min-height: 100vh;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  background: linear-gradient(135deg, #2a1854 0%, #1a0f3d 40%, #0d0820 100%);
+  background-attachment: fixed;
+  color: var(--color-body);
+}
+
+/* ====== Reusable component classes ====== */
+@layer components {
+  .card {
+    @apply bg-surface/60 border border-white/6 rounded-2xl;
+  }
+  .card-soft {
+    @apply bg-surface/55 border border-white/6 rounded-2xl;
+  }
+  .row-tile {
+    @apply bg-deep/50 border border-white/5 rounded-xl;
+  }
+  .chip-primary {
+    @apply inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-primary/10 border border-primary/30 text-primary text-xs font-bold uppercase tracking-wider;
+  }
+  .text-dim {
+    @apply text-white/70;
+  }
+  .text-dimmer {
+    @apply text-white/55;
+  }
+  .text-faint {
+    @apply text-white/40;
+  }
+  .icon-btn-round {
+    @apply w-10 h-10 min-w-10 rounded-full bg-white/6 border border-white/8 text-white flex items-center justify-center cursor-pointer p-0;
+  }
+  .gradient-text {
+    background: linear-gradient(135deg, var(--color-primary-light) 0%, var(--color-primary-dark) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .gradient-brand {
+    background: linear-gradient(135deg, var(--color-primary-light) 0%, var(--color-primary-dark) 100%);
+  }
+  .gradient-brand-v {
+    background: linear-gradient(180deg, var(--color-primary-light) 0%, var(--color-primary-dark) 100%);
+  }
+}
+
+/* ====== Ant Design primary button override ====== */
+.ant-btn-primary {
+  background: linear-gradient(180deg, #FFB900 0%, #FF6900 100%) !important;
+  border: none !important;
+  color: #1a0f0a !important;
+  font-weight: 700 !important;
+  border-radius: 12px !important;
+  height: 48px !important;
+  font-size: 15px !important;
+  letter-spacing: 0.2px;
+  box-shadow: none !important;
+  transition: all 180ms ease !important;
+}
+.ant-btn-primary:hover:not(:disabled) {
+  background: linear-gradient(180deg, #FFC533 0%, #FF8533 100%) !important;
+  box-shadow: none !important;
+}
+.ant-btn-primary:active:not(:disabled) {
+  background: linear-gradient(180deg, #E6A700 0%, #E65E00 100%) !important;
+  box-shadow: none !important;
+}
+.ant-btn-primary:disabled {
+  background: linear-gradient(180deg, #FFB900 0%, #FF6900 100%) !important;
+  opacity: 0.45;
+  color: #1a0f0a !important;
+  box-shadow: none !important;
+}
+
+/* ====== Ant Design Input, Select & TextArea Custom premium overrides ====== */
+.ant-input, 
+.ant-input-affix-wrapper,
+.ant-select .ant-select-selector,
+.ant-input-textarea-show-count,
+.ant-input-textarea textarea {
+  background-color: #0c061a !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  color: #ffffff !important;
+  border-radius: 12px !important;
+  transition: all 0.2s ease-in-out !important;
+}
+
+.ant-input::placeholder,
+.ant-input-textarea textarea::placeholder,
+.ant-input-textarea::placeholder,
+.ant-input-affix-wrapper input::placeholder {
+  color: rgba(255, 255, 255, 0.3) !important;
+}
+
+.ant-input:hover,
+.ant-input-affix-wrapper:hover,
+.ant-select:hover .ant-select-selector,
+.ant-input-textarea textarea:hover {
+  border-color: rgba(254, 147, 1, 0.4) !important;
+}
+
+.ant-input:focus,
+.ant-input-affix-wrapper-focused,
+.ant-select-focused .ant-select-selector,
+.ant-input-textarea textarea:focus,
+.ant-input:focus-within {
+  border-color: #FE9301 !important;
+  box-shadow: 0 0 0 2px rgba(254, 147, 1, 0.15) !important;
+}
+
+/* Fix for Select container rendering in dark mode */
+.ant-select-dropdown {
+  background-color: #120926 !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-radius: 12px !important;
+}
+
+.ant-select-item-option-selected {
+  background-color: rgba(254, 147, 1, 0.15) !important;
+  color: #FE9301 !important;
+}
+
+.ant-select-item-option-active {
+  background-color: rgba(255, 255, 255, 0.05) !important;
+}
+
+.ant-select-selection-item {
+  color: #ffffff !important;
+}
+
+.ant-select-selection-placeholder {
+  color: rgba(255, 255, 255, 0.3) !important;
+}
