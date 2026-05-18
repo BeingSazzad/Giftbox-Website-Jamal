@@ -1,7 +1,6 @@
 'use client';
 import { message } from 'antd'
 import {
-  ArrowLeftOutlined,
   SafetyOutlined,
   ExclamationCircleFilled,
   CreditCardOutlined,
@@ -9,9 +8,10 @@ import {
   CloudUploadOutlined,
   CheckOutlined,
   SendOutlined,
+  ClockCircleOutlined,
 } from '@ant-design/icons'
 import type { ReactNode } from 'react'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import { WebShell } from '@/components/layout/WebShell'
 import { SuccessModal } from '@/components/common/SuccessModal'
@@ -20,6 +20,24 @@ import { currentDraw, paymentNumbers } from '@/data/draws'
 import { BackHeader } from '@/components/layout/BackHeader'
 
 const MAX_FILE_SIZE = 10 * 1024 * 1024
+
+function useCountdown(targetIso: string) {
+  const calc = useCallback(() => {
+    const diff = Math.max(0, new Date(targetIso).getTime() - Date.now())
+    const d = Math.floor(diff / 86400000)
+    const h = Math.floor((diff % 86400000) / 3600000)
+    const m = Math.floor((diff % 3600000) / 60000)
+    const s = Math.floor((diff % 60000) / 1000)
+    return { d, h, m, s, expired: diff === 0 }
+  }, [targetIso])
+
+  const [time, setTime] = useState(calc)
+  useEffect(() => {
+    const id = setInterval(() => setTime(calc()), 1000)
+    return () => clearInterval(id)
+  }, [calc])
+  return time
+}
 
 export default function DrawDetailsPage() {
   const router = useRouter()
@@ -30,6 +48,7 @@ export default function DrawDetailsPage() {
   const [showSuccess, setShowSuccess] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
   const blobUrlRef = useRef<string | null>(null)
+  const countdown = useCountdown(currentDraw.endsAt)
 
   useEffect(() => () => { if (blobUrlRef.current) URL.revokeObjectURL(blobUrlRef.current) }, [])
 
@@ -73,10 +92,39 @@ export default function DrawDetailsPage() {
     }, 900)
   }
 
+  const timerSlot = (
+    <div className="flex items-center gap-2 bg-surface/70 backdrop-blur border border-white/10 rounded-2xl px-4 py-2 shadow-lg">
+      {countdown.expired ? (
+        <span className="text-danger text-xs font-bold uppercase tracking-wider">Draw Ended</span>
+      ) : (
+        <>
+          <span className="w-2 h-2 rounded-full bg-primary animate-pulse shrink-0" />
+          <ClockCircleOutlined className="text-primary text-sm" />
+          <div className="flex items-center gap-1 font-mono text-sm font-bold">
+            <span className="text-white">{String(countdown.d).padStart(2,'0')}</span>
+            <span className="text-white/30">d</span>
+            <span className="text-white/30">:</span>
+            <span className="text-white">{String(countdown.h).padStart(2,'0')}</span>
+            <span className="text-white/30">h</span>
+            <span className="text-white/30">:</span>
+            <span className="text-white">{String(countdown.m).padStart(2,'0')}</span>
+            <span className="text-white/30">m</span>
+            <span className="text-white/30">:</span>
+            <span className="text-primary">{String(countdown.s).padStart(2,'0')}</span>
+            <span className="text-primary/60">s</span>
+          </div>
+        </>
+      )}
+    </div>
+  )
+
   return (
     <WebShell maxWidth={1200}>
-      {/* Page Header */}
-      <BackHeader title="How to Participate" subtitle="Follow the steps below to enter the draw" />
+      <BackHeader
+        title="How to Participate"
+        subtitle="Follow the steps below to enter the draw"
+        rightSlot={timerSlot}
+      />
 
       <div className="grid grid-cols-1 lg:grid-cols-[1.3fr_1fr] gap-6 md:gap-8 items-start">
 

@@ -1,5 +1,5 @@
 'use client'
-import { Button } from 'antd'
+import { Button, Dropdown, MenuProps } from 'antd'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
@@ -24,8 +24,47 @@ export function LandingHeader() {
   const router = useRouter()
   const [scrolled, setScrolled] = useState(false)
   const [moreOpen, setMoreOpen] = useState(false)
-  const { token } = useAuth()
+  const { token, logout } = useAuth()
   const isAuthenticated = !!token
+
+  const userName = 'Sazzad'
+  const avatar = 'https://i.pravatar.cc/200?img=12'
+
+  const userMenuItems: MenuProps['items'] = [
+    {
+      key: 'dashboard',
+      label: <Link href="/dashboard" className="text-white/80 hover:text-white font-medium">Dashboard</Link>,
+    },
+    {
+      key: 'edit',
+      label: <Link href="/profile?tab=profile" className="text-white/80 hover:text-white font-medium">Edit Profile</Link>,
+    },
+    {
+      key: 'password',
+      label: <Link href="/profile?tab=password" className="text-white/80 hover:text-white font-medium">Change Password</Link>,
+    },
+    {
+      type: 'divider',
+      className: 'bg-white/10'
+    },
+    {
+      key: 'language',
+      label: <Link href="/profile?tab=preferences" className="text-white/80 hover:text-white font-medium">Preferences</Link>,
+    },
+    {
+      key: 'support',
+      label: <Link href="/profile?tab=support" className="text-white/80 hover:text-white font-medium">Help & Support</Link>,
+    },
+    {
+      type: 'divider',
+      className: 'bg-white/10'
+    },
+    {
+      key: 'logout',
+      danger: true,
+      label: <div onClick={() => { logout(); router.push('/login'); }} className="font-bold text-danger">Sign Out</div>,
+    },
+  ]
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12)
@@ -96,9 +135,26 @@ export function LandingHeader() {
 
         <div className="z-10 flex items-center gap-4">
           {isAuthenticated ? (
-            <Button type="primary" onClick={() => router.push('/dashboard')} icon={<UserOutlined />}>
-              Dashboard
-            </Button>
+              <Dropdown 
+                menu={{ items: userMenuItems }} 
+                trigger={['click']} 
+                placement="bottomRight"
+                overlayClassName="custom-dropdown-dark"
+              >
+                <div className="flex items-center gap-3 cursor-pointer hover:opacity-90 transition-all group">
+                  <div className="text-right">
+                    <div className="text-white text-[13px] font-bold leading-tight group-hover:text-primary transition-colors">{userName}</div>
+                    <div className="text-white/40 text-[10px] font-medium mt-0.5">Welcome back</div>
+                  </div>
+                  <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-primary to-[#ff8c00] p-0.5 shadow-lg shadow-primary/20 group-hover:scale-105 transition-transform duration-300">
+                    <img
+                      src={avatar}
+                      alt={userName}
+                      className="w-full h-full rounded-full object-cover border-2 border-[#0a0514]"
+                    />
+                  </div>
+                </div>
+              </Dropdown>
           ) : (
             <Button type="primary" onClick={() => router.push('/login')}>
               Get Started

@@ -63,7 +63,7 @@ export default function OtpVerifyPage() {
     setTimeout(() => {
       message.success('Verified successfully')
       setSubmitting(false)
-      router.push('/dashboard')
+      router.push('/my-draws')
     }, 600)
   }
 

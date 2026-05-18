@@ -11,6 +11,7 @@ import {
 import { useRouter, useParams } from 'next/navigation';
 import type { ReactNode } from 'react'
 import { WebShell } from '@/components/layout/WebShell'
+import { BackHeader } from '@/components/layout/BackHeader'
 import { StatusBadge } from '@/components/common/StatusBadge'
 import { getParticipation } from '@/data/participations'
 import type { Participation } from '@/data/participations'
@@ -60,15 +61,10 @@ export default function ParticipationDetailsPage() {
   return (
     <WebShell maxWidth={1200}>
       {/* Header */}
-      <div className="flex items-center gap-3.5 mb-6 md:mb-8">
-        <button type="button" onClick={() => router.back()} className="icon-btn-round">
-          <ArrowLeftOutlined style={{ fontSize: 15 }} />
-        </button>
-        <div>
-          <h1 className="m-0 text-white text-2xl md:text-3xl font-bold">Participation Details</h1>
-          <p className="m-0 text-white/50 text-sm mt-1">View status and details of your draw ticket</p>
-        </div>
-      </div>
+      <BackHeader 
+        title="Participation Details" 
+        subtitle="View status and details of your draw ticket"
+      />
 
       {/* Main Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-[1.3fr_1fr] gap-6 md:gap-8 items-start">

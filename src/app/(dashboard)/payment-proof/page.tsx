@@ -4,6 +4,7 @@ import { ArrowLeftOutlined, CloudUploadOutlined, ExclamationCircleFilled, Credit
 import { useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation';
 import { WebShell } from '@/components/layout/WebShell'
+import { BackHeader } from '@/components/layout/BackHeader'
 import { SuccessModal } from '@/components/common/SuccessModal'
 import { paymentNumbers } from '@/data/draws'
 
@@ -64,15 +65,10 @@ export default function PaymentProofPage() {
   return (
     <WebShell maxWidth={1200}>
       {/* Header */}
-      <div className="flex items-center gap-3.5 mb-6 md:mb-8">
-        <button type="button" onClick={() => router.back()} className="icon-btn-round">
-          <ArrowLeftOutlined style={{ fontSize: 15 }} />
-        </button>
-        <div>
-          <h1 className="m-0 text-white text-2xl md:text-3xl font-bold">Submit Payment Proof</h1>
-          <p className="m-0 text-white/50 text-sm mt-1">Submit your ticket payment screenshot to enter the draw</p>
-        </div>
-      </div>
+      <BackHeader 
+        title="Submit Payment Proof" 
+        subtitle="Submit your ticket payment screenshot to enter the draw"
+      />
 
       {/* Main Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-[1.2fr_1fr] gap-6 md:gap-8 items-start">

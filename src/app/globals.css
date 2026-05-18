@@ -120,6 +120,39 @@ body {
   transition: all 0.2s ease-in-out !important;
 }
 
+/* Fix nested borders in affix wrappers */
+.ant-input-affix-wrapper .ant-input {
+  background-color: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+}
+
+/* Fix browser autofill style overrides */
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active,
+input:autofill,
+input:autofill:hover,
+input:autofill:focus,
+input:autofill:active,
+.ant-input:-webkit-autofill,
+.ant-input:-webkit-autofill:hover,
+.ant-input:-webkit-autofill:focus,
+.ant-input:-webkit-autofill:active,
+.ant-input:autofill,
+.ant-input:autofill:hover,
+.ant-input:autofill:focus,
+.ant-input:autofill:active,
+.ant-input-affix-wrapper input:-webkit-autofill {
+  -webkit-text-fill-color: #ffffff !important;
+  -webkit-box-shadow: 0 0 0 1000px #0c061a inset !important;
+  box-shadow: 0 0 0 1000px #0c061a inset !important;
+  transition: background-color 0s ease-in-out 0s !important;
+}
+
 .ant-input::placeholder,
 .ant-input-textarea textarea::placeholder,
 .ant-input-textarea::placeholder,

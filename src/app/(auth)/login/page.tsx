@@ -18,16 +18,21 @@ export default function LoginPage() {
   const [form] = Form.useForm<LoginFormValues>()
 
   const onFinish = (values: LoginFormValues) => {
-    // Mock auth — sets token so isAuthenticated becomes true across the app
+    // Mock auth — any input works, no validation
     const mockToken = 'mock-token-' + Date.now()
     const mockUser = {
       id: 'user-001',
-      name: values.email.split('@')[0] ?? 'User',
-      email: values.email,
+      name: (values.email || 'User').split('@')[0] || 'User',
+      email: values.email || 'user@example.com',
     }
     login(mockUser, mockToken)
     message.success('Signed in successfully!')
-    router.push('/dashboard')
+    router.push('/my-draws')
+  }
+
+  const handleSubmitAny = () => {
+    const values = form.getFieldsValue()
+    onFinish(values as LoginFormValues)
   }
 
   return (
@@ -49,31 +54,29 @@ export default function LoginPage() {
         onFinish={onFinish}
         initialValues={{ remember: true }}
         requiredMark={false}
+        autoComplete="off"
       >
         <Form.Item
           name="email"
           label={<span className="text-body">Email</span>}
-          rules={[
-            { required: true, message: 'Please enter your email' },
-            { type: 'email', message: 'Enter a valid email' },
-          ]}
         >
           <Input
             size="large"
             prefix={<MailOutlined className="text-white/50" />}
             placeholder="you@example.com"
+            autoComplete="off"
           />
         </Form.Item>
 
         <Form.Item
           name="password"
           label={<span className="text-body">Password</span>}
-          rules={[{ required: true, message: 'Please enter your password' }]}
         >
           <Input.Password
             size="large"
             prefix={<LockOutlined className="text-white/50" />}
             placeholder="Enter your password"
+            autoComplete="current-password"
           />
         </Form.Item>
 
@@ -87,7 +90,7 @@ export default function LoginPage() {
         </div>
 
         <Form.Item className="mb-0">
-          <Button type="primary" htmlType="submit" size="large" block>
+          <Button type="primary" size="large" block onClick={handleSubmitAny}>
             Sign In
           </Button>
         </Form.Item>

@@ -1,13 +1,5 @@
-'use client'
-import { useRouter } from 'next/navigation'
-import { useEffect } from 'react'
+import { redirect } from 'next/navigation'
 
 export default function DashboardPage() {
-  const router = useRouter()
-
-  useEffect(() => {
-    router.replace('/my-draws')
-  }, [router])
-
-  return null
+  redirect('/my-draws')
 }
