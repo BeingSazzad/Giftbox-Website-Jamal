@@ -59,7 +59,7 @@ export default function LandingPage() {
 
 function Section({ id, children, className = '' }: { id?: string; children: React.ReactNode; className?: string }) {
   return (
-    <section id={id} className={`max-w-7xl mx-auto px-6 md:px-12 py-24 ${className}`}>
+    <section id={id} className={`max-w-7xl mx-auto px-6 md:px-12 py-14 md:py-16 ${className}`}>
       {children}
     </section>
   )
@@ -68,13 +68,13 @@ function Section({ id, children, className = '' }: { id?: string; children: Reac
 function SectionTitle({ eyebrow, title, subtitle, align = 'center' }: { eyebrow: string; title: string; subtitle?: string; align?: 'center' | 'left' }) {
   const isLeft = align === 'left'
   return (
-    <div className={`${isLeft ? 'text-left' : 'text-center'} mb-16 relative`}>
-      <div className={`inline-flex items-center ${isLeft ? 'justify-start' : 'justify-center'} px-4 py-1.5 rounded-full spell-shimmer-badge text-primary text-sm font-bold uppercase tracking-widest mb-6`}>
+    <div className={`${isLeft ? 'text-left' : 'text-center'} mb-10 relative`}>
+      <div className={`inline-flex items-center ${isLeft ? 'justify-start' : 'justify-center'} px-4 py-1.5 rounded-full spell-shimmer-badge text-primary text-xs font-bold uppercase tracking-wider mb-4`}>
         {eyebrow}
       </div>
-      <h2 className="m-0 text-white text-4xl md:text-5xl font-black leading-tight mb-4 tracking-tight spell-text-glow">{title}</h2>
+      <h2 className="m-0 text-white text-3xl md:text-4xl font-black leading-tight mb-2 tracking-tight spell-text-glow">{title}</h2>
       {subtitle && (
-        <p className={`mt-4 mb-0 ${isLeft ? 'mr-auto' : 'mx-auto'} max-w-2xl text-white/60 text-lg leading-relaxed`}>
+        <p className={`mt-2 mb-0 ${isLeft ? 'mr-auto' : 'mx-auto'} max-w-2xl text-white/60 text-base leading-relaxed`}>
           {subtitle}
         </p>
       )}
@@ -316,30 +316,30 @@ function FeaturedPrize() {
     <Section id="prizes">
       <SectionTitle eyebrow="Featured" title="The prize on the line" subtitle="Brand new, sealed, and ready to ship to the winner free of charge." />
 
-      <div className="relative bg-gradient-to-br from-[#1a0f3d] to-[#0d0722] border border-primary/20 rounded-[3rem] p-8 md:p-14 overflow-hidden shadow-2xl shadow-primary/10">
+      <div className="relative bg-gradient-to-br from-[#1a0f3d] to-[#0d0722] border border-primary/20 rounded-[2.5rem] p-6 md:p-10 overflow-hidden shadow-2xl shadow-primary/10">
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/10 blur-[100px] rounded-full"></div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center relative z-10">
-          <div className="bg-night/50 rounded-[2rem] p-8 border border-white/5 backdrop-blur-md flex items-center justify-center aspect-square md:aspect-auto md:h-full">
-            <img src={currentDraw.image} alt={currentDraw.title} className="max-w-full max-h-[400px] object-contain drop-shadow-[0_20px_40px_rgba(0,0,0,0.6)] hover:scale-105 transition-transform duration-500 spell-float-image" />
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center relative z-10">
+          <div className="bg-night/50 rounded-[1.5rem] p-6 border border-white/5 backdrop-blur-md flex items-center justify-center aspect-square md:aspect-auto lg:h-[350px]">
+            <img src={currentDraw.image} alt={currentDraw.title} className="max-w-full max-h-[260px] object-contain drop-shadow-[0_15px_30px_rgba(0,0,0,0.6)] hover:scale-105 transition-transform duration-500 spell-float-image" />
           </div>
 
           <div className="flex flex-col justify-center">
-            <div className="inline-block bg-danger/20 text-danger border border-danger/30 rounded-full px-4 py-1.5 text-sm font-bold w-max mb-6">
+            <div className="inline-block bg-danger/20 text-danger border border-danger/30 rounded-full px-3 py-1 text-xs font-bold w-max mb-4">
               Ends very soon
             </div>
-            <h3 className="text-4xl md:text-5xl font-black text-white mb-6 leading-tight">{currentDraw.title}</h3>
-            <p className="text-white/70 text-lg leading-relaxed mb-8">
+            <h3 className="text-3xl md:text-4xl font-black text-white mb-4 leading-tight">{currentDraw.title}</h3>
+            <p className="text-white/70 text-base leading-relaxed mb-6">
               {currentDraw.description}
             </p>
 
-            <div className="grid grid-cols-2 gap-4 mb-10">
-              <div className="bg-white/5 border border-white/10 rounded-2xl p-5">
-                <span className="text-white/50 text-xs font-bold uppercase tracking-wider block mb-2">Ticket Price</span>
-                <span className="text-primary text-2xl font-black">{currentDraw.ticketPrice.toLocaleString()} {currentDraw.currency}</span>
+            <div className="grid grid-cols-2 gap-4 mb-6">
+              <div className="bg-white/5 border border-white/10 rounded-xl p-4">
+                <span className="text-white/50 text-xs font-bold uppercase tracking-wider block mb-1">Ticket Price</span>
+                <span className="text-primary text-xl font-black">{currentDraw.ticketPrice.toLocaleString()} {currentDraw.currency}</span>
               </div>
-              <div className="bg-white/5 border border-white/10 rounded-2xl p-5">
-                <span className="text-white/50 text-xs font-bold uppercase tracking-wider block mb-2">Countdown</span>
+              <div className="bg-white/5 border border-white/10 rounded-xl p-4">
+                <span className="text-white/50 text-xs font-bold uppercase tracking-wider block mb-1">Countdown</span>
                 <Countdown endsAt={currentDraw.endsAt} />
               </div>
             </div>
@@ -352,7 +352,7 @@ function FeaturedPrize() {
                   router.push('/login')
                 }
               }}
-              className="w-full py-5 bg-gradient-to-r from-primary to-primary-dark text-white rounded-2xl font-bold text-xl shadow-[0_10px_30px_rgba(255,105,0,0.3)] hover:scale-[1.02] transition-all cursor-pointer flex justify-center items-center gap-3 spell-btn-glow"
+              className="w-full py-4 bg-gradient-to-r from-primary to-primary-dark text-white rounded-xl font-bold text-lg shadow-[0_10px_30px_rgba(255,105,0,0.2)] hover:scale-[1.02] transition-all cursor-pointer flex justify-center items-center gap-2 spell-btn-glow"
             >
               {isAuthenticated ? 'Participate Now' : 'Sign In to Participate'} <ArrowRightOutlined />
             </button>
