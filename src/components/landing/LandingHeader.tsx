@@ -19,6 +19,7 @@ const publicLinks: NavItem[] = [
 ]
 
 const authLinks: NavItem[] = [
+  { href: '/about', label: 'About Us' },
   { href: '/my-draws', label: 'My Draws' },
   { href: '/contact', label: 'Contact' },
 ]
