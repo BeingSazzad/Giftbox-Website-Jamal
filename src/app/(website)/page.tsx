@@ -552,11 +552,87 @@ function DownloadApp() {
           </div>
         </div>
 
-        <div className="relative z-10 w-full max-w-[300px] flex justify-center">
+        <div className="relative z-10 w-full max-w-[320px] flex justify-center">
           {/* Phone Frame Mockup */}
-          <div className="relative w-full aspect-[1/2] rounded-[3rem] border-[8px] border-black bg-black shadow-2xl overflow-hidden transform rotate-[-5deg] hover:rotate-0 transition-transform duration-700">
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-6 bg-black rounded-b-3xl z-20"></div>
-            <img src={splashImg.src} alt="App Preview" className="w-full h-full object-cover rounded-[2rem]" />
+          <div className="relative w-full aspect-[1/2.05] rounded-[3.2rem] border-[10px] border-[#1e1635] bg-[#080414] shadow-2xl overflow-hidden transform rotate-[-5deg] hover:rotate-0 transition-transform duration-700 select-none">
+            {/* Dynamic Island / Speaker Notch */}
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-28 h-6 bg-black rounded-b-2xl z-30 flex items-center justify-center">
+              <div className="w-12 h-1 bg-white/10 rounded-full mb-1"></div>
+            </div>
+
+            {/* App UI Screen Content */}
+            <div className="w-full h-full pt-8 pb-4 px-4 flex flex-col justify-between relative z-10 text-left text-white bg-gradient-to-b from-[#0f0724] to-[#080414]">
+              {/* Floating ambient glow in app */}
+              <div className="absolute top-10 right-4 w-32 h-32 bg-primary/20 blur-2xl rounded-full pointer-events-none"></div>
+
+              {/* App Navbar */}
+              <div className="flex items-center justify-between py-2 border-b border-white/5 relative z-10">
+                <div className="flex items-center gap-2">
+                  <div className="w-6 h-6 rounded-full bg-gradient-to-tr from-primary to-purple-600 flex items-center justify-center font-black text-[9px]">G</div>
+                  <span className="text-[11px] font-black tracking-tight">GiftBox</span>
+                </div>
+                <div className="bg-primary/20 text-primary border border-primary/30 rounded-full px-2 py-0.5 text-[8px] font-black flex items-center gap-1">
+                  ✨ 2.5K
+                </div>
+              </div>
+
+              {/* App Banner */}
+              <div className="my-3 relative z-10">
+                <div className="bg-white/5 border border-white/10 rounded-2xl p-3 flex flex-col gap-2 relative overflow-hidden">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[7px] bg-danger/20 text-danger border border-danger/30 rounded-full px-2 py-0.5 font-bold uppercase tracking-wider">LIVE DRAW</span>
+                    <span className="text-[8px] text-white/50 font-bold">14h left</span>
+                  </div>
+                  <div className="flex items-center gap-2.5">
+                    <div className="w-12 h-12 bg-white/5 rounded-xl border border-white/10 flex items-center justify-center p-1 overflow-hidden shrink-0">
+                      <img src={currentDraw.image} className="w-full h-full object-contain" />
+                    </div>
+                    <div>
+                      <h4 className="text-[10px] font-bold leading-tight line-clamp-1">{currentDraw.title}</h4>
+                      <p className="text-[8px] text-white/50 mt-0.5">Ticket: 2,500 CDF</p>
+                    </div>
+                  </div>
+                  <button className="w-full py-1.5 bg-gradient-to-r from-primary to-primary-dark text-white rounded-lg font-black text-[9px] text-center shadow-[0_4px_10px_rgba(255,105,0,0.2)]">
+                    Get Ticket
+                  </button>
+                </div>
+              </div>
+
+              {/* Live activity feed */}
+              <div className="flex-grow flex flex-col justify-end relative z-10 mb-2">
+                <span className="text-[8px] text-white/40 font-bold uppercase tracking-wider block mb-1.5">Recent Winners</span>
+                <div className="space-y-1.5">
+                  {[
+                    { name: 'Aris K.', prize: 'iPhone 15 Pro', time: '2m ago' },
+                    { name: 'Sarah M.', prize: 'PS5 Slim', time: '15m ago' }
+                  ].map((w, idx) => (
+                    <div key={idx} className="bg-white/5 border border-white/5 rounded-xl p-2 flex items-center justify-between gap-2">
+                      <div className="flex items-center gap-2">
+                        <div className="w-5 h-5 rounded-full bg-white/10 flex items-center justify-center text-[7px] font-bold">{w.name[0]}</div>
+                        <div>
+                          <p className="text-[8px] font-bold leading-none">{w.name}</p>
+                          <p className="text-[6px] text-primary font-medium mt-0.5">Won {w.prize}</p>
+                        </div>
+                      </div>
+                      <span className="text-[6px] text-white/30">{w.time}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* App Bottom Navigation */}
+              <div className="grid grid-cols-3 gap-1 pt-2 border-t border-white/5 text-center text-white/40 relative z-10">
+                <div className="text-[8px] font-bold text-primary flex flex-col items-center gap-0.5 cursor-pointer">
+                  <span>🏆</span> Draws
+                </div>
+                <div className="text-[8px] font-bold flex flex-col items-center gap-0.5 cursor-pointer">
+                  <span>🎟️</span> Tickets
+                </div>
+                <div className="text-[8px] font-bold flex flex-col items-center gap-0.5 cursor-pointer">
+                  <span>👤</span> Profile
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
