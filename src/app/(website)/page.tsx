@@ -99,20 +99,20 @@ function Hero() {
             <span className="w-2.5 h-2.5 rounded-full bg-success animate-pulse" />
             Live Now: Weekly Mega Draw
           </div>
-          
+
           <h1 className="text-5xl md:text-7xl font-black text-white leading-[1.1] tracking-tight mb-6">
-            Win premium <br/>
+            Win premium <br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FFB900] via-[#FF6900] to-[#E65E00]">
               luxury & prizes.
             </span>
           </h1>
-          
+
           <p className="text-lg md:text-xl text-white/70 leading-relaxed mb-10 max-w-xl">
             Turn a small entry into life-changing rewards. Grab your ticket, upload payment proof, and stand a chance to win premium gadgets, luxury gifts, and exclusive prizes — delivered straight to your door.
           </p>
-          
+
           <div className="flex flex-wrap items-center gap-4">
-            <button 
+            <button
               onClick={() => {
                 if (isAuthenticated) {
                   router.push(`/draws/${currentDraw.id}`)
@@ -124,7 +124,7 @@ function Hero() {
             >
               Participate Now <ArrowRightOutlined />
             </button>
-            <button 
+            <button
               onClick={() => { document.getElementById('how-it-works')?.scrollIntoView({ behavior: 'smooth' }) }}
               className="px-8 py-4 bg-white/5 hover:bg-white/10 text-white border border-white/10 rounded-xl font-bold text-lg transition-all backdrop-blur-sm cursor-pointer"
             >
@@ -142,7 +142,7 @@ function Hero() {
           {/* Floating Product Image inside a beautiful glass card */}
           <div className="relative w-full max-w-[500px] h-full">
             <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-purple-500/20 rounded-[40px] blur-3xl transform rotate-12 scale-90"></div>
-            <div 
+            <div
               onMouseMove={handleMouseMove}
               className="relative w-full h-full bg-surface/40 backdrop-blur-2xl border border-white/10 rounded-[40px] p-8 shadow-2xl flex flex-col items-center justify-center transform transition-transform duration-700 hover:scale-105 hover:-rotate-2 cursor-pointer group spell-glow-card"
             >
@@ -248,17 +248,17 @@ function AboutUsShort() {
         <div className="relative w-full aspect-square md:aspect-[4/3] flex items-center justify-center">
           {/* Glowing colorful backdrop blur blob */}
           <div className="absolute inset-0 bg-gradient-to-tr from-primary/20 to-purple-600/20 rounded-[3rem] blur-3xl transform rotate-3 scale-95 pointer-events-none"></div>
-          
+
           {/* Glass Card frame */}
           <div className="relative w-full h-full bg-[#0c071a]/40 backdrop-blur-2xl border border-white/10 rounded-[3rem] overflow-hidden group shadow-2xl">
-            <img 
-              src={giftBoxImg.src} 
-              alt="Luxury Golden Gift Box" 
-              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 select-none" 
+            <img
+              src={giftBoxImg.src}
+              alt="Luxury Golden Gift Box"
+              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 select-none"
             />
           </div>
         </div>
-        
+
         <div>
           <SectionTitle eyebrow="About Us" title="Your trusted platform for weekly wins." align="left" />
           <p className="text-white/70 text-lg leading-relaxed mb-8 -mt-10">
@@ -287,11 +287,11 @@ function HowItWorks() {
     <Section id="how-it-works" className="bg-surface/30 border-y border-white/5 relative">
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1/2 h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent"></div>
       <SectionTitle eyebrow="How it works" title="Three simple steps." subtitle="No complicated rules. Grab a ticket, upload your proof, and wait for the draw." />
-      
+
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         {steps.map((s) => (
-          <div 
-            key={s.n} 
+          <div
+            key={s.n}
             onMouseMove={handleMouseMove}
             className="bg-surface/50 border border-white/10 hover:border-primary/50 transition-all duration-500 rounded-[2rem] p-10 relative overflow-hidden group spell-glow-card"
           >
@@ -315,15 +315,15 @@ function FeaturedPrize() {
   return (
     <Section id="prizes">
       <SectionTitle eyebrow="Featured" title="The prize on the line" subtitle="Brand new, sealed, and ready to ship to the winner free of charge." />
-      
+
       <div className="relative bg-gradient-to-br from-[#1a0f3d] to-[#0d0722] border border-primary/20 rounded-[3rem] p-8 md:p-14 overflow-hidden shadow-2xl shadow-primary/10">
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/10 blur-[100px] rounded-full"></div>
-        
+
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center relative z-10">
           <div className="bg-night/50 rounded-[2rem] p-8 border border-white/5 backdrop-blur-md flex items-center justify-center aspect-square md:aspect-auto md:h-full">
             <img src={currentDraw.image} alt={currentDraw.title} className="max-w-full max-h-[400px] object-contain drop-shadow-[0_20px_40px_rgba(0,0,0,0.6)] hover:scale-105 transition-transform duration-500 spell-float-image" />
           </div>
-          
+
           <div className="flex flex-col justify-center">
             <div className="inline-block bg-danger/20 text-danger border border-danger/30 rounded-full px-4 py-1.5 text-sm font-bold w-max mb-6">
               Ends very soon
@@ -332,7 +332,7 @@ function FeaturedPrize() {
             <p className="text-white/70 text-lg leading-relaxed mb-8">
               {currentDraw.description}
             </p>
-            
+
             <div className="grid grid-cols-2 gap-4 mb-10">
               <div className="bg-white/5 border border-white/10 rounded-2xl p-5">
                 <span className="text-white/50 text-xs font-bold uppercase tracking-wider block mb-2">Ticket Price</span>
@@ -343,8 +343,8 @@ function FeaturedPrize() {
                 <Countdown endsAt={currentDraw.endsAt} />
               </div>
             </div>
-            
-            <button 
+
+            <button
               onClick={() => {
                 if (isAuthenticated) {
                   router.push(`/draws/${currentDraw.id}`)
@@ -371,51 +371,50 @@ function WhyUs() {
   ]
   return (
     <Section id="why-us">
-      {/* Top Part: Centered 1-Line Header */}
-      <div className="text-center max-w-3xl mx-auto mb-16 relative">
-        <div className="inline-flex items-center px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-black uppercase tracking-wider mb-6 select-none backdrop-blur-md">
-          🛡️ Why Choose Us
-        </div>
-        <h2 className="m-0 text-white text-4xl md:text-5xl font-black leading-[1.15] tracking-tighter mb-4 spell-text-glow">
-          Built on trust, not just luck.
-        </h2>
-        <p className="mt-4 mb-0 text-white/60 text-base leading-relaxed">
-          Gift Box operates with 100% transparency. We document every draw, name every winner, and manage all logistics for a premium experience.
-        </p>
-      </div>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+        {/* Left Side: Stunning Editorial Image */}
+        <div className="relative group">
+          {/* Multi-layered gradient neon glowing blobs */}
+          <div className="absolute inset-0 bg-gradient-to-tr from-primary/20 to-purple-600/20 rounded-[3.5rem] blur-3xl transform rotate-3 scale-95 pointer-events-none"></div>
 
-      {/* Bottom Part: Elite 4-Column Bento Grid Showcase */}
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 items-stretch">
-        {/* Left Slot: Stunning Editorial Image Bento Card */}
-        <div className="relative group lg:col-span-1 rounded-[2.5rem] overflow-hidden border border-white/10 shadow-2xl aspect-square lg:aspect-auto min-h-[300px] flex items-center justify-center bg-[#0c071a]/40 backdrop-blur-md">
-          {/* Neon backdrop glow blur */}
-          <div className="absolute inset-0 bg-gradient-to-tr from-primary/10 to-purple-600/10 rounded-[2.5rem] blur-3xl pointer-events-none"></div>
-          <img 
-            src={premiumPrizesImg.src} 
-            alt="Premium Gift Quality" 
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 select-none"
-          />
-        </div>
-
-        {/* Right 3 Slots: Dynamic Feature Cards */}
-        {cards.map((c, i) => (
-          <div 
-            key={i} 
-            className="group relative overflow-hidden rounded-[2.5rem] bg-[#0c071a]/30 hover:bg-[#0c071a]/60 border border-white/5 hover:border-primary/25 p-8 flex flex-col transition-all duration-500 hover:-translate-y-2 shadow-2xl"
-          >
-            {/* Glow Decorative Blob inside card */}
-            <div className="absolute -top-12 -right-12 w-24 h-24 rounded-full bg-primary/5 blur-2xl opacity-40 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-            
-            {/* Icon */}
-            <div className="w-14 h-14 rounded-2xl bg-primary/10 border border-primary/20 group-hover:bg-primary group-hover:border-primary transition-all duration-300 flex items-center justify-center mb-8 shrink-0">
-              {c.icon}
-            </div>
-
-            {/* Content */}
-            <h3 className="text-white text-xl font-bold mb-4 group-hover:text-primary transition-colors duration-300">{c.title}</h3>
-            <p className="text-white/60 text-sm leading-relaxed m-0 flex-grow">{c.desc}</p>
+          <div className="relative overflow-hidden rounded-[3.5rem] border border-white/10 shadow-2xl aspect-[4/3] flex items-center justify-center bg-[#0c071a]/40 backdrop-blur-md">
+            <img
+              src={premiumPrizesImg.src}
+              alt="Premium Gift Quality"
+              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 select-none"
+            />
           </div>
-        ))}
+        </div>
+
+        {/* Right Side: Editorial Feature List */}
+        <div>
+          <div className="text-left mb-10">
+            <div className="inline-flex items-center px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-black uppercase tracking-wider mb-6 select-none backdrop-blur-md">
+              🛡️ Why Choose Us
+            </div>
+            <h2 className="m-0 text-white text-3xl md:text-4xl lg:text-5xl font-black leading-[1.1] tracking-tighter mb-4 lg:whitespace-nowrap">Built on trust, not just luck.</h2>
+            <p className="mt-4 mb-0 text-white/60 text-base leading-relaxed">
+              Gift Box operates with 100% transparency. We document every draw, name every winner, and manage all logistics for a premium experience.
+            </p>
+          </div>
+
+          <div className="space-y-4">
+            {cards.map((c, i) => (
+              <div
+                key={i}
+                className="group flex gap-5 items-start p-5 rounded-[2rem] bg-[#0c071a]/30 hover:bg-[#0c071a]/60 border border-white/5 hover:border-primary/25 transition-all duration-300 hover:-translate-y-1 shadow-lg"
+              >
+                <div className="w-12 h-12 rounded-2xl bg-primary/10 border border-primary/20 group-hover:bg-primary group-hover:border-primary transition-all duration-300 flex items-center justify-center shrink-0">
+                  {c.icon}
+                </div>
+                <div>
+                  <h3 className="text-white text-lg font-bold mb-1.5 group-hover:text-primary transition-colors duration-300">{c.title}</h3>
+                  <p className="text-white/60 text-sm leading-relaxed m-0">{c.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </Section>
   )
@@ -440,7 +439,7 @@ function Winners() {
     <Section id="winners" className="bg-surface/30 border-y border-white/5 relative overflow-hidden">
       {/* Glows */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[300px] bg-primary/10 blur-[120px] rounded-full pointer-events-none"></div>
-      
+
       <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 relative z-10">
         <div className="text-left">
           <div className="inline-flex items-center px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-bold uppercase tracking-widest mb-6">
@@ -454,14 +453,14 @@ function Winners() {
 
         {/* Carousel Navigation Buttons */}
         <div className="flex items-center gap-3 mt-6 md:mt-0">
-          <button 
+          <button
             onClick={() => handleScroll('left')}
             className="w-12 h-12 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-white flex items-center justify-center transition-all cursor-pointer hover:scale-105 active:scale-95"
             aria-label="Previous slide"
           >
             <LeftOutlined className="text-base" />
           </button>
-          <button 
+          <button
             onClick={() => handleScroll('right')}
             className="w-12 h-12 rounded-xl bg-primary hover:bg-primary-dark text-white flex items-center justify-center transition-all cursor-pointer hover:scale-105 active:scale-95 shadow-[0_0_20px_rgba(255,105,0,0.3)]"
             aria-label="Next slide"
@@ -470,32 +469,32 @@ function Winners() {
           </button>
         </div>
       </div>
-      
-      <div 
+
+      <div
         ref={scrollRef}
         className="flex gap-6 overflow-x-auto pb-8 snap-x snap-mandatory scroll-smooth relative z-10 scrollbar-none"
         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
       >
         {winners.map((w, i) => (
-          <div 
-            key={i} 
+          <div
+            key={i}
             onMouseMove={handleMouseMove}
             className="w-full md:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] shrink-0 snap-start bg-surface/40 hover:bg-surface/60 backdrop-blur-xl border border-white/5 hover:border-primary/30 transition-all duration-500 rounded-[2.5rem] p-8 text-center relative overflow-hidden group spell-glow-card"
           >
             {/* Inner ambient glow on hover */}
             <div className="absolute -inset-px bg-gradient-to-br from-primary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-[2.5rem]" />
-            
+
             <div className="absolute top-6 right-6 bg-primary/10 text-primary border border-primary/20 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider">
               Draw Verified
             </div>
-            
+
             <div className="relative z-10 w-24 h-24 rounded-full overflow-hidden mx-auto mb-6 border-4 border-surface shadow-2xl group-hover:scale-105 transition-transform duration-500">
               <img src={w.photo} alt={w.name} className="w-full h-full object-cover" />
             </div>
-            
+
             <h4 className="relative z-10 text-white text-xl font-bold mb-1 tracking-tight">{w.name}</h4>
             <p className="relative z-10 text-white/50 text-xs font-semibold uppercase tracking-wider mb-6">Ticket: #{w.ticketNumber}</p>
-            
+
             <div className="relative z-10 bg-white/5 border border-white/5 rounded-2xl py-3.5 px-5 flex flex-col items-center">
               <span className="text-white/40 text-[10px] font-bold uppercase tracking-wider mb-1">Won Prize</span>
               <span className="text-primary text-base font-black tracking-tight">{w.prize}</span>
@@ -512,18 +511,18 @@ function DownloadApp() {
     <Section id="app">
       <div className="bg-gradient-to-r from-[#1a0f3d] to-[#0d0722] border border-white/10 rounded-[3rem] px-8 py-16 md:p-16 flex flex-col md:flex-row items-center justify-between overflow-hidden relative shadow-2xl">
         <div className="absolute top-0 right-0 w-full h-full bg-[radial-gradient(circle_at_top_right,rgba(255,105,0,0.2)_0%,transparent_60%)] z-0" />
-        
+
         <div className="relative z-10 max-w-xl mb-12 md:mb-0 text-center md:text-left">
           <div className="inline-flex items-center justify-center px-4 py-1.5 rounded-full bg-white/10 text-white text-sm font-bold uppercase tracking-widest mb-6 backdrop-blur-md">
             Mobile App
           </div>
           <h2 className="text-4xl md:text-5xl font-black text-white leading-tight mb-6">
-            Take Gift Box <br/><span className="text-primary">everywhere you go.</span>
+            Take Gift Box <br /><span className="text-primary">everywhere you go.</span>
           </h2>
           <p className="text-white/70 text-lg leading-relaxed mb-10">
             Never miss a draw. Upload your payment proofs in one tap, track your entries, and get instant notifications when you win. Available now on iOS and Android.
           </p>
-          
+
           <div className="flex flex-wrap items-center justify-center md:justify-start gap-4">
             <button className="flex items-center gap-3 bg-black border border-white/20 hover:border-white/40 text-white px-6 py-3 rounded-2xl transition-all hover:scale-105 cursor-pointer">
               <AppleLogo />
@@ -545,8 +544,8 @@ function DownloadApp() {
         <div className="relative z-10 w-full max-w-[300px] flex justify-center">
           {/* Phone Frame Mockup */}
           <div className="relative w-full aspect-[1/2] rounded-[3rem] border-[8px] border-black bg-black shadow-2xl overflow-hidden transform rotate-[-5deg] hover:rotate-0 transition-transform duration-700">
-             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-6 bg-black rounded-b-3xl z-20"></div>
-             <img src={splashImg.src} alt="App Preview" className="w-full h-full object-cover rounded-[2rem]" />
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-6 bg-black rounded-b-3xl z-20"></div>
+            <img src={splashImg.src} alt="App Preview" className="w-full h-full object-cover rounded-[2rem]" />
           </div>
         </div>
       </div>
@@ -574,18 +573,18 @@ function FaqPreview() {
 
   return (
     <Section id="faq" className="max-w-4xl">
-      <SectionTitle 
-        eyebrow="Help & Support" 
-        title="Answers to your questions." 
-        subtitle="Find quick, transparent answers to everything about tickets, payments, draws, and prize delivery." 
+      <SectionTitle
+        eyebrow="Help & Support"
+        title="Answers to your questions."
+        subtitle="Find quick, transparent answers to everything about tickets, payments, draws, and prize delivery."
       />
-      
+
       <div className="space-y-4">
         {visibleFaqs.map((f, i) => {
           const isOpen = openIndex === i
           return (
             <div key={i} className={`bg-surface/40 backdrop-blur-md border rounded-2xl overflow-hidden transition-all duration-300 ${isOpen ? 'border-primary/50 bg-surface/80' : 'border-white/10 hover:border-white/20'}`}>
-              <button 
+              <button
                 onClick={() => setOpenIndex(isOpen ? null : i)}
                 className="w-full px-6 py-5 flex items-center justify-between text-left cursor-pointer bg-transparent border-none outline-none"
               >
@@ -603,7 +602,7 @@ function FaqPreview() {
       </div>
 
       <div className="text-center mt-10">
-        <button 
+        <button
           onClick={() => setShowAll(!showAll)}
           className="px-8 py-4 bg-white/5 hover:bg-white/10 hover:border-primary/50 text-white border border-white/10 rounded-xl font-bold text-base transition-all cursor-pointer inline-flex items-center gap-2"
         >
@@ -623,7 +622,7 @@ function CtaSection() {
         {/* Subtle dynamic background ambient glows */}
         <div className="absolute -top-40 -left-40 w-[600px] h-[600px] bg-primary/10 blur-[120px] rounded-full pointer-events-none"></div>
         <div className="absolute -bottom-40 -right-40 w-[600px] h-[600px] bg-purple-500/10 blur-[120px] rounded-full pointer-events-none"></div>
-        
+
         <div className="relative z-10 max-w-3xl mx-auto">
           <h2 className="text-4xl md:text-6xl font-black text-white leading-tight mb-6">
             Ready to win{' '}
@@ -631,19 +630,19 @@ function CtaSection() {
               something amazing?
             </span>
           </h2>
-          
+
           <p className="text-white/60 text-lg md:text-xl font-medium leading-relaxed mb-10 max-w-2xl mx-auto">
             Create your account in under a minute and grab a ticket for this week's mega draw before time runs out.
           </p>
-          
+
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <button 
+            <button
               onClick={() => router.push('/register')}
               className="w-full sm:w-auto px-10 py-5 bg-primary hover:bg-primary-dark text-white rounded-2xl font-black text-lg transition-all hover:scale-105 shadow-[0_0_40px_rgba(255,105,0,0.2)] cursor-pointer spell-btn-glow"
             >
               Create Free Account
             </button>
-            <button 
+            <button
               onClick={() => router.push('/login')}
               className="w-full sm:w-auto px-10 py-5 bg-white/5 hover:bg-white/10 text-white border border-white/10 rounded-2xl font-bold text-lg backdrop-blur-sm transition-all hover:scale-105 cursor-pointer"
             >
