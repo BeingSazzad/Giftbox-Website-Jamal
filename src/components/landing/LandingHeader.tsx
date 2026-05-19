@@ -1,5 +1,5 @@
 'use client'
-import { Button, Dropdown, MenuProps } from 'antd'
+import { Button, Dropdown, MenuProps, message } from 'antd'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
@@ -40,6 +40,32 @@ export function LandingHeader() {
 
   const userName = 'Sazzad'
   const avatar = 'https://i.pravatar.cc/200?img=12'
+
+  const [lang, setLang] = useState('en')
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setLang(localStorage.getItem('gb_lang') || 'en')
+    }
+  }, [])
+
+  const handleLangChange = (key: string) => {
+    setLang(key)
+    localStorage.setItem('gb_lang', key)
+    message.success(key === 'en' ? 'Language updated to English' : 'Langue changée en Français')
+  }
+
+  const langMenuItems: MenuProps['items'] = [
+    {
+      key: 'en',
+      label: <span className="text-white/80 hover:text-white font-medium flex items-center gap-2">🇺🇸 English</span>,
+      onClick: () => handleLangChange('en')
+    },
+    {
+      key: 'fr',
+      label: <span className="text-white/80 hover:text-white font-medium flex items-center gap-2">🇫🇷 Français</span>,
+      onClick: () => handleLangChange('fr')
+    }
+  ]
 
   const moreMenuItems: MenuProps['items'] = dropdownLinks.map((l) => ({
     key: l.label,
@@ -138,7 +164,24 @@ export function LandingHeader() {
           </Dropdown>
         </nav>
 
-        <div className="z-10 flex items-center gap-6">
+        <div className="z-10 flex items-center gap-4 md:gap-6">
+          {/* Language Switcher */}
+          <Dropdown
+            menu={{ items: langMenuItems }}
+            trigger={['click']}
+            placement="bottomRight"
+            classNames={{ root: "custom-dropdown-dark" }}
+          >
+            <button
+              type="button"
+              className="px-2.5 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-white flex items-center gap-1.5 cursor-pointer transition-all duration-200 outline-none hover:border-primary/30 h-10 select-none font-semibold text-xs"
+            >
+              <span className="text-sm leading-none select-none">{lang === 'en' ? '🇺🇸' : '🇫🇷'}</span>
+              <span className="text-white/70 uppercase">{lang}</span>
+              <DownOutlined className="text-[9px] text-white/30" />
+            </button>
+          </Dropdown>
+
           {isAuthenticated ? (
             <>
               {/* Notifications Bell */}
