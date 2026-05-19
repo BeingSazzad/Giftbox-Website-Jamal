@@ -108,7 +108,7 @@ function Hero() {
               onClick={() => {
                 document.getElementById('prizes')?.scrollIntoView({ behavior: 'smooth' })
               }}
-              className="px-8 py-4 bg-primary hover:bg-primary-dark text-white rounded-xl font-bold text-lg transition-all hover:scale-105 shadow-[0_0_40px_rgba(255,105,0,0.3)] flex items-center gap-2 cursor-pointer border-none outline-none spell-btn-glow"
+              className="px-8 py-4 bg-gradient-to-br from-[#FFB900] to-[#FF6900] hover:from-[#FFC933] hover:to-[#FF7E1A] text-[#1a0f0a] rounded-xl font-bold text-lg transition-all hover:-translate-y-px hover:scale-105 shadow-[0_4px_20px_rgba(255,105,0,0.35)] hover:shadow-[0_8px_32px_rgba(255,105,0,0.5)] flex items-center gap-2 cursor-pointer border-none outline-none spell-btn-glow"
             >
               Participate Now <ArrowRightOutlined />
             </button>
@@ -412,7 +412,7 @@ function FeaturedPrize() {
                   router.push('/login')
                 }
               }}
-              className="w-full py-4 bg-gradient-to-r from-primary to-primary-dark text-white rounded-xl font-bold text-lg shadow-[0_10px_30px_rgba(255,105,0,0.2)] hover:scale-[1.02] transition-all cursor-pointer flex justify-center items-center gap-2 spell-btn-glow"
+              className="w-full py-4 bg-gradient-to-br from-[#FFB900] to-[#FF6900] hover:from-[#FFC933] hover:to-[#FF7E1A] text-[#1a0f0a] rounded-xl font-bold text-lg shadow-[0_4px_20px_rgba(255,105,0,0.3)] hover:shadow-[0_8px_28px_rgba(255,105,0,0.45)] hover:-translate-y-px hover:scale-[1.02] transition-all cursor-pointer flex justify-center items-center gap-2 spell-btn-glow"
             >
               {isAuthenticated ? 'Participate Now' : 'Sign In to Participate'} <ArrowRightOutlined />
             </button>
@@ -829,7 +829,7 @@ function CtaSection() {
 
           <button
             onClick={() => router.push('/register')}
-            className="px-12 py-4 bg-gradient-to-r from-[#ff6900] to-[#ff9500] hover:from-[#ff7a1a] hover:to-[#ffaa22] text-white rounded-2xl font-black text-lg transition-all hover:scale-[1.04] shadow-[0_8px_32px_rgba(255,105,0,0.4)] hover:shadow-[0_14px_44px_rgba(255,105,0,0.55)] cursor-pointer mb-7"
+            className="px-12 py-4 bg-gradient-to-br from-[#FFB900] to-[#FF6900] hover:from-[#FFC933] hover:to-[#FF7E1A] text-[#1a0f0a] rounded-2xl font-black text-lg transition-all hover:-translate-y-px hover:scale-[1.04] shadow-[0_6px_28px_rgba(255,105,0,0.4)] hover:shadow-[0_14px_44px_rgba(255,105,0,0.55)] cursor-pointer mb-7"
           >
             Join Now →
           </button>

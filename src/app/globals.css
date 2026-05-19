@@ -25,6 +25,10 @@
   --font-sans: var(--font-sans), system-ui, sans-serif;
 }
 
+html {
+  overflow-y: scroll;
+}
+
 html,
 body,
 #root {
@@ -89,9 +93,16 @@ body {
   }
 }
 
+/* ====== Common primary button gradient ====== */
+:root {
+  --btn-grad: linear-gradient(135deg, #FFB900 0%, #FF6900 100%);
+  --btn-grad-hover: linear-gradient(135deg, #FFC933 0%, #FF7E1A 100%);
+  --btn-grad-active: linear-gradient(135deg, #E6A700 0%, #E65E00 100%);
+}
+
 /* ====== Ant Design primary button override ====== */
 .ant-btn-primary {
-  background: linear-gradient(180deg, #FFB900 0%, #FF6900 100%) !important;
+  background: var(--btn-grad) !important;
   border: none !important;
   color: #1a0f0a !important;
   font-weight: 700 !important;
@@ -99,22 +110,24 @@ body {
   height: 48px !important;
   font-size: 15px !important;
   letter-spacing: 0.2px;
-  box-shadow: none !important;
+  box-shadow: 0 4px 20px rgba(255, 105, 0, 0.3) !important;
   transition: all 180ms ease !important;
 }
 
 .ant-btn-primary:hover:not(:disabled) {
-  background: linear-gradient(180deg, #FFC533 0%, #FF8533 100%) !important;
-  box-shadow: none !important;
+  background: var(--btn-grad-hover) !important;
+  box-shadow: 0 6px 28px rgba(255, 105, 0, 0.45) !important;
+  transform: translateY(-1px);
 }
 
 .ant-btn-primary:active:not(:disabled) {
-  background: linear-gradient(180deg, #E6A700 0%, #E65E00 100%) !important;
+  background: var(--btn-grad-active) !important;
   box-shadow: none !important;
+  transform: translateY(0);
 }
 
 .ant-btn-primary:disabled {
-  background: linear-gradient(180deg, #FFB900 0%, #FF6900 100%) !important;
+  background: var(--btn-grad) !important;
   opacity: 0.45;
   color: #1a0f0a !important;
   box-shadow: none !important;

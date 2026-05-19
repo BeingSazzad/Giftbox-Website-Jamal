@@ -172,7 +172,7 @@ export default function MyDrawsPage() {
           <button
             type="button"
             onClick={() => router.push('/')}
-            className="bg-primary hover:bg-primary-hover text-[#1a0f0a] font-bold text-sm px-5 py-2.5 rounded-xl transition-all cursor-pointer flex items-center gap-2"
+            className="bg-gradient-to-br from-[#FFB900] to-[#FF6900] hover:from-[#FFC933] hover:to-[#FF7E1A] text-[#1a0f0a] font-bold text-sm px-5 py-2.5 rounded-xl transition-all shadow-[0_4px_16px_rgba(255,105,0,0.3)] hover:-translate-y-px cursor-pointer flex items-center gap-2"
           >
             <CompassOutlined />
             Browse Active Draws

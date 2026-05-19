@@ -321,7 +321,7 @@ export default function DrawDetailsPage() {
               type="button"
               disabled={submitting}
               onClick={handleSubmit}
-              className="w-full h-12 bg-primary hover:bg-primary-dark disabled:opacity-60 disabled:cursor-not-allowed text-white rounded-xl font-bold text-sm cursor-pointer flex items-center justify-center gap-2.5 transition-all shadow-[0_0_20px_rgba(255,105,0,0.2)] hover:scale-[1.02] active:scale-[0.99] border-0 spell-btn-glow"
+              className="w-full h-12 bg-gradient-to-br from-[#FFB900] to-[#FF6900] hover:from-[#FFC933] hover:to-[#FF7E1A] disabled:opacity-60 disabled:cursor-not-allowed text-[#1a0f0a] rounded-xl font-bold text-sm cursor-pointer flex items-center justify-center gap-2.5 transition-all shadow-[0_4px_20px_rgba(255,105,0,0.3)] hover:shadow-[0_6px_28px_rgba(255,105,0,0.45)] hover:-translate-y-px hover:scale-[1.02] active:scale-[0.99] border-0 spell-btn-glow"
             >
               {submitting ? (
                 <span className="flex items-center gap-2">
