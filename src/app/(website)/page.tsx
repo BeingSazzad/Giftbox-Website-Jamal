@@ -1,21 +1,14 @@
 'use client';
-import { Button } from 'antd'
 import {
   CheckCircleFilled,
-  ClockCircleFilled,
   DownOutlined,
   SafetyCertificateFilled,
   TrophyFilled,
-  WhatsAppOutlined,
   ArrowRightOutlined,
   StarFilled,
   ThunderboltFilled,
-  GiftFilled,
-  MobileOutlined,
   LeftOutlined,
   RightOutlined,
-  SmileFilled,
-  CalendarFilled,
   CrownFilled
 } from '@ant-design/icons'
 import { useState, useRef } from 'react'
@@ -25,7 +18,6 @@ import { LandingFooter } from '@/components/landing/LandingFooter'
 import { Countdown } from '@/components/common/Countdown'
 import { currentDraw } from '@/data/draws'
 import { participations } from '@/data/participations'
-import splashImg from '@/assets/splash.png'
 import giftBoxImg from '@/assets/images/luxury_gift_box.png'
 import premiumPrizesImg from '@/assets/images/luxury_premium_prizes.png'
 import { useAuth } from '@/hooks/useAuth'
@@ -114,11 +106,7 @@ function Hero() {
           <div className="flex flex-wrap items-center gap-4">
             <button
               onClick={() => {
-                if (isAuthenticated) {
-                  router.push(`/draws/${currentDraw.id}`)
-                } else {
-                  router.push('/login')
-                }
+                document.getElementById('prizes')?.scrollIntoView({ behavior: 'smooth' })
               }}
               className="px-8 py-4 bg-primary hover:bg-primary-dark text-white rounded-xl font-bold text-lg transition-all hover:scale-105 shadow-[0_0_40px_rgba(255,105,0,0.3)] flex items-center gap-2 cursor-pointer border-none outline-none spell-btn-glow"
             >
@@ -508,68 +496,87 @@ function Winners() {
   }
 
   return (
-    <Section id="winners" className="bg-surface/30 border-y border-white/5 relative overflow-hidden">
-      {/* Glows */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[300px] bg-primary/10 blur-[120px] rounded-full pointer-events-none"></div>
+    <Section id="winners" className="relative overflow-hidden">
+      {/* Background */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_50%_at_50%_100%,rgba(255,105,0,0.07),transparent)] pointer-events-none" />
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/8 to-transparent" />
+      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/8 to-transparent" />
 
-      <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 relative z-10">
+      <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 relative z-10">
         <div className="text-left">
-          <div className="inline-flex items-center px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-bold uppercase tracking-widest mb-6">
-            Hall of Fame
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-bold uppercase tracking-widest mb-5">
+            🏆 Hall of Fame
           </div>
-          <h2 className="m-0 text-white text-4xl md:text-5xl font-black leading-tight tracking-tight mb-4">Latest Winners</h2>
-          <p className="text-white/60 text-lg leading-relaxed m-0 max-w-xl">
-            Meet our verified weekly draw winners who walked away with their premium new luxury prizes.
+          <h2 className="m-0 text-white text-4xl md:text-5xl font-black leading-tight tracking-tight mb-3">Latest Winners</h2>
+          <p className="text-white/50 text-base leading-relaxed m-0 max-w-lg">
+            Meet our verified weekly draw winners who walked away with premium luxury prizes.
           </p>
         </div>
 
         {/* Carousel Navigation Buttons */}
-        <div className="flex items-center gap-3 mt-6 md:mt-0">
+        <div className="flex items-center gap-2 mt-6 md:mt-0">
           <button
             onClick={() => handleScroll('left')}
-            className="w-12 h-12 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-white flex items-center justify-center transition-all cursor-pointer hover:scale-105 active:scale-95"
+            className="w-11 h-11 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 text-white/70 hover:text-white flex items-center justify-center transition-all cursor-pointer hover:scale-105 active:scale-95"
             aria-label="Previous slide"
           >
-            <LeftOutlined className="text-base" />
+            <LeftOutlined className="text-sm" />
           </button>
           <button
             onClick={() => handleScroll('right')}
-            className="w-12 h-12 rounded-xl bg-primary hover:bg-primary-dark text-white flex items-center justify-center transition-all cursor-pointer hover:scale-105 active:scale-95 shadow-[0_0_20px_rgba(255,105,0,0.3)]"
+            className="w-11 h-11 rounded-xl bg-primary hover:bg-primary-dark text-white flex items-center justify-center transition-all cursor-pointer hover:scale-105 active:scale-95 shadow-[0_4px_16px_rgba(255,105,0,0.4)]"
             aria-label="Next slide"
           >
-            <RightOutlined className="text-base" />
+            <RightOutlined className="text-sm" />
           </button>
         </div>
       </div>
 
       <div
         ref={scrollRef}
-        className="flex gap-6 overflow-x-auto pb-8 snap-x snap-mandatory scroll-smooth relative z-10 scrollbar-none"
+        className="flex gap-5 overflow-x-auto pb-4 snap-x snap-mandatory scroll-smooth relative z-10 scrollbar-none"
         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
       >
         {winners.map((w, i) => (
           <div
             key={i}
-            onMouseMove={handleMouseMove}
-            className="w-full md:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] shrink-0 snap-start bg-surface/40 hover:bg-surface/60 backdrop-blur-xl border border-white/5 hover:border-primary/30 transition-all duration-500 rounded-[2.5rem] p-8 text-center relative overflow-hidden group spell-glow-card"
+            className="w-full md:w-[calc(50%-10px)] lg:w-[calc(33.333%-14px)] shrink-0 snap-start relative group"
           >
-            {/* Inner ambient glow on hover */}
-            <div className="absolute -inset-px bg-gradient-to-br from-primary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-[2.5rem]" />
+            {/* Card */}
+            <div className="relative bg-gradient-to-b from-[#18103a] to-[#0e0922] border border-white/[0.07] hover:border-primary/25 transition-all duration-400 rounded-3xl p-7 text-center overflow-hidden h-full">
+              {/* Top glow streak */}
+              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent" />
 
-            <div className="absolute top-6 right-6 bg-primary/10 text-primary border border-primary/20 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider">
-              Draw Verified
-            </div>
+              {/* Hover inner glow */}
+              <div className="absolute inset-0 bg-gradient-to-b from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-400 rounded-3xl pointer-events-none" />
 
-            <div className="relative z-10 w-24 h-24 rounded-full overflow-hidden mx-auto mb-6 border-4 border-surface shadow-2xl group-hover:scale-105 transition-transform duration-500">
-              <img src={w.photo} alt={w.name} className="w-full h-full object-cover" />
-            </div>
+              {/* Verified badge */}
+              <div className="absolute top-4 right-4 flex items-center gap-1.5 bg-[#0d0720] border border-primary/20 px-2.5 py-1 rounded-full">
+                <span className="w-1.5 h-1.5 rounded-full bg-primary" />
+                <span className="text-primary text-[9px] font-black uppercase tracking-wider">Verified</span>
+              </div>
 
-            <h4 className="relative z-10 text-white text-xl font-bold mb-1 tracking-tight">{w.name}</h4>
-            <p className="relative z-10 text-white/50 text-xs font-semibold uppercase tracking-wider mb-6">Ticket: #{w.ticketNumber}</p>
+              {/* Avatar with glowing ring */}
+              <div className="relative w-20 h-20 mx-auto mb-5 mt-2">
+                <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-primary to-[#ffaa00] p-[2.5px] group-hover:shadow-[0_0_20px_rgba(255,105,0,0.4)] transition-shadow duration-400">
+                  <div className="w-full h-full rounded-full overflow-hidden bg-surface">
+                    <img src={w.photo} alt={w.name} className="w-full h-full object-cover" />
+                  </div>
+                </div>
+                {/* Trophy badge */}
+                <div className="absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-primary flex items-center justify-center text-[11px] shadow-lg border-2 border-[#0e0922]">
+                  🏆
+                </div>
+              </div>
 
-            <div className="relative z-10 bg-white/5 border border-white/5 rounded-2xl py-3.5 px-5 flex flex-col items-center">
-              <span className="text-white/40 text-[10px] font-bold uppercase tracking-wider mb-1">Won Prize</span>
-              <span className="text-primary text-base font-black tracking-tight">{w.prize}</span>
+              <h4 className="relative z-10 text-white text-lg font-black mb-1 tracking-tight">{w.name}</h4>
+              <p className="relative z-10 text-white/35 text-[11px] font-semibold uppercase tracking-wider mb-5">Ticket #{w.ticketNumber}</p>
+
+              {/* Prize box */}
+              <div className="relative z-10 bg-[#0d0720] border border-primary/15 rounded-2xl py-3.5 px-4">
+                <span className="text-white/30 text-[9px] font-bold uppercase tracking-widest block mb-1.5">Won Prize</span>
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#ff6900] to-[#ffaa00] text-base font-black tracking-tight">{w.prize}</span>
+              </div>
             </div>
           </div>
         ))}
@@ -581,48 +588,130 @@ function Winners() {
 function DownloadApp() {
   return (
     <Section id="app">
-      <div className="bg-gradient-to-r from-[#1a0f3d] to-[#0d0722] border border-white/10 rounded-[2.5rem] px-5 py-10 md:p-14 flex flex-col md:flex-row items-center justify-between overflow-hidden relative shadow-2xl">
-        <div className="absolute top-0 right-0 w-full h-full bg-[radial-gradient(circle_at_top_right,rgba(255,105,0,0.2)_0%,transparent_60%)] z-0" />
+      <div className="relative rounded-[2.5rem] overflow-hidden shadow-[0_32px_80px_rgba(0,0,0,0.6)]">
+        {/* BG layers */}
+        <div className="absolute inset-0 bg-gradient-to-br from-[#1e1040] via-[#120a2a] to-[#07030f]" />
+        {/* Right warm glow */}
+        <div className="absolute right-0 top-0 w-[55%] h-full bg-[radial-gradient(ellipse_80%_100%_at_100%_50%,rgba(255,90,0,0.18),transparent)]" />
+        {/* Left cool glow */}
+        <div className="absolute left-0 top-0 w-[40%] h-full bg-[radial-gradient(ellipse_80%_100%_at_0%_50%,rgba(100,50,200,0.12),transparent)]" />
+        {/* Top highlight streak */}
+        <div className="absolute top-0 left-[10%] right-[10%] h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+        {/* Bottom fade */}
+        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black/30 to-transparent" />
+        {/* Subtle noise/grid texture */}
+        <div className="absolute inset-0 opacity-[0.025]" style={{ backgroundImage: 'linear-gradient(white 1px,transparent 1px),linear-gradient(90deg,white 1px,transparent 1px)', backgroundSize: '48px 48px' }} />
+        {/* Border */}
+        <div className="absolute inset-0 rounded-[2.5rem] border border-white/[0.08] pointer-events-none" />
 
-        <div className="relative z-10 max-w-xl mb-8 md:mb-0 text-center md:text-left">
-          <div className="inline-flex items-center justify-center px-4 py-1.5 rounded-full bg-white/10 text-white text-xs font-bold uppercase tracking-widest mb-4 md:mb-6 backdrop-blur-md">
-            Mobile App
-          </div>
-          <h2 className="text-3xl md:text-5xl font-black text-white leading-tight mb-4 md:mb-6">
-            Take Gift Box <br /><span className="text-primary">everywhere you go.</span>
-          </h2>
-          <p className="text-white/70 text-base leading-relaxed mb-6 md:mb-10">
-            Never miss a draw. Upload your payment proofs in one tap, track your entries, and get instant notifications when you win. Available now on iOS and Android.
-          </p>
-
-          <div className="flex flex-wrap items-center justify-center md:justify-start gap-4">
-            <button className="flex items-center gap-3 bg-black border border-white/20 hover:border-white/40 text-white px-5 py-2.5 rounded-2xl transition-all hover:scale-105 cursor-pointer">
-              <AppleLogo />
-              <div className="text-left">
-                <div className="text-[9px] text-white/60 font-semibold uppercase tracking-wider leading-none mb-1">Available for</div>
-                <div className="text-base font-bold leading-none">Apple iOS</div>
-              </div>
-            </button>
-            <button className="flex items-center gap-3 bg-black border border-white/20 hover:border-white/40 text-white px-5 py-2.5 rounded-2xl transition-all hover:scale-105 cursor-pointer">
-              <PlayLogo />
-              <div className="text-left">
-                <div className="text-[9px] text-white/60 font-semibold uppercase tracking-wider leading-none mb-1">Available for</div>
-                <div className="text-base font-bold leading-none">Android</div>
-              </div>
-            </button>
-          </div>
-        </div>
-
-        <div className="relative z-10 w-full max-w-[320px] flex justify-center">
-          {/* Phone Frame Mockup */}
-          <div className="relative w-full aspect-[1/2.05] rounded-[3.2rem] border-[10px] border-[#1e1635] bg-[#080414] shadow-2xl overflow-hidden transform rotate-[-5deg] hover:rotate-0 transition-transform duration-700 select-none">
-            {/* Dynamic Island / Speaker Notch */}
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-24 h-5 bg-black rounded-b-xl z-40 flex items-center justify-center">
-              <div className="w-10 h-0.5 bg-white/10 rounded-full mb-1"></div>
+        <div className="relative z-10 px-8 py-12 md:px-14 md:py-16 flex flex-col md:flex-row items-center justify-between gap-12">
+          {/* Left: Text */}
+          <div className="max-w-md text-center md:text-left">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-bold uppercase tracking-widest mb-6">
+              <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
+              Mobile App
             </div>
+            <h2 className="text-3xl md:text-5xl font-black text-white leading-[1.1] mb-5 tracking-tight">
+              Take Gift Box <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#ff6900] via-[#ffbb00] to-[#ff6900]">everywhere you go.</span>
+            </h2>
+            <p className="text-white/50 text-base leading-relaxed mb-8 max-w-sm">
+              Never miss a draw. Upload payment proofs in one tap, track your entries, and get instant notifications when you win.
+            </p>
 
-            {/* Dashboard Screenshot Preview */}
-            <img src="/app_preview.png" alt="App Preview" className="w-full h-full object-cover" />
+            <div className="flex flex-wrap items-center justify-center md:justify-start gap-3">
+              <button className="flex items-center gap-3 bg-white/5 hover:bg-white/10 border border-white/12 hover:border-white/25 text-white px-5 py-3 rounded-2xl transition-all hover:scale-105 cursor-pointer backdrop-blur-md">
+                <AppleLogo />
+                <div className="text-left">
+                  <div className="text-[9px] text-white/40 font-semibold uppercase tracking-wider leading-none mb-1">Available on</div>
+                  <div className="text-sm font-bold leading-none">Apple iOS</div>
+                </div>
+              </button>
+              <button className="flex items-center gap-3 bg-white/5 hover:bg-white/10 border border-white/12 hover:border-white/25 text-white px-5 py-3 rounded-2xl transition-all hover:scale-105 cursor-pointer backdrop-blur-md">
+                <PlayLogo />
+                <div className="text-left">
+                  <div className="text-[9px] text-white/40 font-semibold uppercase tracking-wider leading-none mb-1">Available on</div>
+                  <div className="text-sm font-bold leading-none">Android</div>
+                </div>
+              </button>
+            </div>
+          </div>
+
+          {/* Right: Phone Mockup */}
+          <div className="relative w-[220px] shrink-0 select-none">
+            {/* Outer glow */}
+            <div className="absolute inset-0 bg-primary/20 blur-3xl rounded-full scale-110 pointer-events-none" />
+
+            {/* Phone shell */}
+            <div className="relative rounded-[2.8rem] border-[7px] border-[#2a1d4e] bg-[#0a0518] shadow-[0_32px_80px_rgba(0,0,0,0.7)] overflow-hidden rotate-[-4deg] hover:rotate-0 transition-transform duration-700">
+              {/* Dynamic island */}
+              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-20 h-[18px] bg-[#0a0518] z-30 rounded-b-2xl flex items-center justify-center gap-1.5">
+                <div className="w-2 h-2 rounded-full bg-[#1a1228]" />
+                <div className="w-8 h-1.5 rounded-full bg-[#1a1228]" />
+              </div>
+
+              {/* Screen content */}
+              <div className="bg-[#0d0820] pt-6 pb-4 px-3 min-h-[440px] flex flex-col gap-3">
+                {/* Status bar */}
+                <div className="flex items-center justify-between px-2 mb-1 mt-1">
+                  <span className="text-white/40 text-[9px] font-bold">9:41</span>
+                  <div className="flex items-center gap-1">
+                    <div className="w-3 h-1.5 rounded-sm bg-white/30" />
+                    <div className="w-3 h-1.5 rounded-sm bg-white/30" />
+                    <div className="w-4 h-2 rounded-sm bg-white/40 relative"><div className="absolute inset-[2px] right-[3px] bg-white/70 rounded-[1px]" /></div>
+                  </div>
+                </div>
+
+                {/* App header */}
+                <div className="flex items-center justify-between px-1 mb-1">
+                  <div>
+                    <div className="text-white/30 text-[8px] font-semibold uppercase tracking-widest">Welcome back</div>
+                    <div className="text-white text-xs font-black leading-tight">My Draws 🎁</div>
+                  </div>
+                  <div className="w-7 h-7 rounded-full bg-gradient-to-tr from-primary to-[#ffaa00] p-[1.5px]">
+                    <img src="https://i.pravatar.cc/200?img=12" className="w-full h-full rounded-full object-cover" />
+                  </div>
+                </div>
+
+                {/* Active draw card */}
+                <div className="bg-gradient-to-br from-[#ff6900]/20 to-[#7c3aed]/15 border border-primary/20 rounded-2xl p-3 relative overflow-hidden">
+                  <div className="absolute top-2 right-2 bg-green-500/20 border border-green-400/30 text-green-400 text-[7px] font-black uppercase tracking-wider px-1.5 py-0.5 rounded-full">Live</div>
+                  <div className="text-white/40 text-[7px] uppercase tracking-wider mb-1">Featured Draw</div>
+                  <div className="text-white text-[11px] font-black leading-tight mb-2">Samsung Galaxy S25 Ultra</div>
+                  <div className="w-full bg-white/10 rounded-full h-1 mb-1">
+                    <div className="bg-gradient-to-r from-primary to-[#ffaa00] h-1 rounded-full w-3/4" />
+                  </div>
+                  <div className="text-white/30 text-[7px]">148 / 200 tickets sold</div>
+                </div>
+
+                {/* Ticket entries */}
+                {[
+                  { prize: 'iPhone 16 Pro', ticket: '#TKT-000103', status: 'verified', color: 'text-green-400', dot: 'bg-green-400' },
+                  { prize: 'iPad Pro 12.9"', ticket: '#TKT-000098', status: 'pending', color: 'text-yellow-400', dot: 'bg-yellow-400' },
+                ].map((entry, i) => (
+                  <div key={i} className="bg-white/4 border border-white/6 rounded-xl px-3 py-2 flex items-center justify-between">
+                    <div>
+                      <div className="text-white text-[9px] font-bold leading-tight">{entry.prize}</div>
+                      <div className="text-white/30 text-[7px] font-mono mt-0.5">{entry.ticket}</div>
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <div className={`w-1.5 h-1.5 rounded-full ${entry.dot}`} />
+                      <span className={`text-[7px] font-bold uppercase ${entry.color}`}>{entry.status}</span>
+                    </div>
+                  </div>
+                ))}
+
+                {/* Bottom nav */}
+                <div className="mt-auto flex items-center justify-around bg-[#150d2e] rounded-2xl py-2.5 px-2 border border-white/5">
+                  {['🏠', '🎟️', '🏆', '👤'].map((icon, i) => (
+                    <div key={i} className={`flex flex-col items-center gap-0.5 ${i === 0 ? 'opacity-100' : 'opacity-30'}`}>
+                      <span className="text-sm">{icon}</span>
+                      {i === 0 && <div className="w-1 h-1 rounded-full bg-primary" />}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
