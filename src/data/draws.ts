@@ -1,4 +1,4 @@
-import gamingLaptopImg from '@/assets/images/gaming_laptop.png'
+import macbookM3Img from '@/assets/images/macbook_m3.png'
 
 export interface Draw {
   id: string
@@ -18,10 +18,10 @@ export interface PaymentNumber {
 
 export const currentDraw: Draw = {
   id: 'draw-001',
-  title: 'Gaming Laptop RTX 4060',
+  title: 'MacBook Pro M3 Max',
   description:
-    "The RTX 4060 gaming laptop offers a powerful balance of high-end performance and efficiency, featuring NVIDIA's Ada Lovelace architecture.",
-  image: gamingLaptopImg.src,
+    "Experience pure power with the Apple M3 Max chip, featuring a stunning Liquid Retina XDR display, 36GB unified memory, and elite performance for creators.",
+  image: macbookM3Img.src,
   ticketPrice: 2500,
   currency: 'CDF',
   endsAt: new Date(Date.now() + 6 * 24 * 60 * 60 * 1000 + 18 * 60 * 60 * 1000).toISOString(),

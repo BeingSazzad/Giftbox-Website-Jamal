@@ -678,7 +678,7 @@ function CtaSection() {
                 onClick={() => router.push('/register')}
                 className="w-full sm:w-auto px-10 py-5 bg-gradient-to-r from-primary to-primary-dark hover:from-primary-dark hover:to-primary text-white rounded-2xl font-black text-lg transition-all hover:scale-105 shadow-[0_10px_30px_rgba(255,105,0,0.3)] cursor-pointer spell-btn-glow"
               >
-                Create Free Account
+                Join Now
               </button>
               <button
                 onClick={() => router.push('/login')}
