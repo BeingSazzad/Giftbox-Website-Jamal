@@ -555,110 +555,13 @@ function DownloadApp() {
         <div className="relative z-10 w-full max-w-[320px] flex justify-center">
           {/* Phone Frame Mockup */}
           <div className="relative w-full aspect-[1/2.05] rounded-[3.2rem] border-[10px] border-[#1e1635] bg-[#080414] shadow-2xl overflow-hidden transform rotate-[-5deg] hover:rotate-0 transition-transform duration-700 select-none">
-            {/* iOS Status Bar */}
-            <div className="absolute top-2 w-full px-6 flex justify-between items-center text-[8px] font-bold text-white/90 z-30">
-              <span>9:41</span>
-              <div className="flex items-center gap-1">
-                <span>📶</span>
-                <span>📶</span>
-                <span>🔋</span>
-              </div>
-            </div>
-
             {/* Dynamic Island / Speaker Notch */}
             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-24 h-5 bg-black rounded-b-xl z-40 flex items-center justify-center">
               <div className="w-10 h-0.5 bg-white/10 rounded-full mb-1"></div>
             </div>
 
-            {/* App UI Screen Content */}
-            <div className="w-full h-full pt-8 pb-3 px-3.5 flex flex-col justify-between relative z-10 text-left text-white bg-gradient-to-b from-[#180f33] to-[#070312]">
-              {/* Floating ambient glow in app */}
-              <div className="absolute top-10 right-4 w-32 h-32 bg-primary/20 blur-2xl rounded-full pointer-events-none"></div>
-
-              {/* Sazzad Dashboard Header */}
-              <div className="flex items-center justify-between py-2 border-b border-white/5 relative z-10 mt-1">
-                <div className="flex items-center gap-1.5">
-                  <div className="w-7 h-7 rounded-full overflow-hidden border border-white/20 bg-white/10 shrink-0">
-                    {/* User profile avatar style */}
-                    <div className="w-full h-full bg-cover bg-center bg-[#251552]" />
-                  </div>
-                  <div>
-                    <h4 className="text-[9px] font-black leading-tight flex items-center gap-0.5">Hello, Sazzad <span className="text-[8px]">👋</span></h4>
-                    <p className="text-[6px] text-white/50 leading-none mt-0.5">Welcome to Weekly Prize Draw</p>
-                  </div>
-                </div>
-                {/* Notification Bell */}
-                <div className="w-5 h-5 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-[8px] text-white/80 cursor-pointer relative shrink-0">
-                  🔔
-                  <span className="absolute top-1.5 right-1.5 w-1 h-1 bg-danger rounded-full"></span>
-                </div>
-              </div>
-
-              {/* Title Header */}
-              <div className="my-1 relative z-10">
-                <h3 className="text-[10px] font-black text-white flex items-center gap-0.5 leading-none">This Week's Draw <span className="text-[9px]">🎁</span></h3>
-              </div>
-
-              {/* Main Laptop Draw Card */}
-              <div className="bg-[#110928] border border-white/5 rounded-xl overflow-hidden flex flex-col relative z-10 shadow-lg flex-grow">
-                {/* Image Cover */}
-                <div className="w-full aspect-[16/10] overflow-hidden relative border-b border-white/5 shrink-0">
-                  <img src={currentDraw.image} className="w-full h-full object-cover" />
-                </div>
-
-                {/* Details Area */}
-                <div className="p-2 flex flex-col justify-between flex-grow gap-1.5">
-                  <div>
-                    <h4 className="text-[9px] font-black text-white leading-tight line-clamp-1">{currentDraw.title}</h4>
-                    <p className="text-[6px] text-white/50 leading-tight mt-0.5 line-clamp-2">
-                      {currentDraw.description}
-                    </p>
-                  </div>
-
-                  {/* Ticket Price Ribbon */}
-                  <div className="bg-white/5 border border-white/10 rounded-lg p-1 flex items-center justify-between text-[7px] shrink-0">
-                    <span className="text-white/60 font-semibold flex items-center gap-1">🎫 Ticket Price</span>
-                    <span className="text-primary font-black text-[8px]">{currentDraw.ticketPrice.toLocaleString()} {currentDraw.currency}</span>
-                  </div>
-
-                  {/* Ends In Countdown */}
-                  <div className="shrink-0">
-                    <span className="text-[6px] text-white/40 font-bold uppercase tracking-wider block mb-0.5">Draw ends in</span>
-                    <div className="grid grid-cols-4 gap-1">
-                      {[
-                        { v: '06', l: 'Day' },
-                        { v: '18', l: 'Hours' },
-                        { v: '57', l: 'Mins' },
-                        { v: '42', l: 'Secs' }
-                      ].map((c, idx) => (
-                        <div key={idx} className="bg-[#0a051c] border border-white/5 rounded py-0.5 px-0.5 text-center">
-                          <div className="text-primary text-[8px] font-black leading-none">{c.v}</div>
-                          <div className="text-white/40 text-[4px] mt-0.5 leading-none">{c.l}</div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Action Button */}
-                  <button className="w-full py-1 bg-gradient-to-r from-primary to-primary-dark text-white rounded-md font-black text-[8px] text-center shadow-[0_3px_8px_rgba(255,105,0,0.15)] shrink-0">
-                    Participate Now
-                  </button>
-                </div>
-              </div>
-
-              {/* App Bottom Navigation */}
-              <div className="grid grid-cols-3 gap-1 pt-1.5 border-t border-white/5 text-center text-white/45 relative z-10 mt-1 shrink-0">
-                <div className="text-[6px] font-bold text-primary flex flex-col items-center gap-0.5 cursor-pointer">
-                  <span className="text-[8px] bg-white/5 border border-white/10 px-2 py-0.5 rounded-md leading-none">🏠</span> Home
-                </div>
-                <div className="text-[6px] font-bold flex flex-col items-center gap-0.5 cursor-pointer">
-                  <span className="text-[8px]">🎁</span> My Draws
-                </div>
-                <div className="text-[6px] font-bold flex flex-col items-center gap-0.5 cursor-pointer">
-                  <span className="text-[8px]">👤</span> Profile
-                </div>
-              </div>
-            </div>
+            {/* Dashboard Screenshot Preview */}
+            <img src="/app_preview.png" alt="App Preview" className="w-full h-full object-cover" />
           </div>
         </div>
       </div>
