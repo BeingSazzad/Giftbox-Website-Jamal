@@ -13,7 +13,9 @@ import {
   GiftFilled,
   MobileOutlined,
   LeftOutlined,
-  RightOutlined
+  RightOutlined,
+  SmileFilled,
+  CalendarFilled
 } from '@ant-design/icons'
 import { useState, useRef } from 'react'
 import { useRouter } from 'next/navigation';
@@ -157,18 +159,74 @@ function Hero() {
 
 function StatsBar() {
   const stats = [
-    { value: '5M+', label: 'Prizes Distributed' },
-    { value: '1,200+', label: 'Happy Winners' },
-    { value: '52', label: 'Draws per Year' },
-    { value: '100%', label: 'Transparency' },
+    {
+      value: '5M+',
+      label: 'Prizes Distributed',
+      icon: <TrophyFilled className="text-xl md:text-2xl text-primary" />,
+      glowColor: 'rgba(254, 147, 1, 0.12)',
+      gradient: 'from-[#FFB900] via-[#FF6900] to-[#E65E00]',
+      bgGlow: 'bg-primary/5',
+      borderColor: 'border-primary/20 hover:border-primary/45 shadow-[0_0_15px_rgba(254,147,1,0.02)]'
+    },
+    {
+      value: '1,200+',
+      label: 'Happy Winners',
+      icon: <SmileFilled className="text-xl md:text-2xl text-[#10b981]" />,
+      glowColor: 'rgba(16, 185, 129, 0.12)',
+      gradient: 'from-[#10b981] via-[#059669] to-[#047857]',
+      bgGlow: 'bg-[#10b981]/5',
+      borderColor: 'border-[#10b981]/20 hover:border-[#10b981]/45 shadow-[0_0_15px_rgba(16,185,129,0.02)]'
+    },
+    {
+      value: '52',
+      label: 'Draws per Year',
+      icon: <CalendarFilled className="text-xl md:text-2xl text-[#3b82f6]" />,
+      glowColor: 'rgba(59, 130, 246, 0.12)',
+      gradient: 'from-[#3b82f6] via-[#2563eb] to-[#1d4ed8]',
+      bgGlow: 'bg-[#3b82f6]/5',
+      borderColor: 'border-[#3b82f6]/20 hover:border-[#3b82f6]/45 shadow-[0_0_15px_rgba(59,130,246,0.02)]'
+    },
+    {
+      value: '100%',
+      label: 'Transparency',
+      icon: <SafetyCertificateFilled className="text-xl md:text-2xl text-[#a855f7]" />,
+      glowColor: 'rgba(168, 85, 247, 0.12)',
+      gradient: 'from-[#a855f7] via-[#7c3aed] to-[#6d28d9]',
+      bgGlow: 'bg-[#a855f7]/5',
+      borderColor: 'border-[#a855f7]/20 hover:border-[#a855f7]/45 shadow-[0_0_15px_rgba(168,85,247,0.02)]'
+    },
   ]
+
   return (
     <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-20 -mt-10">
-      <div className="bg-surface/60 backdrop-blur-2xl border border-white/10 rounded-[2rem] p-8 md:p-12 shadow-2xl grid grid-cols-2 md:grid-cols-4 gap-8">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
         {stats.map((s) => (
-          <div key={s.label} className="text-center group">
-            <div className="text-4xl md:text-5xl font-black bg-clip-text text-transparent bg-gradient-to-r from-white to-white/60 mb-2 group-hover:from-primary group-hover:to-primary-dark transition-all duration-300">{s.value}</div>
-            <div className="text-white/60 text-sm md:text-base font-semibold uppercase tracking-wider">{s.label}</div>
+          <div
+            key={s.label}
+            className={`relative overflow-hidden bg-[#0c071a]/50 backdrop-blur-2xl border ${s.borderColor} rounded-[2rem] p-6 md:p-8 flex flex-col items-center text-center group transition-all duration-500 hover:-translate-y-2 select-none`}
+            style={{
+              boxShadow: `0 20px 40px -15px rgba(0, 0, 0, 0.5), 0 0 30px 0 var(--hover-glow, transparent)`
+            }}
+            onMouseEnter={(e) => e.currentTarget.style.setProperty('--hover-glow', s.glowColor)}
+            onMouseLeave={(e) => e.currentTarget.style.setProperty('--hover-glow', 'transparent')}
+          >
+            {/* Glow Decorative Blob */}
+            <div className={`absolute -top-12 -right-12 w-24 h-24 rounded-full blur-2xl opacity-10 transition-opacity duration-500 group-hover:opacity-20 ${s.bgGlow}`} />
+
+            {/* Custom Icon Circle */}
+            <div className={`w-12 h-12 md:w-14 md:h-14 rounded-2xl ${s.bgGlow} border border-white/5 flex items-center justify-center mb-5 md:mb-6 group-hover:scale-110 transition-transform duration-500`}>
+              {s.icon}
+            </div>
+
+            {/* Gradient Number */}
+            <div className={`text-3xl md:text-5xl font-black bg-clip-text text-transparent bg-gradient-to-r ${s.gradient} mb-2 tracking-tight group-hover:scale-105 transition-transform duration-300`}>
+              {s.value}
+            </div>
+
+            {/* Label */}
+            <div className="text-white/60 text-[10px] md:text-xs font-black uppercase tracking-widest mt-1">
+              {s.label}
+            </div>
           </div>
         ))}
       </div>
