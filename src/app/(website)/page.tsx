@@ -319,9 +319,13 @@ function FeaturedPrize() {
       <div className="relative bg-gradient-to-br from-[#1a0f3d] to-[#0d0722] border border-primary/20 rounded-[2.5rem] p-6 md:p-10 overflow-hidden shadow-2xl shadow-primary/10">
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/10 blur-[100px] rounded-full"></div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center relative z-10">
-          <div className="bg-night/50 rounded-[1.5rem] p-6 border border-white/5 backdrop-blur-md flex items-center justify-center aspect-square md:aspect-auto lg:h-[350px]">
-            <img src={currentDraw.image} alt={currentDraw.title} className="max-w-full max-h-[260px] object-contain drop-shadow-[0_15px_30px_rgba(0,0,0,0.6)] hover:scale-105 transition-transform duration-500 spell-float-image" />
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch relative z-10">
+          <div className="relative overflow-hidden rounded-[2rem] border border-white/10 shadow-2xl aspect-square lg:aspect-auto lg:h-[380px] bg-night/20 backdrop-blur-sm">
+            <img 
+              src={currentDraw.image} 
+              alt={currentDraw.title} 
+              className="w-full h-full object-cover hover:scale-105 transition-transform duration-700 select-none" 
+            />
           </div>
 
           <div className="flex flex-col justify-center">
