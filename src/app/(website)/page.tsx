@@ -154,55 +154,66 @@ function Hero() {
             <div className="absolute -top-1.5 left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-primary shadow-[0_0_15px_#ff6900] animate-pulse" />
           </div>
 
-          {/* Floating Premium Card Frame with Outer Outline & Border Radius */}
+          {/* Floating Arched Winner Portrait Canvas with Custom Glow */}
           <div 
-            className="relative z-10 w-full max-w-[380px] bg-[#160d30]/75 backdrop-blur-xl border border-white/10 rounded-[2.5rem] p-5 shadow-[0_20px_50px_rgba(0,0,0,0.4)] flex flex-col items-center gap-4 cursor-pointer"
+            className="relative z-10 w-full max-w-[340px] aspect-[3/4] bg-gradient-to-tr from-[#160d30] via-surface/40 to-primary/10 rounded-[3rem] border border-white/10 p-[1.5px] shadow-[0_30px_70px_rgba(0,0,0,0.6)] cursor-pointer"
             style={{ animation: 'float-box 6s ease-in-out infinite' }}
           >
-            {/* Top Badge & Rating Row */}
-            <div className="w-full flex justify-between items-center px-1">
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-white text-[10px] font-black uppercase tracking-wider backdrop-blur-md shadow-sm">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#00FF66] animate-pulse" />
-                🏆 Verified Success
-              </div>
-              <div className="text-[10px] font-black text-yellow-400 bg-yellow-400/10 px-2.5 py-1 rounded-lg border border-yellow-400/20 flex items-center gap-1">
-                ⭐ 4.9/5 Trust Score
-              </div>
-            </div>
-
-            {/* Winner Image Container (4:3 ratio cover styling) */}
-            <div className="relative w-full aspect-[4/3] rounded-2xl border border-white/5 overflow-hidden group">
+            {/* Arched Photo container */}
+            <div className="relative w-full h-full rounded-[2.9rem] overflow-hidden group">
               <img 
-                src="/images/happy_winner.png" 
-                alt="Happy Winner" 
+                src="/images/winner_celebration.png" 
+                alt="Ecstatic Winner Celebrating Success" 
                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#0d061c]/80 via-transparent to-transparent" />
-              
-              {/* Floating Winner Info Overlay */}
-              <div className="absolute bottom-3 left-3 right-3 flex justify-between items-end">
-                <div>
-                  <h4 className="text-sm font-black text-white leading-none">Samy K.</h4>
-                  <span className="text-[9px] text-white/60 font-medium">Kinshasa, DRC</span>
-                </div>
-                <div className="bg-[#00FF66]/20 border border-[#00FF66]/35 text-[#00FF66] text-[8px] font-black uppercase px-2 py-0.5 rounded-md">
-                  Verified Win
-                </div>
-              </div>
+              {/* Warm dark bottom gradient */}
+              <div className="absolute inset-0 bg-gradient-to-t from-[#0c051a]/95 via-transparent to-transparent" />
             </div>
 
-            {/* Testimonial Quote */}
-            <div className="text-center w-full px-1">
-              <p className="text-[11px] text-white/70 italic leading-relaxed font-medium">
-                "I entered the weekly draw on my phone, validated securely via M-Pesa, and won this gorgeous golden luxury box! Absolutely authentic and simple."
-              </p>
+            {/* Left Floating Star Badge (Aspirational Social Proof) */}
+            <div 
+              className="absolute top-1/4 -left-10 z-20 flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-[#160d30]/80 border border-white/15 text-white text-[10px] font-black uppercase tracking-widest backdrop-blur-md shadow-2xl transition-transform hover:scale-105"
+              style={{ animation: 'float-box 5.5s ease-in-out infinite alternate' }}
+            >
+              <span className="w-1.5 h-1.5 rounded-full bg-[#00FF66] animate-pulse" />
+              🏆 Verified Success
             </div>
 
-            {/* Scarcity Countdown Area for Next Winners */}
-            <div className="w-full border-t border-white/5 pt-4">
-              <span className="text-[10px] text-white/40 font-bold uppercase tracking-wider block mb-2 text-center">Next Draw Closes In</span>
-              <Countdown endsAt={currentDraw.endsAt} />
+            {/* Right Floating Reward Badge (Cash/Success Glow) */}
+            <div 
+              className="absolute bottom-1/3 -right-8 z-20 flex items-center gap-1.5 px-4 py-2.5 rounded-2xl bg-gradient-to-r from-primary to-primary-dark text-white text-[10px] font-black uppercase tracking-widest shadow-[0_10px_25px_rgba(255,105,0,0.3)] hover:scale-105 transition-transform"
+              style={{ animation: 'float-box 7s ease-in-out infinite alternate-reverse' }}
+            >
+              🎉 Mega Prize Claimed
             </div>
+
+            {/* Ambient Confetti / Star Particles floating around card */}
+            {/* Gold Star Particle */}
+            <svg 
+              className="absolute -top-6 -right-6 z-20 w-8 h-8 text-yellow-400 animate-pulse select-none pointer-events-none drop-shadow-[0_0_10px_#EAB308]"
+              viewBox="0 0 24 24" 
+              fill="currentColor"
+            >
+              <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+            </svg>
+
+            {/* Orange Neon Particle */}
+            <div 
+              className="absolute bottom-10 -left-6 z-20 w-3 h-3 rounded-full bg-primary shadow-[0_0_12px_#ff6900] animate-ping"
+              style={{ animationDuration: '3s' }}
+            />
+
+            {/* Purple Confetti pill */}
+            <div 
+              className="absolute top-1/2 -right-8 z-20 w-2.5 h-6 rounded-full bg-purple-500/60 rotate-45 animate-pulse"
+              style={{ animationDuration: '4s' }}
+            />
+
+            {/* Green Success Confetti pill */}
+            <div 
+              className="absolute bottom-1/4 -left-8 z-20 w-6 h-2 rounded-full bg-[#00FF66]/50 -rotate-12 animate-pulse"
+              style={{ animationDuration: '5s' }}
+            />
           </div>
         </div>
       </div>
@@ -684,36 +695,63 @@ function CtaSection() {
   const router = useRouter()
   return (
     <Section>
-      <div className="relative bg-gradient-to-br from-[#120b24] to-[#080414] border border-white/10 rounded-[2rem] px-5 py-12 md:py-20 text-center overflow-hidden shadow-2xl">
-        {/* Subtle dynamic background ambient glows */}
-        <div className="absolute -top-40 -left-40 w-[600px] h-[600px] bg-primary/10 blur-[120px] rounded-full pointer-events-none"></div>
-        <div className="absolute -bottom-40 -right-40 w-[600px] h-[600px] bg-purple-500/10 blur-[120px] rounded-full pointer-events-none"></div>
+      <div className="relative rounded-[2rem] overflow-hidden shadow-2xl">
+        {/* Background layers */}
+        <div className="absolute inset-0 bg-gradient-to-br from-[#1a0d35] via-[#110828] to-[#06020f]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_0%,rgba(255,105,0,0.13),transparent)]" />
 
-        <div className="relative z-10 max-w-3xl mx-auto">
-          <h2 className="text-4xl md:text-6xl font-black text-white leading-tight mb-6">
+        {/* Glows */}
+        <div className="absolute -top-32 left-1/2 -translate-x-1/2 w-[700px] h-[400px] bg-primary/15 blur-[100px] rounded-full pointer-events-none" />
+        <div className="absolute bottom-0 left-0 w-[400px] h-[300px] bg-violet-600/10 blur-[100px] rounded-full pointer-events-none" />
+        <div className="absolute bottom-0 right-0 w-[400px] h-[300px] bg-primary/8 blur-[100px] rounded-full pointer-events-none" />
+
+        {/* Border */}
+        <div className="absolute inset-0 rounded-[2rem] border border-white/[0.07] pointer-events-none" />
+
+        {/* Decorative grid lines */}
+        <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'linear-gradient(white 1px,transparent 1px),linear-gradient(90deg,white 1px,transparent 1px)', backgroundSize: '60px 60px' }} />
+
+        {/* Sparkle dots */}
+        <div className="absolute top-8 left-[15%] w-1.5 h-1.5 rounded-full bg-primary/60 shadow-[0_0_8px_2px_rgba(255,105,0,0.5)]" />
+        <div className="absolute top-16 right-[18%] w-1 h-1 rounded-full bg-white/40 shadow-[0_0_6px_1px_rgba(255,255,255,0.3)]" />
+        <div className="absolute bottom-12 left-[22%] w-1 h-1 rounded-full bg-violet-400/50 shadow-[0_0_6px_1px_rgba(167,139,250,0.4)]" />
+        <div className="absolute bottom-8 right-[12%] w-1.5 h-1.5 rounded-full bg-primary/40 shadow-[0_0_8px_2px_rgba(255,105,0,0.3)]" />
+
+        <div className="relative z-10 px-6 py-14 md:py-20 text-center max-w-3xl mx-auto">
+          {/* Badge */}
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 mb-7">
+            <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
+            <span className="text-primary text-xs font-bold uppercase tracking-widest">Weekly Mega Draw — Open Now</span>
+          </div>
+
+          <h2 className="text-4xl md:text-[3.25rem] font-black text-white leading-[1.1] mb-5 tracking-tight">
             Ready to win{' '}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-[#ff8c00]">
-              something amazing?
+            <span className="relative inline-block">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#ff6900] via-[#ffaa00] to-[#ff6900]">
+                something amazing?
+              </span>
+              <span className="absolute -bottom-1 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/60 to-transparent" />
             </span>
           </h2>
 
-          <p className="text-white/60 text-lg md:text-xl font-medium leading-relaxed mb-10 max-w-2xl mx-auto">
+          <p className="text-white/50 text-base md:text-lg font-medium leading-relaxed mb-9 max-w-xl mx-auto">
             Create your account in under a minute and grab a ticket for this week's mega draw before time runs out.
           </p>
 
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <button
-              onClick={() => router.push('/register')}
-              className="w-full sm:w-auto px-10 py-5 bg-primary hover:bg-primary-dark text-white rounded-2xl font-black text-lg transition-all hover:scale-105 shadow-[0_0_40px_rgba(255,105,0,0.2)] cursor-pointer spell-btn-glow"
-            >
-              Create Free Account
-            </button>
-            <button
-              onClick={() => router.push('/login')}
-              className="w-full sm:w-auto px-10 py-5 bg-white/5 hover:bg-white/10 text-white border border-white/10 rounded-2xl font-bold text-lg backdrop-blur-sm transition-all hover:scale-105 cursor-pointer"
-            >
-              Log In
-            </button>
+          <button
+            onClick={() => router.push('/register')}
+            className="px-12 py-4 bg-gradient-to-r from-[#ff6900] to-[#ff9500] hover:from-[#ff7a1a] hover:to-[#ffaa22] text-white rounded-2xl font-black text-lg transition-all hover:scale-[1.04] shadow-[0_8px_32px_rgba(255,105,0,0.4)] hover:shadow-[0_14px_44px_rgba(255,105,0,0.55)] cursor-pointer mb-7"
+          >
+            Join Now →
+          </button>
+
+          {/* Social proof row */}
+          <div className="flex items-center justify-center gap-6 text-white/30 text-xs font-medium">
+            <span className="flex items-center gap-1.5"><span className="text-primary">✓</span> Free to join</span>
+            <span className="w-px h-3 bg-white/10" />
+            <span className="flex items-center gap-1.5"><span className="text-primary">✓</span> No credit card needed</span>
+            <span className="w-px h-3 bg-white/10" />
+            <span className="flex items-center gap-1.5"><span className="text-primary">✓</span> 10,000+ winners</span>
           </div>
         </div>
       </div>
