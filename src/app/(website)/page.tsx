@@ -371,50 +371,51 @@ function WhyUs() {
   ]
   return (
     <Section id="why-us">
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-        {/* Left Side: Stunning Editorial Image */}
-        <div className="relative group">
-          {/* Multi-layered gradient neon glowing blobs */}
-          <div className="absolute inset-0 bg-gradient-to-tr from-primary/20 to-purple-600/20 rounded-[3.5rem] blur-3xl transform rotate-3 scale-95 pointer-events-none"></div>
-          
-          <div className="relative overflow-hidden rounded-[3.5rem] border border-white/10 shadow-2xl aspect-[4/3] flex items-center justify-center bg-[#0c071a]/40 backdrop-blur-md">
-            <img 
-              src={premiumPrizesImg.src} 
-              alt="Premium Gift Quality" 
-              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 select-none"
-            />
-          </div>
+      {/* Top Part: Centered 1-Line Header */}
+      <div className="text-center max-w-3xl mx-auto mb-16 relative">
+        <div className="inline-flex items-center px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-black uppercase tracking-wider mb-6 select-none backdrop-blur-md">
+          🛡️ Why Choose Us
+        </div>
+        <h2 className="m-0 text-white text-4xl md:text-5xl font-black leading-[1.15] tracking-tighter mb-4 spell-text-glow">
+          Built on trust, not just luck.
+        </h2>
+        <p className="mt-4 mb-0 text-white/60 text-base leading-relaxed">
+          Gift Box operates with 100% transparency. We document every draw, name every winner, and manage all logistics for a premium experience.
+        </p>
+      </div>
+
+      {/* Bottom Part: Elite 4-Column Bento Grid Showcase */}
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 items-stretch">
+        {/* Left Slot: Stunning Editorial Image Bento Card */}
+        <div className="relative group lg:col-span-1 rounded-[2.5rem] overflow-hidden border border-white/10 shadow-2xl aspect-square lg:aspect-auto min-h-[300px] flex items-center justify-center bg-[#0c071a]/40 backdrop-blur-md">
+          {/* Neon backdrop glow blur */}
+          <div className="absolute inset-0 bg-gradient-to-tr from-primary/10 to-purple-600/10 rounded-[2.5rem] blur-3xl pointer-events-none"></div>
+          <img 
+            src={premiumPrizesImg.src} 
+            alt="Premium Gift Quality" 
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 select-none"
+          />
         </div>
 
-        {/* Right Side: Editorial Feature List */}
-        <div>
-          <div className="text-left mb-10">
-            <div className="inline-flex items-center px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-black uppercase tracking-wider mb-6 select-none backdrop-blur-md">
-              🛡️ Why Choose Us
+        {/* Right 3 Slots: Dynamic Feature Cards */}
+        {cards.map((c, i) => (
+          <div 
+            key={i} 
+            className="group relative overflow-hidden rounded-[2.5rem] bg-[#0c071a]/30 hover:bg-[#0c071a]/60 border border-white/5 hover:border-primary/25 p-8 flex flex-col transition-all duration-500 hover:-translate-y-2 shadow-2xl"
+          >
+            {/* Glow Decorative Blob inside card */}
+            <div className="absolute -top-12 -right-12 w-24 h-24 rounded-full bg-primary/5 blur-2xl opacity-40 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+            
+            {/* Icon */}
+            <div className="w-14 h-14 rounded-2xl bg-primary/10 border border-primary/20 group-hover:bg-primary group-hover:border-primary transition-all duration-300 flex items-center justify-center mb-8 shrink-0">
+              {c.icon}
             </div>
-            <h2 className="m-0 text-white text-4xl md:text-5xl font-black leading-[1.1] tracking-tighter mb-4">Built on trust,<br/>not just luck.</h2>
-            <p className="mt-4 mb-0 text-white/60 text-base leading-relaxed">
-              Gift Box operates with 100% transparency. We document every draw, name every winner, and manage all logistics for a premium experience.
-            </p>
-          </div>
 
-          <div className="space-y-4">
-            {cards.map((c, i) => (
-              <div 
-                key={i} 
-                className="group flex gap-5 items-start p-5 rounded-[2rem] bg-[#0c071a]/30 hover:bg-[#0c071a]/60 border border-white/5 hover:border-primary/25 transition-all duration-300 hover:-translate-y-1 shadow-lg"
-              >
-                <div className="w-12 h-12 rounded-2xl bg-primary/10 border border-primary/20 group-hover:bg-primary group-hover:border-primary transition-all duration-300 flex items-center justify-center shrink-0">
-                  {c.icon}
-                </div>
-                <div>
-                  <h3 className="text-white text-lg font-bold mb-1.5 group-hover:text-primary transition-colors duration-300">{c.title}</h3>
-                  <p className="text-white/60 text-sm leading-relaxed m-0">{c.desc}</p>
-                </div>
-              </div>
-            ))}
+            {/* Content */}
+            <h3 className="text-white text-xl font-bold mb-4 group-hover:text-primary transition-colors duration-300">{c.title}</h3>
+            <p className="text-white/60 text-sm leading-relaxed m-0 flex-grow">{c.desc}</p>
           </div>
-        </div>
+        ))}
       </div>
     </Section>
   )
