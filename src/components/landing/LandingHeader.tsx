@@ -128,7 +128,7 @@ export function LandingHeader() {
             menu={{ items: moreMenuItems }}
             trigger={['hover', 'click']}
             placement="bottomLeft"
-            overlayClassName="custom-dropdown-dark"
+            classNames={{ root: "custom-dropdown-dark" }}
           >
             <button 
               className="px-3.5 py-2 rounded-[10px] text-white/70 text-sm font-medium transition-all duration-200 hover:text-white hover:bg-white/5 flex items-center justify-center gap-1.5 cursor-pointer bg-transparent border-none outline-none h-[38px] group"
@@ -155,7 +155,7 @@ export function LandingHeader() {
                 menu={{ items: userMenuItems }} 
                 trigger={['click']} 
                 placement="bottomRight"
-                overlayClassName="custom-dropdown-dark"
+                classNames={{ root: "custom-dropdown-dark" }}
               >
                 <div className="flex items-center gap-3 cursor-pointer hover:opacity-90 transition-all group">
                   <div className="text-right">

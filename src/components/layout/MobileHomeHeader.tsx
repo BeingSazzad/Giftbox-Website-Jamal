@@ -54,7 +54,7 @@ export function MobileHomeHeader({
         menu={{ items: userMenuItems }} 
         trigger={['click']} 
         placement="bottomLeft"
-        overlayClassName="custom-dropdown-dark"
+        classNames={{ root: "custom-dropdown-dark" }}
       >
         <div className="flex items-center gap-3 cursor-pointer flex-1 min-w-0">
           <div className="w-12 h-12 min-w-12 rounded-full bg-gradient-to-tr from-primary to-[#ff8c00] p-0.5 shadow-lg shadow-primary/20">
