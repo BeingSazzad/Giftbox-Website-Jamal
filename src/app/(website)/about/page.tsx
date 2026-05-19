@@ -28,7 +28,7 @@ export default function AboutUsPage() {
             <img
               src={luxuryAboutGiftboxImg.src}
               alt="Premium Gift Box"
-              className="w-full h-full object-contain relative z-10 spell-float-image scale-[1.05]"
+              className="w-full h-full object-contain relative z-10 spell-float-image scale-[1.05] rounded-[2rem]"
             />
           </div>
         </div>
