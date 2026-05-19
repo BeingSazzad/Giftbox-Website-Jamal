@@ -8,8 +8,9 @@ import {
   CopyOutlined,
   SendOutlined
 } from '@ant-design/icons'
-import { useRef, useState } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
+import { useAuth } from '@/hooks/useAuth'
 import { WebShell } from '@/components/layout/WebShell'
 import { BackHeader } from '@/components/layout/BackHeader'
 
@@ -24,10 +25,26 @@ const MAX_FILE_SIZE = 5 * 1024 * 1024
 
 export default function ContactPage() {
   const router = useRouter()
+  const { token } = useAuth()
+  const [mounted, setMounted] = useState(false)
   const [form] = Form.useForm<ContactFormValues>()
   const [photo, setPhoto] = useState<File | null>(null)
   const [photoPreview, setPhotoPreview] = useState<string | null>(null)
   const inputRef = useRef<HTMLInputElement>(null)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect()
+    const x = e.clientX - rect.left
+    const y = e.clientY - rect.top
+    e.currentTarget.style.setProperty('--mouse-x', `${x}px`)
+    e.currentTarget.style.setProperty('--mouse-y', `${y}px`)
+  }
+
+  const isSignedIn = mounted && !!token
 
   const handlePick = () => inputRef.current?.click()
 
@@ -73,7 +90,10 @@ export default function ContactPage() {
         <div className="max-w-3xl mx-auto mt-8 flex flex-col gap-8 relative z-10">
           
           {/* Main Card Container */}
-          <div className="bg-gradient-to-b from-[#170e30]/90 to-[#0c061a]/95 border border-white/8 rounded-[32px] p-6 md:p-10 shadow-[0_25px_60px_-15px_rgba(0,0,0,0.5)] backdrop-blur-2xl">
+          <div 
+            onMouseMove={handleMouseMove}
+            className="bg-gradient-to-b from-[#170e30]/90 to-[#0c061a]/95 border border-white/8 rounded-[32px] p-6 md:p-10 shadow-[0_25px_60px_-15px_rgba(0,0,0,0.5)] backdrop-blur-2xl spell-glow-card"
+          >
             
             {/* Header section with enhanced visual hierarchy */}
             <div className="mb-8">
@@ -83,10 +103,12 @@ export default function ContactPage() {
               </span>
               
               <h2 className="text-white text-2xl md:text-3xl font-black m-0 tracking-tight flex items-center gap-2.5">
-                Send Us a Message
+                {isSignedIn ? 'Contact Support' : 'Send Us a Message'}
               </h2>
               <p className="text-white/50 text-sm mt-2 mb-0 leading-relaxed max-w-xl">
-                Have a question about a ticket, draw verification, or payment? Write to us and our support team will reply within 24 hours.
+                {isSignedIn 
+                  ? 'Have a question or need assistance? Reach out to our support team, and we’ll get back to you as soon as possible.'
+                  : 'Have a question about a ticket, draw verification, or payment? Write to us and our support team will reply within 24 hours.'}
               </p>
             </div>
 
@@ -97,72 +119,78 @@ export default function ContactPage() {
               onFinish={onFinish}
               className="space-y-5"
             >
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                <Form.Item
-                  name="name"
-                  label={
-                    <span className="text-white/80 font-bold text-xs uppercase tracking-wider flex items-center gap-1.5">
-                      <span className="w-1 h-1 rounded-full bg-primary" /> Full Name
-                    </span>
-                  }
-                  rules={[{ required: true, message: 'Please enter your name' }]}
-                >
-                  <Input size="large" placeholder="Your name" className="h-12" />
-                </Form.Item>
+              {!isSignedIn && (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                  <Form.Item
+                    name="name"
+                    label={
+                      <span className="text-white/80 font-bold text-xs uppercase tracking-wider flex items-center gap-1.5">
+                        <span className="w-1 h-1 rounded-full bg-primary" /> Full Name
+                      </span>
+                    }
+                    rules={[{ required: !isSignedIn, message: 'Please enter your name' }]}
+                  >
+                    <Input size="large" placeholder="Your name" className="h-12" />
+                  </Form.Item>
 
-                <Form.Item
-                  name="email"
-                  label={
-                    <span className="text-white/80 font-bold text-xs uppercase tracking-wider flex items-center gap-1.5">
-                      <span className="w-1 h-1 rounded-full bg-primary" /> Email Address
-                    </span>
-                  }
-                  rules={[
-                    { required: true, message: 'Please enter your email' },
-                    { type: 'email', message: 'Please enter a valid email address' }
-                  ]}
-                >
-                  <Input size="large" placeholder="your@email.com" className="h-12" />
-                </Form.Item>
-              </div>
+                  <Form.Item
+                    name="email"
+                    label={
+                      <span className="text-white/80 font-bold text-xs uppercase tracking-wider flex items-center gap-1.5">
+                        <span className="w-1 h-1 rounded-full bg-primary" /> Email Address
+                      </span>
+                    }
+                    rules={[
+                      { required: !isSignedIn, message: 'Please enter your email' },
+                      { type: 'email', message: 'Please enter a valid email address' }
+                    ]}
+                  >
+                    <Input size="large" placeholder="your@email.com" className="h-12" />
+                  </Form.Item>
+                </div>
+              )}
 
               <Form.Item
                 name="subject"
                 label={
                   <span className="text-white/80 font-bold text-xs uppercase tracking-wider flex items-center gap-1.5">
-                    <span className="w-1 h-1 rounded-full bg-primary" /> Inquiry Topic
+                    <span className="w-1 h-1 rounded-full bg-primary" /> {isSignedIn ? 'Subject' : 'Inquiry Topic'}
                   </span>
                 }
-                rules={[{ required: true, message: 'Please select a topic' }]}
+                rules={[{ required: true, message: isSignedIn ? 'Please enter a subject' : 'Please select a topic' }]}
               >
-                <Select size="large" placeholder="Select what you need help with" className="h-12">
-                  <Select.Option value="general">General Inquiry</Select.Option>
-                  <Select.Option value="draws">Ticket & Draw Support</Select.Option>
-                  <Select.Option value="billing">Payments & Proof Verification</Select.Option>
-                  <Select.Option value="technical">Technical Account Issue</Select.Option>
-                  <Select.Option value="partnerships">Business & Partnerships</Select.Option>
-                </Select>
+                {isSignedIn ? (
+                  <Input size="large" placeholder="What can we help you with?" className="h-12" />
+                ) : (
+                  <Select size="large" placeholder="Select what you need help with" className="h-12">
+                    <Select.Option value="general">General Inquiry</Select.Option>
+                    <Select.Option value="draws">Ticket & Draw Support</Select.Option>
+                    <Select.Option value="billing">Payments & Proof Verification</Select.Option>
+                    <Select.Option value="technical">Technical Account Issue</Select.Option>
+                    <Select.Option value="partnerships">Business & Partnerships</Select.Option>
+                  </Select>
+                )}
               </Form.Item>
 
               <Form.Item
                 name="message"
                 label={
                   <span className="text-white/80 font-bold text-xs uppercase tracking-wider flex items-center gap-1.5">
-                    <span className="w-1 h-1 rounded-full bg-primary" /> Message Details
+                    <span className="w-1 h-1 rounded-full bg-primary" /> {isSignedIn ? 'Message' : 'Message Details'}
                   </span>
                 }
                 rules={[{ required: true, message: 'Please enter your message' }]}
               >
                 <Input.TextArea
                   rows={5}
-                  placeholder="Describe your request in detail..."
+                  placeholder={isSignedIn ? 'Describe your issue...' : 'Describe your request in detail...'}
                   className="resize-y p-3.5"
                 />
               </Form.Item>
 
               <div className="pt-2">
                 <span className="text-white/80 font-bold text-xs uppercase tracking-wider flex items-center gap-1.5 mb-2.5">
-                  <span className="w-1 h-1 rounded-full bg-primary" /> Attachment (Optional)
+                  <span className="w-1 h-1 rounded-full bg-primary" /> {isSignedIn ? 'Attach Photo (Optional)' : 'Attachment (Optional)'}
                 </span>
                 
                 <button
@@ -182,8 +210,12 @@ export default function ContactPage() {
                         <CloudUploadOutlined />
                       </div>
                       <div className="text-center">
-                        <div className="text-white text-sm font-bold group-hover:text-primary transition-colors">Upload Proof or Screenshot</div>
-                        <div className="text-white/40 text-[11px] mt-1">JPG or PNG format up to 5MB</div>
+                        <div className="text-white text-sm font-bold group-hover:text-primary transition-colors">
+                          {isSignedIn ? 'Upload Photo' : 'Upload Proof or Screenshot'}
+                        </div>
+                        <div className="text-white/40 text-[11px] mt-1">
+                          {isSignedIn ? 'JPG, PNG up to 5MB' : 'JPG or PNG format up to 5MB'}
+                        </div>
                       </div>
                     </>
                   )}
@@ -208,16 +240,19 @@ export default function ContactPage() {
                   htmlType="submit" 
                   size="large" 
                   block 
-                  className="h-13 text-sm font-black flex items-center justify-center gap-2 shadow-[0_4px_25px_rgba(254,147,1,0.2)] hover:shadow-[0_4px_30px_rgba(254,147,1,0.3)] transition-all"
+                  className="h-13 text-sm font-black flex items-center justify-center gap-2 shadow-[0_4px_25px_rgba(254,147,1,0.2)] hover:shadow-[0_4px_30px_rgba(254,147,1,0.3)] transition-all spell-btn-glow"
                 >
-                  <SendOutlined style={{ fontSize: 13 }} /> Send Message Inquiry
+                  <SendOutlined style={{ fontSize: 13 }} /> {isSignedIn ? 'Send Message' : 'Send Message Inquiry'}
                 </Button>
               </Form.Item>
             </Form>
           </div>
 
           {/* Integrated Visual Callout for FAQs */}
-          <div className="bg-[#170e30]/40 border border-white/5 rounded-3xl p-6 md:p-8 flex flex-col md:flex-row items-center justify-between gap-6 backdrop-blur-xl">
+          <div 
+            onMouseMove={handleMouseMove}
+            className="bg-[#170e30]/40 border border-white/5 rounded-3xl p-6 md:p-8 flex flex-col md:flex-row items-center justify-between gap-6 backdrop-blur-xl spell-glow-card"
+          >
             <div className="flex items-center gap-4.5 text-left">
               <div className="w-12 h-12 rounded-2xl bg-primary/10 text-primary flex items-center justify-center text-xl shrink-0">
                 <MessageOutlined />

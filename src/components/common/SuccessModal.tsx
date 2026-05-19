@@ -19,7 +19,7 @@ export function SuccessModal({
       closable={false}
       centered
       maskClosable={false}
-      width={400}
+      width={480}
       styles={{
         body: {
           background: 'linear-gradient(180deg, #1f1545 0%, #15103a 100%)',

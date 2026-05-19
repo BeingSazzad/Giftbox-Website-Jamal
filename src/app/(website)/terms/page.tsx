@@ -160,16 +160,18 @@ export default function TermsPage() {
         <div className="absolute top-0 right-0 w-[500px] h-[500px] rounded-full bg-primary/3 blur-[130px] pointer-events-none" />
         <div className="absolute bottom-20 left-0 w-[350px] h-[350px] rounded-full bg-primary/2 blur-[100px] pointer-events-none" />
 
-        {/* Top bar */}
-        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border-b border-white/5 pb-6">
-          <BackHeader title="Terms &amp; Conditions" subtitle="Last updated: April 10, 2024" />
-          <button
-            onClick={() => window.print()}
-            className="flex items-center gap-2 px-4 py-2.5 bg-white/5 hover:bg-white/10 border border-white/8 hover:border-white/15 text-white/70 hover:text-white rounded-xl text-xs font-bold transition-all cursor-pointer mt-2 md:mt-0 shrink-0"
-          >
-            <PrinterOutlined style={{ fontSize: 12 }} /> Print Document
-          </button>
-        </div>
+        <BackHeader 
+          title="Terms &amp; Conditions" 
+          subtitle="Last updated: April 10, 2024" 
+          rightSlot={
+            <button
+              onClick={() => window.print()}
+              className="flex items-center gap-2 px-4 py-2.5 bg-white/5 hover:bg-white/10 border border-white/8 hover:border-white/15 text-white/70 hover:text-white rounded-xl text-xs font-bold transition-all cursor-pointer mt-0 shrink-0"
+            >
+              <PrinterOutlined style={{ fontSize: 12 }} /> Print Document
+            </button>
+          }
+        />
 
         {/* Intro banner */}
         <div className="mt-10 mb-14 max-w-5xl flex items-start gap-5">

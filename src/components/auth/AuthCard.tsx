@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react'
 import logoImg from '@/assets/logo.png'
 import { GiftFilled, CheckCircleOutlined, SafetyOutlined, TrophyOutlined } from '@ant-design/icons'
+import Link from 'next/link'
 
 interface AuthCardProps {
   title: string
@@ -20,10 +21,10 @@ export function AuthCard({ title, subtitle, children, footer }: AuthCardProps) {
         <div className="absolute bottom-[-100px] right-[-100px] w-[400px] h-[400px] bg-purple-500/10 rounded-full blur-[100px] pointer-events-none"></div>
 
         {/* Header Logo */}
-        <div className="flex items-center gap-3 relative z-10">
-          <img src={logoImg.src} alt="Logo" className="w-10 h-10 object-contain" />
-          <span className="text-white font-black text-2xl tracking-tight">Gift Box</span>
-        </div>
+        <Link href="/" className="flex items-center gap-3 relative z-10 no-underline group cursor-pointer">
+          <img src={logoImg.src} alt="Logo" className="w-10 h-10 object-contain group-hover:scale-105 transition-transform duration-300" />
+          <span className="text-white font-black text-2xl tracking-tight group-hover:text-primary transition-colors duration-300">Gift Box</span>
+        </Link>
 
         {/* Middle Content */}
         <div className="my-auto max-w-xl relative z-10">
@@ -85,6 +86,14 @@ export function AuthCard({ title, subtitle, children, footer }: AuthCardProps) {
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] bg-primary/10 rounded-full blur-[80px] pointer-events-none lg:hidden"></div>
 
         <div className="w-full max-w-[440px] bg-surface/50 backdrop-blur-xl border border-white/10 rounded-3xl p-8 md:p-10 shadow-2xl relative z-10">
+          {/* Mobile/Tablet Logo (visible on all screens below lg) */}
+          <div className="flex lg:hidden justify-center mb-8">
+            <Link href="/" className="flex items-center gap-3 no-underline group cursor-pointer">
+              <img src={logoImg.src} alt="Logo" className="w-10 h-10 object-contain group-hover:scale-105 transition-transform duration-300" />
+              <span className="text-white font-black text-2.5xl tracking-tight group-hover:text-primary transition-colors duration-300">Gift Box</span>
+            </Link>
+          </div>
+
           <div className="mb-8">
             <h1 className="m-0 text-white text-2xl md:text-3xl font-extrabold tracking-tight mb-2">
               {title}

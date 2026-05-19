@@ -41,10 +41,11 @@ export function BottomNav() {
               key={tab.to}
               href={tab.to}
               className={[
-                'flex-1 flex flex-col items-center justify-center gap-1 py-2 mx-1 rounded-xl no-underline transition-colors duration-200',
+                'flex-1 flex flex-col items-center justify-center gap-1 py-2 mx-1 rounded-xl no-underline transition-colors duration-200 outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0514]',
                 isActive ? 'bg-primary/12 text-primary' : 'text-white/70 hover:text-white',
               ].join(' ')}
             >
+
               <span aria-hidden>{tab.icon}</span>
               <span className="text-[11px] font-semibold leading-none">{tab.label}</span>
             </Link>

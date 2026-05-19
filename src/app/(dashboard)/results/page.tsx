@@ -196,10 +196,39 @@ function WinnerCard({ winner, isCurrentUser }: WinnerCardProps) {
   )
 }
 
+function ResultsSkeleton() {
+  return (
+    <div className="animate-pulse">
+      {/* Title Skeleton */}
+      <div className="mb-6 md:mb-8">
+        <div className="h-8 w-64 bg-white/10 rounded-lg mb-2" />
+        <div className="h-4 w-96 bg-white/5 rounded-lg" />
+      </div>
+ 
+      {/* Grid Skeleton */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {[1, 2, 3].map((i) => (
+          <div key={i} className="bg-surface/40 border border-white/5 rounded-2xl overflow-hidden flex flex-col h-[320px]">
+            <div className="h-44 w-full bg-white/5" />
+            <div className="p-5 flex-1 flex flex-col justify-between">
+              <div>
+                <div className="h-6 w-3/4 bg-white/10 rounded-lg mb-3" />
+                <div className="h-4 w-full bg-white/5 rounded-lg mb-1.5" />
+                <div className="h-4 w-5/6 bg-white/5 rounded-lg" />
+              </div>
+              <div className="h-10 w-full bg-white/5 rounded-xl mt-4" />
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
 export default function DrawResultsPage() {
   return (
     <WebShell maxWidth={1200}>
-      <Suspense fallback={<div className="text-center text-white/50 py-12">Loading results...</div>}>
+      <Suspense fallback={<ResultsSkeleton />}>
         <ResultsContent />
       </Suspense>
     </WebShell>

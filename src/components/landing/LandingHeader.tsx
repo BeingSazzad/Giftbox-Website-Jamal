@@ -1,34 +1,50 @@
 'use client'
 import { Button, Dropdown, MenuProps } from 'antd'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import { DownOutlined, UserOutlined } from '@ant-design/icons'
+import { DownOutlined, UserOutlined, BellOutlined } from '@ant-design/icons'
 import logoImg from '@/assets/logo.png'
 import { useAuth } from '@/hooks/useAuth'
 
-const mainLinks = [
-  { label: 'Home', href: '/' },
-  { label: 'About Us', href: '/about' },
-  { label: 'How it Works', href: '/#how-it-works' },
+interface NavItem {
+  href: string
+  label: string
+}
+
+const publicLinks: NavItem[] = [
+  { href: '/', label: 'Home' },
+  { href: '/about', label: 'About Us' },
+  { href: '/#how-it-works', label: 'How it Works' },
+  { href: '/contact', label: 'Contact' },
+]
+
+const authLinks: NavItem[] = [
+  { href: '/', label: 'Home' },
+  { href: '/my-draws', label: 'My Draws' },
+  { href: '/contact', label: 'Contact' },
 ]
 
 const dropdownLinks = [
-  { label: 'Contact', href: '/contact' },
   { label: 'FAQ', href: '/faq' },
   { label: 'Terms & Conditions', href: '/terms' },
   { label: 'Privacy Policy', href: '/privacy' },
 ]
 
 export function LandingHeader() {
+  const pathname = usePathname()
   const router = useRouter()
   const [scrolled, setScrolled] = useState(false)
-  const [moreOpen, setMoreOpen] = useState(false)
   const { token, logout } = useAuth()
   const isAuthenticated = !!token
 
   const userName = 'Sazzad'
   const avatar = 'https://i.pravatar.cc/200?img=12'
+
+  const moreMenuItems: MenuProps['items'] = dropdownLinks.map((l) => ({
+    key: l.label,
+    label: <Link href={l.href} className="text-white/80 hover:text-white font-medium">{l.label}</Link>,
+  }))
 
   const userMenuItems: MenuProps['items'] = [
     {
@@ -73,8 +89,17 @@ export function LandingHeader() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
-  const linkClass =
-    'px-3.5 py-2 rounded-[10px] text-white/70 text-sm font-medium no-underline transition-all duration-200 hover:text-white hover:bg-white/5 inline-flex items-center justify-center h-[38px]'
+  const mainLinks = isAuthenticated ? authLinks : publicLinks
+
+  const linkClass = (href: string) => {
+    const isActive = pathname === href
+    return [
+      'px-3.5 py-2 rounded-[10px] text-sm font-medium no-underline transition-all duration-200 inline-flex items-center justify-center h-[38px]',
+      isActive
+        ? 'text-primary bg-primary/10 font-semibold'
+        : 'text-white/70 hover:text-white hover:bg-white/5'
+    ].join(' ')
+  }
 
   return (
     <header
@@ -93,48 +118,39 @@ export function LandingHeader() {
 
         <nav className="absolute left-1/2 -translate-x-1/2 hidden md:flex items-center gap-1.5 z-10">
           {mainLinks.map((l) => (
-            <Link key={l.label} href={l.href} className={linkClass}>
+            <Link key={l.label} href={l.href} className={linkClass(l.href)}>
               {l.label}
             </Link>
           ))}
 
           {/* More Dropdown */}
-          <div 
-            className="relative"
-            onMouseEnter={() => setMoreOpen(true)}
-            onMouseLeave={() => setMoreOpen(false)}
+          <Dropdown
+            menu={{ items: moreMenuItems }}
+            trigger={['hover', 'click']}
+            placement="bottomLeft"
+            overlayClassName="custom-dropdown-dark"
           >
             <button 
-              className="px-3.5 py-2 rounded-[10px] text-white/70 text-sm font-medium transition-all duration-200 hover:text-white hover:bg-white/5 flex items-center justify-center gap-1.5 cursor-pointer bg-transparent border-none outline-none h-[38px]"
-              onClick={() => setMoreOpen(!moreOpen)}
+              className="px-3.5 py-2 rounded-[10px] text-white/70 text-sm font-medium transition-all duration-200 hover:text-white hover:bg-white/5 flex items-center justify-center gap-1.5 cursor-pointer bg-transparent border-none outline-none h-[38px] group"
             >
-              More <DownOutlined className={`text-[10px] transition-transform duration-300 ${moreOpen ? 'rotate-180 text-primary' : 'text-white/40'}`} />
+              More <DownOutlined className="text-[10px] text-white/40 group-hover:text-primary transition-colors duration-200" />
             </button>
-
-            {/* Dropdown Menu */}
-            <div 
-              className={`absolute left-0 top-[110%] w-56 rounded-2xl bg-[#110b24]/95 backdrop-blur-2xl border border-white/10 p-2 shadow-2xl transition-all duration-300 origin-top ${
-                moreOpen 
-                  ? 'opacity-100 translate-y-0 scale-100 pointer-events-auto' 
-                  : 'opacity-0 -translate-y-2 scale-95 pointer-events-none'
-              }`}
-            >
-              {dropdownLinks.map((l) => (
-                <Link 
-                  key={l.label} 
-                  href={l.href} 
-                  className="block px-4 py-2.5 rounded-xl text-white/60 text-sm font-medium no-underline hover:text-white hover:bg-white/5 transition-all duration-200"
-                  onClick={() => setMoreOpen(false)}
-                >
-                  {l.label}
-                </Link>
-              ))}
-            </div>
-          </div>
+          </Dropdown>
         </nav>
 
-        <div className="z-10 flex items-center gap-4">
+        <div className="z-10 flex items-center gap-6">
           {isAuthenticated ? (
+            <>
+              {/* Notifications Bell */}
+              <button
+                type="button"
+                className="w-10 h-10 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-white flex items-center justify-center cursor-pointer relative transition-all duration-200"
+              >
+                <BellOutlined style={{ fontSize: 16 }} />
+                <span className="absolute top-2 right-[9px] w-2 h-2 rounded-full bg-[#FF3B30] border-2 border-[#0a0514]" />
+              </button>
+
+              {/* User Dropdown */}
               <Dropdown 
                 menu={{ items: userMenuItems }} 
                 trigger={['click']} 
@@ -155,6 +171,7 @@ export function LandingHeader() {
                   </div>
                 </div>
               </Dropdown>
+            </>
           ) : (
             <Button type="primary" onClick={() => router.push('/login')}>
               Get Started

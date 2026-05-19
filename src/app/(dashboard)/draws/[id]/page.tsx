@@ -21,6 +21,14 @@ import { BackHeader } from '@/components/layout/BackHeader'
 
 const MAX_FILE_SIZE = 10 * 1024 * 1024
 
+const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+  const rect = e.currentTarget.getBoundingClientRect()
+  const x = e.clientX - rect.left
+  const y = e.clientY - rect.top
+  e.currentTarget.style.setProperty('--mouse-x', `${x}px`)
+  e.currentTarget.style.setProperty('--mouse-y', `${y}px`)
+}
+
 function useCountdown(targetIso: string) {
   const calc = useCallback(() => {
     const diff = Math.max(0, new Date(targetIso).getTime() - Date.now())
@@ -132,12 +140,15 @@ export default function DrawDetailsPage() {
         <div className="flex flex-col gap-5">
 
           {/* Prize Card */}
-          <div className="bg-surface/60 border border-primary/30 rounded-2xl p-4 md:p-5 flex flex-col sm:flex-row gap-4 md:gap-5">
+          <div 
+            onMouseMove={handleMouseMove}
+            className="bg-surface/60 border border-primary/30 rounded-2xl p-4 md:p-5 flex flex-col sm:flex-row gap-4 md:gap-5 spell-glow-card"
+          >
             <div className="w-full sm:w-44 sm:min-w-44 h-40 sm:h-32 rounded-xl overflow-hidden bg-night shrink-0">
               <img
                 src={currentDraw.image}
                 alt={currentDraw.title}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover spell-float-image"
               />
             </div>
             <div className="flex-1 min-w-0">
@@ -179,7 +190,10 @@ export default function DrawDetailsPage() {
           </InfoCard>
 
           {/* Payment Numbers */}
-          <div className="bg-surface/55 border border-white/6 rounded-2xl p-5">
+          <div 
+            onMouseMove={handleMouseMove}
+            className="bg-surface/55 border border-white/6 rounded-2xl p-5 spell-glow-card"
+          >
             <h3 className="m-0 mb-4 text-white text-[17px] font-bold">Payment Numbers</h3>
             <div className="flex flex-col gap-3">
               {paymentNumbers.map((pn) => (
@@ -212,7 +226,10 @@ export default function DrawDetailsPage() {
         <div className="lg:sticky lg:top-24 flex flex-col gap-5">
 
           {/* Upload Card */}
-          <div className="bg-surface/50 backdrop-blur-md border border-white/10 rounded-3xl p-5 md:p-6 shadow-xl flex flex-col gap-5">
+          <div 
+            onMouseMove={handleMouseMove}
+            className="bg-surface/50 backdrop-blur-md border border-white/10 rounded-3xl p-5 md:p-6 shadow-xl flex flex-col gap-5 spell-glow-card"
+          >
             {/* Header */}
             <div className="flex items-center justify-between">
               <h3 className="m-0 text-white text-base font-bold">Payment Proof</h3>
@@ -304,7 +321,7 @@ export default function DrawDetailsPage() {
               type="button"
               disabled={submitting}
               onClick={handleSubmit}
-              className="w-full h-12 bg-primary hover:bg-primary-dark disabled:opacity-60 disabled:cursor-not-allowed text-white rounded-xl font-bold text-sm cursor-pointer flex items-center justify-center gap-2.5 transition-all shadow-[0_0_20px_rgba(255,105,0,0.2)] hover:scale-[1.02] active:scale-[0.99] border-0"
+              className="w-full h-12 bg-primary hover:bg-primary-dark disabled:opacity-60 disabled:cursor-not-allowed text-white rounded-xl font-bold text-sm cursor-pointer flex items-center justify-center gap-2.5 transition-all shadow-[0_0_20px_rgba(255,105,0,0.2)] hover:scale-[1.02] active:scale-[0.99] border-0 spell-btn-glow"
             >
               {submitting ? (
                 <span className="flex items-center gap-2">
@@ -351,12 +368,17 @@ interface InfoCardProps {
 
 function InfoCard({ icon, title, children }: InfoCardProps) {
   return (
-    <div className="bg-surface/55 border border-white/6 rounded-2xl p-5">
-      <div className="flex items-center gap-2.5 mb-3.5">
+    <div 
+      onMouseMove={handleMouseMove}
+      className="bg-surface/55 border border-white/6 rounded-2xl p-5 spell-glow-card"
+    >
+      <div className="flex items-center gap-2.5 mb-3.5 relative z-10">
         {icon}
         <h3 className="m-0 text-white text-[17px] font-bold">{title}</h3>
       </div>
-      {children}
+      <div className="relative z-10">
+        {children}
+      </div>
     </div>
   )
 }

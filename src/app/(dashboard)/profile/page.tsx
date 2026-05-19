@@ -31,7 +31,15 @@ function SettingsHubContent() {
   const fileInputRef = useRef<HTMLInputElement>(null)
   const avatarBlobRef = useRef<string | null>(null)
 
-  useEffect(() => () => { if (avatarBlobRef.current) URL.revokeObjectURL(avatarBlobRef.current) }, [])
+  const [supportPhoto, setSupportPhoto] = useState<File | null>(null)
+  const [supportPhotoPreview, setSupportPhotoPreview] = useState<string | null>(null)
+  const supportInputRef = useRef<HTMLInputElement>(null)
+  const supportPhotoBlobRef = useRef<string | null>(null)
+
+  useEffect(() => () => {
+    if (avatarBlobRef.current) URL.revokeObjectURL(avatarBlobRef.current)
+    if (supportPhotoBlobRef.current) URL.revokeObjectURL(supportPhotoBlobRef.current)
+  }, [])
   
   // Forms
   const [profileForm] = Form.useForm()
@@ -75,6 +83,29 @@ function SettingsHubContent() {
   const handleSupportSubmit = (values: any) => {
     message.success('Support ticket submitted! We will respond shortly.')
     supportForm.resetFields()
+    setSupportPhoto(null)
+    if (supportPhotoBlobRef.current) {
+      URL.revokeObjectURL(supportPhotoBlobRef.current)
+      supportPhotoBlobRef.current = null
+    }
+    setSupportPhotoPreview(null)
+  }
+
+  const handleSupportFile = (file: File | null) => {
+    if (!file) return
+    if (!['image/png', 'image/jpeg'].includes(file.type)) {
+      message.error('Only PNG or JPG is allowed')
+      return
+    }
+    if (file.size > 5 * 1024 * 1024) {
+      message.error('File must be 5MB or less')
+      return
+    }
+    if (supportPhotoBlobRef.current) URL.revokeObjectURL(supportPhotoBlobRef.current)
+    const url = URL.createObjectURL(file)
+    supportPhotoBlobRef.current = url
+    setSupportPhoto(file)
+    setSupportPhotoPreview(url)
   }
 
   const tabs: { value: SettingsTab; label: string; icon: any }[] = [
@@ -336,9 +367,12 @@ function SettingsHubContent() {
           {activeTab === 'support' && (
             <div className="space-y-6">
               <div>
-                <h2 className="text-white text-lg font-bold mb-4 flex items-center gap-2">
-                  <QuestionCircleOutlined className="text-primary" /> Help & Support Form
+                <h2 className="text-white text-lg font-bold mb-1 flex items-center gap-2">
+                  <QuestionCircleOutlined className="text-primary" /> Contact Support
                 </h2>
+                <p className="text-white/50 text-xs mb-5 leading-relaxed">
+                  Have a question or need assistance? Reach out to our support team, and we’ll get back to you as soon as possible.
+                </p>
                 <Form
                   form={supportForm}
                   layout="vertical"
@@ -350,20 +384,66 @@ function SettingsHubContent() {
                     label={<span className="text-white/70 font-semibold text-xs">Subject</span>}
                     rules={[{ required: true, message: 'Please enter a subject' }]}
                   >
-                    <Input size="large" placeholder="E.g. Payment proof issue, profile details edit error" />
+                    <Input size="large" placeholder="What can we help you with?" />
                   </Form.Item>
-
+ 
                   <Form.Item
                     name="message"
-                    label={<span className="text-white/70 font-semibold text-xs">Description of Issue</span>}
+                    label={<span className="text-white/70 font-semibold text-xs">Message</span>}
                     rules={[{ required: true, message: 'Please enter your message' }]}
                   >
-                    <Input.TextArea size="large" rows={4} placeholder="Describe your inquiry or problem in detail..." />
+                    <Input.TextArea size="large" rows={4} placeholder="Describe your issue..." className="resize-y" />
                   </Form.Item>
 
+                  <div className="pt-1 mb-5">
+                    <span className="text-white/70 font-semibold text-xs block mb-2">
+                      Attach Photo (Optional)
+                    </span>
+                    
+                    <button
+                      type="button"
+                      onClick={() => supportInputRef.current?.click()}
+                      className="w-full bg-[#090414]/65 border-[1.5px] border-dashed border-white/10 hover:border-primary/40 hover:bg-[#0c061c]/80 transition-all rounded-2xl px-5 py-6 flex flex-col items-center gap-3 cursor-pointer group"
+                    >
+                      {supportPhotoPreview ? (
+                        <img
+                          src={supportPhotoPreview}
+                          alt="Attachment"
+                          className="max-w-full max-h-40 rounded-xl object-contain shadow-2xl border border-white/10"
+                        />
+                      ) : (
+                        <>
+                          <div className="w-10 h-10 rounded-xl bg-white/5 group-hover:bg-primary/10 text-white/50 group-hover:text-primary flex items-center justify-center text-lg transition-colors duration-250">
+                            <CameraOutlined />
+                          </div>
+                          <div className="text-center">
+                            <div className="text-white text-xs font-bold group-hover:text-primary transition-colors">
+                              Upload Photo
+                            </div>
+                            <div className="text-white/40 text-[10px] mt-1">
+                              JPG, PNG up to 5MB
+                            </div>
+                          </div>
+                        </>
+                      )}
+                    </button>
+                    {supportPhoto && (
+                      <div className="mt-2 text-xs text-white/40 text-center font-medium bg-white/5 py-1 px-3 rounded-lg inline-block">
+                        {supportPhoto.name} · {(supportPhoto.size / 1024).toFixed(0)} KB
+                      </div>
+                    )}
+                    <input
+                      ref={supportInputRef}
+                      type="file"
+                      accept="image/png,image/jpeg"
+                      className="hidden"
+                      onChange={(e) => handleSupportFile(e.target.files?.[0] ?? null)}
+                    />
+                  </div>
+ 
                   <Form.Item className="mb-0">
                     <Button type="primary" htmlType="submit" size="large" block className="h-12 font-bold">
-                      Submit Ticket Request
+                      Send Message
                     </Button>
                   </Form.Item>
                 </Form>

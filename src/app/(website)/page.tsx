@@ -25,6 +25,14 @@ import { participations } from '@/data/participations'
 import splashImg from '@/assets/splash.png'
 import { useAuth } from '@/hooks/useAuth'
 
+const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+  const rect = e.currentTarget.getBoundingClientRect()
+  const x = e.clientX - rect.left
+  const y = e.clientY - rect.top
+  e.currentTarget.style.setProperty('--mouse-x', `${x}px`)
+  e.currentTarget.style.setProperty('--mouse-y', `${y}px`)
+}
+
 export default function LandingPage() {
   return (
     <div className="bg-[#0a0514] min-h-screen font-sans selection:bg-primary/30 selection:text-white">
@@ -56,10 +64,10 @@ function SectionTitle({ eyebrow, title, subtitle, align = 'center' }: { eyebrow:
   const isLeft = align === 'left'
   return (
     <div className={`${isLeft ? 'text-left' : 'text-center'} mb-16 relative`}>
-      <div className={`inline-flex items-center ${isLeft ? 'justify-start' : 'justify-center'} px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-bold uppercase tracking-widest mb-6`}>
+      <div className={`inline-flex items-center ${isLeft ? 'justify-start' : 'justify-center'} px-4 py-1.5 rounded-full spell-shimmer-badge text-primary text-sm font-bold uppercase tracking-widest mb-6`}>
         {eyebrow}
       </div>
-      <h2 className="m-0 text-white text-4xl md:text-5xl font-black leading-tight mb-4 tracking-tight">{title}</h2>
+      <h2 className="m-0 text-white text-4xl md:text-5xl font-black leading-tight mb-4 tracking-tight spell-text-glow">{title}</h2>
       {subtitle && (
         <p className={`mt-4 mb-0 ${isLeft ? 'mr-auto' : 'mx-auto'} max-w-2xl text-white/60 text-lg leading-relaxed`}>
           {subtitle}
@@ -107,7 +115,7 @@ function Hero() {
                   router.push('/login')
                 }
               }}
-              className="px-8 py-4 bg-primary hover:bg-primary-dark text-white rounded-xl font-bold text-lg transition-all hover:scale-105 shadow-[0_0_40px_rgba(255,105,0,0.3)] flex items-center gap-2 cursor-pointer border-none outline-none"
+              className="px-8 py-4 bg-primary hover:bg-primary-dark text-white rounded-xl font-bold text-lg transition-all hover:scale-105 shadow-[0_0_40px_rgba(255,105,0,0.3)] flex items-center gap-2 cursor-pointer border-none outline-none spell-btn-glow"
             >
               Participate Now <ArrowRightOutlined />
             </button>
@@ -129,9 +137,12 @@ function Hero() {
           {/* Floating Product Image inside a beautiful glass card */}
           <div className="relative w-full max-w-[500px] h-full">
             <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-purple-500/20 rounded-[40px] blur-3xl transform rotate-12 scale-90"></div>
-            <div className="relative w-full h-full bg-surface/40 backdrop-blur-2xl border border-white/10 rounded-[40px] p-8 shadow-2xl flex flex-col items-center justify-center transform transition-transform duration-700 hover:scale-105 hover:-rotate-2 cursor-pointer group">
+            <div 
+              onMouseMove={handleMouseMove}
+              className="relative w-full h-full bg-surface/40 backdrop-blur-2xl border border-white/10 rounded-[40px] p-8 shadow-2xl flex flex-col items-center justify-center transform transition-transform duration-700 hover:scale-105 hover:-rotate-2 cursor-pointer group spell-glow-card"
+            >
               <div className="absolute top-6 left-6 bg-night px-4 py-1.5 rounded-full border border-white/10 text-white text-xs font-bold tracking-widest">THIS WEEK</div>
-              <img src={currentDraw.image} alt={currentDraw.title} className="w-full h-auto max-h-[300px] object-contain drop-shadow-[0_20px_40px_rgba(0,0,0,0.5)] group-hover:scale-110 transition-transform duration-500" />
+              <img src={currentDraw.image} alt={currentDraw.title} className="w-full h-auto max-h-[300px] object-contain drop-shadow-[0_20px_40px_rgba(0,0,0,0.5)] group-hover:scale-110 transition-transform duration-500 spell-float-image" />
               <h3 className="text-2xl font-bold text-white mt-8 mb-2 text-center">{currentDraw.title}</h3>
               <div className="flex items-center gap-2 text-primary font-bold text-xl bg-primary/10 px-4 py-2 rounded-xl">
                 🎟️ {currentDraw.ticketPrice.toLocaleString()} {currentDraw.currency}
@@ -219,7 +230,11 @@ function HowItWorks() {
       
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         {steps.map((s) => (
-          <div key={s.n} className="bg-surface/50 border border-white/10 hover:border-primary/50 transition-all duration-500 rounded-[2rem] p-10 relative overflow-hidden group">
+          <div 
+            key={s.n} 
+            onMouseMove={handleMouseMove}
+            className="bg-surface/50 border border-white/10 hover:border-primary/50 transition-all duration-500 rounded-[2rem] p-10 relative overflow-hidden group spell-glow-card"
+          >
             <div className="absolute -right-10 -top-10 text-9xl font-black text-white/[0.03] group-hover:text-primary/10 transition-all duration-500 transform group-hover:scale-110">{s.n}</div>
             <div className="w-16 h-16 rounded-2xl bg-primary/10 text-primary flex items-center justify-center text-3xl mb-8 group-hover:bg-primary group-hover:text-white transition-colors duration-300">
               {s.icon}
@@ -246,7 +261,7 @@ function FeaturedPrize() {
         
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center relative z-10">
           <div className="bg-night/50 rounded-[2rem] p-8 border border-white/5 backdrop-blur-md flex items-center justify-center aspect-square md:aspect-auto md:h-full">
-            <img src={currentDraw.image} alt={currentDraw.title} className="max-w-full max-h-[400px] object-contain drop-shadow-[0_20px_40px_rgba(0,0,0,0.6)] hover:scale-105 transition-transform duration-500" />
+            <img src={currentDraw.image} alt={currentDraw.title} className="max-w-full max-h-[400px] object-contain drop-shadow-[0_20px_40px_rgba(0,0,0,0.6)] hover:scale-105 transition-transform duration-500 spell-float-image" />
           </div>
           
           <div className="flex flex-col justify-center">
@@ -277,7 +292,7 @@ function FeaturedPrize() {
                   router.push('/login')
                 }
               }}
-              className="w-full py-5 bg-gradient-to-r from-primary to-primary-dark text-white rounded-2xl font-bold text-xl shadow-[0_10px_30px_rgba(255,105,0,0.3)] hover:scale-[1.02] transition-all cursor-pointer flex justify-center items-center gap-3"
+              className="w-full py-5 bg-gradient-to-r from-primary to-primary-dark text-white rounded-2xl font-bold text-xl shadow-[0_10px_30px_rgba(255,105,0,0.3)] hover:scale-[1.02] transition-all cursor-pointer flex justify-center items-center gap-3 spell-btn-glow"
             >
               {isAuthenticated ? 'Participate Now' : 'Sign In to Participate'} <ArrowRightOutlined />
             </button>
@@ -403,7 +418,8 @@ function Winners() {
         {winners.map((w, i) => (
           <div 
             key={i} 
-            className="w-full md:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] shrink-0 snap-start bg-surface/40 hover:bg-surface/60 backdrop-blur-xl border border-white/5 hover:border-primary/30 transition-all duration-500 rounded-[2.5rem] p-8 text-center relative overflow-hidden group"
+            onMouseMove={handleMouseMove}
+            className="w-full md:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] shrink-0 snap-start bg-surface/40 hover:bg-surface/60 backdrop-blur-xl border border-white/5 hover:border-primary/30 transition-all duration-500 rounded-[2.5rem] p-8 text-center relative overflow-hidden group spell-glow-card"
           >
             {/* Inner ambient glow on hover */}
             <div className="absolute -inset-px bg-gradient-to-br from-primary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-[2.5rem]" />
@@ -562,7 +578,7 @@ function CtaSection() {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <button 
               onClick={() => router.push('/register')}
-              className="w-full sm:w-auto px-10 py-5 bg-primary hover:bg-primary-dark text-white rounded-2xl font-black text-lg transition-all hover:scale-105 shadow-[0_0_40px_rgba(255,105,0,0.2)] cursor-pointer"
+              className="w-full sm:w-auto px-10 py-5 bg-primary hover:bg-primary-dark text-white rounded-2xl font-black text-lg transition-all hover:scale-105 shadow-[0_0_40px_rgba(255,105,0,0.2)] cursor-pointer spell-btn-glow"
             >
               Create Free Account
             </button>
