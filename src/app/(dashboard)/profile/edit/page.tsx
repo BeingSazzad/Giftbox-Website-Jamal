@@ -112,7 +112,13 @@ export default function EditProfilePage() {
           label={<span className={labelClass}>Phone Number</span>}
           rules={[{ required: true, message: 'Please enter your phone number' }]}
         >
-          <Input size="large" addonBefore="+243" placeholder="9876543210" />
+          <Input 
+            size="large" 
+            placeholder="9876543210" 
+            prefix={
+              <span className="text-white/50 text-xs font-semibold select-none border-r border-white/10 pr-2 mr-1">+243</span>
+            } 
+          />
         </Form.Item>
 
         <Form.Item name="dob" label={<span className={labelClass}>Date of Birth</span>}>

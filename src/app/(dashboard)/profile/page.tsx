@@ -311,7 +311,16 @@ function SettingsHubContent() {
                     label={<span className="text-white/70 font-semibold text-xs">Phone Number</span>}
                     rules={[{ required: true, message: 'Please enter your phone number' }]}
                   >
-                    <Input size="large" addonBefore="+243" placeholder="9876543210" prefix={<PhoneOutlined className="text-white/20 mr-1" />} />
+                    <Input 
+                      size="large" 
+                      placeholder="9876543210" 
+                      prefix={
+                        <div className="flex items-center gap-2 text-white/50 text-xs font-semibold select-none mr-1.5">
+                          <PhoneOutlined className="text-white/25" />
+                          <span className="border-r border-white/10 pr-2">+243</span>
+                        </div>
+                      } 
+                    />
                   </Form.Item>
                   <Form.Item
                     name="dob"
