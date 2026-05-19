@@ -334,12 +334,12 @@ function FeaturedPrize() {
             </p>
 
             <div className="grid grid-cols-2 gap-4 mb-6">
-              <div className="bg-white/5 border border-white/10 rounded-xl p-4">
-                <span className="text-white/50 text-xs font-bold uppercase tracking-wider block mb-1">Ticket Price</span>
-                <span className="text-primary text-xl font-black">{currentDraw.ticketPrice.toLocaleString()} {currentDraw.currency}</span>
+              <div className="bg-white/5 border border-white/10 rounded-xl p-4 flex flex-col justify-between">
+                <span className="text-white/50 text-xs font-bold uppercase tracking-wider block">Ticket Price</span>
+                <span className="text-primary text-2xl lg:text-3xl font-black block mt-auto mb-1 leading-none">{currentDraw.ticketPrice.toLocaleString()} {currentDraw.currency}</span>
               </div>
-              <div className="bg-white/5 border border-white/10 rounded-xl p-4">
-                <span className="text-white/50 text-xs font-bold uppercase tracking-wider block mb-1">Countdown</span>
+              <div className="bg-white/5 border border-white/10 rounded-xl p-4 flex flex-col">
+                <span className="text-white/50 text-xs font-bold uppercase tracking-wider block mb-2">Countdown</span>
                 <Countdown endsAt={currentDraw.endsAt} />
               </div>
             </div>
