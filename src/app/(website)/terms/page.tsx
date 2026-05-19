@@ -1,7 +1,7 @@
 'use client'
 import { WebShell } from '@/components/layout/WebShell'
 import { BackHeader } from '@/components/layout/BackHeader'
-import { PrinterOutlined, FileTextOutlined } from '@ant-design/icons'
+import { FileTextOutlined } from '@ant-design/icons'
 import { useState, useEffect } from 'react'
 
 interface Section {
@@ -163,14 +163,6 @@ export default function TermsPage() {
         <BackHeader 
           title="Terms &amp; Conditions" 
           subtitle="Last updated: April 10, 2024" 
-          rightSlot={
-            <button
-              onClick={() => window.print()}
-              className="flex items-center gap-2 px-4 py-2.5 bg-white/5 hover:bg-white/10 border border-white/8 hover:border-white/15 text-white/70 hover:text-white rounded-xl text-xs font-bold transition-all cursor-pointer mt-0 shrink-0"
-            >
-              <PrinterOutlined style={{ fontSize: 12 }} /> Print Document
-            </button>
-          }
         />
 
         {/* Intro banner */}
