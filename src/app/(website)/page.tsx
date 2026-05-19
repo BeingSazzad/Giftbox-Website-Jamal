@@ -634,36 +634,78 @@ function CtaSection() {
   const router = useRouter()
   return (
     <Section>
-      <div className="relative bg-gradient-to-br from-[#120b24] to-[#080414] border border-white/10 rounded-[2rem] px-5 py-12 md:py-20 text-center overflow-hidden shadow-2xl">
+      <style dangerouslySetInnerHTML={{__html: `
+        @keyframes float-box {
+          0%, 100% { transform: translateY(0px) rotate(0deg); }
+          50% { transform: translateY(-12px) rotate(1.5deg); }
+        }
+        @keyframes orbit-rotate {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+        }
+        @keyframes glow-pulse {
+          0%, 100% { opacity: 0.5; transform: scale(1); }
+          50% { opacity: 0.8; transform: scale(1.05); }
+        }
+      `}} />
+
+      <div className="relative bg-gradient-to-br from-[#1a0f35] via-[#100624] to-[#080312] border border-white/10 rounded-[3rem] px-8 py-16 lg:p-20 overflow-hidden shadow-2xl text-left">
         {/* Subtle dynamic background ambient glows */}
         <div className="absolute -top-40 -left-40 w-[600px] h-[600px] bg-primary/10 blur-[120px] rounded-full pointer-events-none"></div>
         <div className="absolute -bottom-40 -right-40 w-[600px] h-[600px] bg-purple-500/10 blur-[120px] rounded-full pointer-events-none"></div>
 
-        <div className="relative z-10 max-w-3xl mx-auto">
-          <h2 className="text-4xl md:text-6xl font-black text-white leading-tight mb-6">
-            Ready to win{' '}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-[#ff8c00]">
-              something amazing?
-            </span>
-          </h2>
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center relative z-10">
+          {/* Left Column: Bold Asymmetric Headline and Text */}
+          <div className="lg:col-span-7">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/5 border border-white/10 text-primary text-xs font-bold uppercase tracking-wider mb-6 backdrop-blur-md">
+              <CrownFilled className="text-sm animate-pulse text-[#FFB900]" />
+              Join the Elite Club
+            </div>
 
-          <p className="text-white/60 text-lg md:text-xl font-medium leading-relaxed mb-10 max-w-2xl mx-auto">
-            Create your account in under a minute and grab a ticket for this week's mega draw before time runs out.
-          </p>
+            <h2 className="text-4xl md:text-6xl font-black text-white leading-[1.12] mb-6">
+              Your next luxury win is{' '}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-[#ff8c00] to-yellow-400">
+                one tap away.
+              </span>
+            </h2>
 
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <button
-              onClick={() => router.push('/register')}
-              className="w-full sm:w-auto px-10 py-5 bg-primary hover:bg-primary-dark text-white rounded-2xl font-black text-lg transition-all hover:scale-105 shadow-[0_0_40px_rgba(255,105,0,0.2)] cursor-pointer spell-btn-glow"
-            >
-              Create Free Account
-            </button>
-            <button
-              onClick={() => router.push('/login')}
-              className="w-full sm:w-auto px-10 py-5 bg-white/5 hover:bg-white/10 text-white border border-white/10 rounded-2xl font-bold text-lg backdrop-blur-sm transition-all hover:scale-105 cursor-pointer"
-            >
-              Log In
-            </button>
+            <p className="text-white/60 text-lg font-medium leading-relaxed max-w-xl">
+              Create your account in under a minute, pick this week's live mega draw, and participate with secure mobile payment validation. Don't let someone else claim it!
+            </p>
+
+            <div className="flex flex-col sm:flex-row items-center gap-4 mt-8">
+              <button
+                onClick={() => router.push('/register')}
+                className="w-full sm:w-auto px-10 py-5 bg-gradient-to-r from-primary to-primary-dark hover:from-primary-dark hover:to-primary text-white rounded-2xl font-black text-lg transition-all hover:scale-105 shadow-[0_10px_30px_rgba(255,105,0,0.3)] cursor-pointer spell-btn-glow"
+              >
+                Create Free Account
+              </button>
+              <button
+                onClick={() => router.push('/login')}
+                className="w-full sm:w-auto px-10 py-5 bg-white/5 hover:bg-white/10 text-white border border-white/10 rounded-2xl font-bold text-lg backdrop-blur-sm transition-all hover:scale-105 cursor-pointer"
+              >
+                Log In
+              </button>
+            </div>
+          </div>
+
+          {/* Right Column: Holographic floating luxury golden gift box in orbit */}
+          <div className="lg:col-span-5 flex justify-center">
+            <div className="relative w-full aspect-square max-w-[320px] lg:max-w-none flex items-center justify-center select-none pointer-events-none">
+              {/* Neon Glow behind */}
+              <div className="absolute w-[240px] h-[240px] bg-primary/20 rounded-full blur-[80px]" style={{ animation: 'glow-pulse 4s ease-in-out infinite' }} />
+              
+              {/* Orbit Ring 1 */}
+              <div className="absolute w-[280px] h-[280px] rounded-full border border-white/10 border-dashed" style={{ animation: 'orbit-rotate 40s linear infinite' }} />
+              
+              {/* Orbit Ring 2 with double style */}
+              <div className="absolute w-[220px] h-[220px] rounded-full border border-primary/20 border-double" style={{ animation: 'orbit-rotate 25s linear infinite reverse' }} />
+              
+              {/* Main Floating 3D Gift Box Image */}
+              <div className="relative z-10 w-[200px] h-[200px]" style={{ animation: 'float-box 5s ease-in-out infinite' }}>
+                <img src={giftBoxImg.src} alt="Luxury Gift Box" className="w-full h-full object-contain filter drop-shadow-[0_15px_30px_rgba(255,105,0,0.35)]" />
+              </div>
+            </div>
           </div>
         </div>
       </div>
