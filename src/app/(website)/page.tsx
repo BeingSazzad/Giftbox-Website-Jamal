@@ -333,13 +333,20 @@ function FeaturedPrize() {
               {currentDraw.description}
             </p>
 
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
-              <div className="bg-white/5 border border-white/10 rounded-xl p-4 flex flex-col justify-between sm:col-span-1">
-                <span className="text-white/50 text-xs font-bold uppercase tracking-wider block">Ticket Price</span>
-                <span className="text-primary text-2xl lg:text-3xl font-black block mt-auto mb-1 leading-none">{currentDraw.ticketPrice.toLocaleString()} {currentDraw.currency}</span>
+            {/* Clean, Premium Info Bar */}
+            <div className="flex flex-wrap items-center gap-x-8 gap-y-6 mb-8 py-5 border-y border-white/10">
+              <div className="shrink-0">
+                <span className="text-white/40 text-xs font-bold uppercase tracking-wider block mb-2">Ticket Price</span>
+                <span className="text-primary text-2xl lg:text-3xl font-black block leading-none select-none">
+                  {currentDraw.ticketPrice.toLocaleString()} {currentDraw.currency}
+                </span>
               </div>
-              <div className="bg-white/5 border border-white/10 rounded-xl p-4 flex flex-col sm:col-span-2">
-                <span className="text-white/50 text-xs font-bold uppercase tracking-wider block mb-2">Countdown</span>
+              
+              {/* Vertical divider line on desktop */}
+              <div className="hidden sm:block w-px h-12 bg-white/10 shrink-0 self-center" />
+
+              <div className="min-w-[280px] flex-grow">
+                <span className="text-white/40 text-xs font-bold uppercase tracking-wider block mb-2">Countdown</span>
                 <Countdown endsAt={currentDraw.endsAt} />
               </div>
             </div>
