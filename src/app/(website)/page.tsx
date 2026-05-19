@@ -163,38 +163,42 @@ function StatsBar() {
     {
       value: '5M+',
       label: 'Prizes Distributed',
-      icon: <CrownFilled className="text-xl md:text-2xl text-primary animate-pulse" />,
-      glowColor: 'rgba(254, 147, 1, 0.12)',
+      icon: <CrownFilled className="text-xl md:text-2xl text-[#FFB900] group-hover:text-[#FF6900] transition-colors duration-300 animate-pulse" />,
+      glowColor: 'rgba(254, 147, 1, 0.15)',
       gradient: 'from-[#FFB900] via-[#FF6900] to-[#E65E00]',
-      bgGlow: 'bg-primary/5',
-      borderColor: 'border-primary/20 hover:border-primary/45 shadow-[0_0_15px_rgba(254,147,1,0.02)]'
+      iconBg: 'bg-gradient-to-br from-[#FFB900]/25 to-[#FFB900]/5 border-[#FFB900]/35 group-hover:border-[#FFB900]/65 shadow-[0_0_15px_rgba(254,147,1,0.05)]',
+      bgGlow: 'bg-[#FFB900]/5',
+      borderColor: 'border-[#FFB900]/15 hover:border-[#FFB900]/45 shadow-[0_0_15px_rgba(254,147,1,0.02)]'
     },
     {
       value: '1,200+',
       label: 'Happy Winners',
-      icon: <TrophyFilled className="text-xl md:text-2xl text-[#10b981]" />,
-      glowColor: 'rgba(16, 185, 129, 0.12)',
+      icon: <TrophyFilled className="text-xl md:text-2xl text-[#10b981] group-hover:text-[#059669] transition-colors duration-300" />,
+      glowColor: 'rgba(16, 185, 129, 0.15)',
       gradient: 'from-[#10b981] via-[#059669] to-[#047857]',
+      iconBg: 'bg-gradient-to-br from-[#10b981]/25 to-[#10b981]/5 border-[#10b981]/35 group-hover:border-[#10b981]/65 shadow-[0_0_15px_rgba(16,185,129,0.05)]',
       bgGlow: 'bg-[#10b981]/5',
-      borderColor: 'border-[#10b981]/20 hover:border-[#10b981]/45 shadow-[0_0_15px_rgba(16,185,129,0.02)]'
+      borderColor: 'border-[#10b981]/15 hover:border-[#10b981]/45 shadow-[0_0_15px_rgba(16,185,129,0.02)]'
     },
     {
       value: '52',
       label: 'Draws per Year',
-      icon: <ThunderboltFilled className="text-xl md:text-2xl text-[#3b82f6]" />,
-      glowColor: 'rgba(59, 130, 246, 0.12)',
+      icon: <ThunderboltFilled className="text-xl md:text-2xl text-[#3b82f6] group-hover:text-[#2563eb] transition-colors duration-300" />,
+      glowColor: 'rgba(59, 130, 246, 0.15)',
       gradient: 'from-[#3b82f6] via-[#2563eb] to-[#1d4ed8]',
+      iconBg: 'bg-gradient-to-br from-[#3b82f6]/25 to-[#3b82f6]/5 border-[#3b82f6]/35 group-hover:border-[#3b82f6]/65 shadow-[0_0_15px_rgba(59,130,246,0.05)]',
       bgGlow: 'bg-[#3b82f6]/5',
-      borderColor: 'border-[#3b82f6]/20 hover:border-[#3b82f6]/45 shadow-[0_0_15px_rgba(59,130,246,0.02)]'
+      borderColor: 'border-[#3b82f6]/15 hover:border-[#3b82f6]/45 shadow-[0_0_15px_rgba(59,130,246,0.02)]'
     },
     {
       value: '100%',
       label: 'Transparency',
-      icon: <SafetyCertificateFilled className="text-xl md:text-2xl text-[#a855f7]" />,
-      glowColor: 'rgba(168, 85, 247, 0.12)',
+      icon: <SafetyCertificateFilled className="text-xl md:text-2xl text-[#a855f7] group-hover:text-[#7c3aed] transition-colors duration-300" />,
+      glowColor: 'rgba(168, 85, 247, 0.15)',
       gradient: 'from-[#a855f7] via-[#7c3aed] to-[#6d28d9]',
+      iconBg: 'bg-gradient-to-br from-[#a855f7]/25 to-[#a855f7]/5 border-[#a855f7]/35 group-hover:border-[#a855f7]/65 shadow-[0_0_15px_rgba(168,85,247,0.05)]',
       bgGlow: 'bg-[#a855f7]/5',
-      borderColor: 'border-[#a855f7]/20 hover:border-[#a855f7]/45 shadow-[0_0_15px_rgba(168,85,247,0.02)]'
+      borderColor: 'border-[#a855f7]/15 hover:border-[#a855f7]/45 shadow-[0_0_15px_rgba(168,85,247,0.02)]'
     },
   ]
 
@@ -215,7 +219,7 @@ function StatsBar() {
             <div className={`absolute -top-12 -right-12 w-24 h-24 rounded-full blur-2xl opacity-10 transition-opacity duration-500 group-hover:opacity-20 ${s.bgGlow}`} />
 
             {/* Custom Icon Circle */}
-            <div className={`w-12 h-12 md:w-14 md:h-14 rounded-2xl ${s.bgGlow} border border-white/5 flex items-center justify-center mb-5 md:mb-6 group-hover:scale-110 transition-transform duration-500`}>
+            <div className={`w-12 h-12 md:w-14 md:h-14 rounded-2xl ${s.iconBg} border flex items-center justify-center mb-5 md:mb-6 group-hover:scale-110 transition-transform duration-500`}>
               {s.icon}
             </div>
 
