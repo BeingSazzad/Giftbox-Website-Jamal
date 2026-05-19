@@ -1,6 +1,6 @@
 'use client'
 import { WebShell } from '@/components/layout/WebShell'
-import { BackHeader } from '@/components/layout/BackHeader'
+import { PageHeader } from '@/components/layout/PageHeader'
 import { FileTextOutlined } from '@ant-design/icons'
 import { useState, useEffect } from 'react'
 
@@ -43,15 +43,15 @@ export default function TermsPage() {
   }, [])
 
   return (
-    <WebShell maxWidth={1200}>
+    <WebShell>
       <div className="relative py-4">
         {/* Ambient glows */}
         <div className="absolute top-0 right-0 w-[500px] h-[500px] rounded-full bg-primary/3 blur-[130px] pointer-events-none" />
         <div className="absolute bottom-20 left-0 w-[350px] h-[350px] rounded-full bg-primary/2 blur-[100px] pointer-events-none" />
 
-        <BackHeader 
-          title="Terms &amp; Conditions" 
-          subtitle="Last updated: April 10, 2024" 
+        <PageHeader
+          title="Terms & Conditions"
+          subtitle="Last updated: April 10, 2024"
         />
 
         {/* Intro banner */}

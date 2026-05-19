@@ -12,7 +12,7 @@ import { useRef, useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { useAuth } from '@/hooks/useAuth'
 import { WebShell } from '@/components/layout/WebShell'
-import { BackHeader } from '@/components/layout/BackHeader'
+import { PageHeader } from '@/components/layout/PageHeader'
 
 interface ContactFormValues {
   name: string
@@ -77,14 +77,14 @@ export default function ContactPage() {
   const labelClass = 'text-white/80 font-bold text-sm'
 
   return (
-    <WebShell maxWidth={1120}>
+    <WebShell>
       <div className="relative py-4">
         {/* Ambient background decorative glow */}
         <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[500px] h-[500px] rounded-full bg-primary/4 blur-[120px] pointer-events-none" />
 
-        <BackHeader 
-          title="Contact & Support" 
-          subtitle="Get in touch with our help center. We're here to help you 24/7." 
+        <PageHeader
+          title="Contact & Support"
+          subtitle="We're here to help you 24/7."
         />
 
         <div className="max-w-3xl mx-auto mt-8 flex flex-col gap-8 relative z-10">

@@ -1,12 +1,12 @@
 'use client'
 import { WebShell } from '@/components/layout/WebShell'
-import { BackHeader } from '@/components/layout/BackHeader'
+import { PageHeader } from '@/components/layout/PageHeader'
 import { TrophyFilled, SafetyCertificateFilled, GlobalOutlined } from '@ant-design/icons'
 
 export default function AboutUsPage() {
   return (
-    <WebShell maxWidth={1120}>
-      <BackHeader title="About Gift Box" subtitle="Your trusted platform for weekly wins" />
+    <WebShell>
+      <PageHeader title="About Gift Box" subtitle="Your trusted platform for weekly wins" />
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-20 mt-10 items-center">
         {/* Left Side: Illustration */}

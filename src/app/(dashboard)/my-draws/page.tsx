@@ -34,7 +34,7 @@ export default function MyDrawsPage() {
   ]
 
   return (
-    <WebShell maxWidth={1200}>
+    <WebShell>
       {/* Title Header */}
       <div className="mb-6 md:mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>

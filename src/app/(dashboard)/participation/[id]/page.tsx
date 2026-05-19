@@ -92,71 +92,7 @@ export default function ParticipationDetailsPage() {
             </p>
           </div>
 
-          {/* Interactive Status Timeline */}
-          <div className="bg-surface/40 border border-white/5 rounded-2xl p-5 md:p-6">
-            <h3 className="m-0 text-white text-base font-bold mb-6">Verification Process</h3>
-            
-            <div className="flex flex-col gap-6 relative pl-6 before:absolute before:left-[11px] before:top-2 before:bottom-2 before:w-[2px] before:bg-white/10">
-              
-              {/* Step 1: Ticket Submitted */}
-              <div className="relative">
-                <div className="absolute -left-[21px] top-1 w-[12px] h-[12px] rounded-full bg-success ring-4 ring-success/20 z-10"></div>
-                <div>
-                  <h4 className="text-white text-sm font-bold m-0 mb-1">Ticket Submitted</h4>
-                  <p className="text-white/50 text-xs m-0">Submitted on {formatLongDate(participation.submittedOn)} at {formatTime(participation.submittedOn)}</p>
-                </div>
-              </div>
 
-              {/* Step 2: Under Review */}
-              <div className="relative">
-                <div className={[
-                  'absolute -left-[21px] top-1 w-[12px] h-[12px] rounded-full z-10 ring-4',
-                  participation.status === 'pending' 
-                    ? 'bg-primary ring-primary/20 animate-pulse'
-                    : ['approved', 'completed'].includes(participation.status)
-                      ? 'bg-success ring-success/20'
-                      : 'bg-white/20 ring-transparent'
-                ].join(' ')}></div>
-                <div>
-                  <h4 className="text-white text-sm font-bold m-0 mb-1">Verification Review</h4>
-                  <p className="text-white/50 text-xs m-0">
-                    {participation.status === 'pending' 
-                      ? 'Our team is actively verifying your payment screenshot.' 
-                      : ['approved', 'completed'].includes(participation.status)
-                        ? 'Screenshot successfully verified.'
-                        : 'Verification review completed.'}
-                  </p>
-                </div>
-              </div>
-
-              {/* Step 3: Approved / Confirmed */}
-              <div className="relative">
-                <div className={[
-                  'absolute -left-[21px] top-1 w-[12px] h-[12px] rounded-full z-10 ring-4',
-                  participation.status === 'approved' 
-                    ? 'bg-success ring-success/20'
-                    : participation.status === 'completed'
-                      ? 'bg-success ring-success/20'
-                      : participation.status === 'rejected'
-                        ? 'bg-danger ring-danger/20'
-                        : 'bg-white/20 ring-transparent'
-                ].join(' ')}></div>
-                <div>
-                  <h4 className="text-white text-sm font-bold m-0 mb-1">Entry Status</h4>
-                  <p className="text-white/50 text-xs m-0">
-                    {participation.status === 'approved'
-                      ? 'Confirmed! Your ticket is entered into the live draw.'
-                      : participation.status === 'completed'
-                        ? 'Draw completed.'
-                        : participation.status === 'rejected'
-                          ? 'Verification rejected. View rejection reason on the right.'
-                          : 'Awaiting review confirmation.'}
-                  </p>
-                </div>
-              </div>
-
-            </div>
-          </div>
         </div>
 
         {/* Right Column: Ticket Info & Action Status */}

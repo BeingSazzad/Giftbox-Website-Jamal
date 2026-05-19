@@ -44,36 +44,46 @@ body {
   .card {
     @apply bg-surface/60 border border-white/6 rounded-2xl;
   }
+
   .card-soft {
     @apply bg-surface/55 border border-white/6 rounded-2xl;
   }
+
   .row-tile {
     @apply bg-deep/50 border border-white/5 rounded-xl;
   }
+
   .chip-primary {
     @apply inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-primary/10 border border-primary/30 text-primary text-xs font-bold uppercase tracking-wider;
   }
+
   .text-dim {
     @apply text-white/70;
   }
+
   .text-dimmer {
     @apply text-white/55;
   }
+
   .text-faint {
     @apply text-white/40;
   }
+
   .icon-btn-round {
     @apply w-10 h-10 min-w-10 rounded-full bg-white/6 border border-white/8 text-white flex items-center justify-center cursor-pointer p-0;
   }
+
   .gradient-text {
     background: linear-gradient(135deg, var(--color-primary-light) 0%, var(--color-primary-dark) 100%);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
   }
+
   .gradient-brand {
     background: linear-gradient(135deg, var(--color-primary-light) 0%, var(--color-primary-dark) 100%);
   }
+
   .gradient-brand-v {
     background: linear-gradient(180deg, var(--color-primary-light) 0%, var(--color-primary-dark) 100%);
   }
@@ -92,14 +102,17 @@ body {
   box-shadow: none !important;
   transition: all 180ms ease !important;
 }
+
 .ant-btn-primary:hover:not(:disabled) {
   background: linear-gradient(180deg, #FFC533 0%, #FF8533 100%) !important;
   box-shadow: none !important;
 }
+
 .ant-btn-primary:active:not(:disabled) {
   background: linear-gradient(180deg, #E6A700 0%, #E65E00 100%) !important;
   box-shadow: none !important;
 }
+
 .ant-btn-primary:disabled {
   background: linear-gradient(180deg, #FFB900 0%, #FF6900 100%) !important;
   opacity: 0.45;
@@ -108,7 +121,7 @@ body {
 }
 
 /* ====== Ant Design Input, Select & TextArea Custom premium overrides ====== */
-.ant-input, 
+.ant-input,
 .ant-input-affix-wrapper,
 .ant-select .ant-select-selector,
 .ant-input-textarea-show-count,
@@ -134,7 +147,7 @@ body {
 
 /* Fix browser autofill style overrides */
 input:-webkit-autofill,
-input:-webkit-autofill:hover, 
+input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
 input:-webkit-autofill:active,
 input:-internal-autofill-selected,
@@ -231,9 +244,17 @@ input:autofill:active,
 }
 
 @keyframes gradient-shimmer {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 .spell-shimmer-badge {
@@ -244,9 +265,17 @@ input:autofill:active,
 }
 
 @keyframes floating-gentle {
-  0% { transform: translateY(0px) rotate(0deg); }
-  50% { transform: translateY(-8px) rotate(1deg); }
-  100% { transform: translateY(0px) rotate(0deg); }
+  0% {
+    transform: translateY(0px) rotate(0deg);
+  }
+
+  50% {
+    transform: translateY(-8px) rotate(1deg);
+  }
+
+  100% {
+    transform: translateY(0px) rotate(0deg);
+  }
 }
 
 .spell-float-image {
@@ -278,4 +307,3 @@ input:autofill:active,
   opacity: 0.6;
   transform: scale(1.05);
 }
-

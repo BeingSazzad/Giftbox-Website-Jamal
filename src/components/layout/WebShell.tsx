@@ -17,10 +17,10 @@ export function WebShell({
 }: WebShellProps) {
   return (
     <div className="min-h-screen flex flex-col">
-      {showNav && <TopNav />}
+      {showNav && <TopNav maxWidth={maxWidth} />}
       {mobileHeader}
       <main
-        className="flex-1 w-full mx-auto px-4 py-5 md:px-8 md:py-8 box-border pb-[calc(80px+env(safe-area-inset-bottom))] md:pb-8"
+        className="flex-1 w-full mx-auto px-8 py-5 md:px-8 md:py-8 box-border pb-[calc(80px+env(safe-area-inset-bottom))] md:pb-8"
         style={{ maxWidth }}
       >
         {children}
