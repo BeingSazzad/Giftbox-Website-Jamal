@@ -138,19 +138,44 @@ function Hero() {
           </div>
         </div>
 
-        <div className="relative w-full aspect-square flex justify-center items-center">
-          {/* Floating Product Image inside a beautiful glass card */}
-          <div className="relative w-full max-w-[500px] h-full">
-            <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-purple-500/20 rounded-[40px] blur-3xl transform rotate-12 scale-90"></div>
-            <div
-              onMouseMove={handleMouseMove}
-              className="relative w-full h-full bg-surface/40 backdrop-blur-2xl border border-white/10 rounded-[40px] p-8 shadow-2xl flex flex-col items-center justify-center transform transition-transform duration-700 hover:scale-105 hover:-rotate-2 cursor-pointer group spell-glow-card"
-            >
-              <div className="absolute top-6 left-6 bg-night px-4 py-1.5 rounded-full border border-white/10 text-white text-xs font-bold tracking-widest">THIS WEEK</div>
-              <img src={currentDraw.image} alt={currentDraw.title} className="w-full h-auto max-h-[300px] object-contain drop-shadow-[0_20px_40px_rgba(0,0,0,0.5)] group-hover:scale-110 transition-transform duration-500 spell-float-image" />
-              <h3 className="text-2xl font-bold text-white mt-8 mb-2 text-center">{currentDraw.title}</h3>
-              <div className="flex items-center gap-2 text-primary font-bold text-xl bg-primary/10 px-4 py-2 rounded-xl">
-                🎟️ {currentDraw.ticketPrice.toLocaleString()} {currentDraw.currency}
+        <div className="relative w-full aspect-square flex justify-center items-center select-none pointer-events-none">
+          {/* Pulsing Neon Backdrop Glow */}
+          <div className="absolute w-[360px] h-[360px] bg-gradient-to-tr from-primary/20 to-purple-500/25 rounded-full blur-[90px]" style={{ animation: 'glow-pulse 4s ease-in-out infinite' }} />
+
+          {/* Large Outer dashed Orbit Ring */}
+          <div className="absolute w-[440px] h-[440px] rounded-full border border-white/5 border-dashed" style={{ animation: 'orbit-rotate 48s linear infinite' }} />
+
+          {/* Inner double styling Orbit Ring */}
+          <div className="absolute w-[350px] h-[350px] rounded-full border border-primary/10 border-double" style={{ animation: 'orbit-rotate 28s linear infinite reverse' }} />
+
+          {/* Rotating Glowing Core Ring */}
+          <div className="absolute w-[280px] h-[280px] rounded-full border border-white/10" style={{ animation: 'orbit-rotate 60s linear infinite' }}>
+            {/* Ambient small neon dot floating on core ring */}
+            <div className="absolute -top-1.5 left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-primary shadow-[0_0_15px_#ff6900] animate-pulse" />
+          </div>
+
+          {/* Floating Premium MacBook Frame and Badges */}
+          <div className="relative z-10 flex flex-col items-center" style={{ animation: 'float-box 6s ease-in-out infinite' }}>
+            {/* Top Floating Badge */}
+            <div className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-white text-xs font-black uppercase tracking-wider mb-4 backdrop-blur-md shadow-lg">
+              <span className="w-2 h-2 rounded-full bg-primary animate-ping" />
+              ⚡ This Week's Mega Prize
+            </div>
+
+            {/* Laptop Image */}
+            <div className="relative w-[340px] md:w-[380px] aspect-[16/10] flex items-center justify-center">
+              <img 
+                src={currentDraw.image} 
+                alt={currentDraw.title} 
+                className="w-full h-full object-contain filter drop-shadow-[0_20px_45px_rgba(0,0,0,0.65)]" 
+              />
+            </div>
+
+            {/* Bottom Title & Price Badge */}
+            <div className="mt-4 text-center">
+              <h3 className="text-xl md:text-2xl font-black text-white tracking-tight mb-2">{currentDraw.title}</h3>
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-primary/10 border border-primary/20 text-primary font-black text-lg backdrop-blur-md shadow-sm">
+                🎟️ Ticket Price: {currentDraw.ticketPrice.toLocaleString()} {currentDraw.currency}
               </div>
             </div>
           </div>
@@ -321,10 +346,10 @@ function FeaturedPrize() {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 items-stretch relative z-10">
           <div className="relative overflow-hidden rounded-[2rem] border border-white/10 shadow-2xl aspect-square lg:aspect-auto lg:h-[380px] bg-night/20 backdrop-blur-sm">
-            <img 
-              src={currentDraw.image} 
-              alt={currentDraw.title} 
-              className="w-full h-full object-cover hover:scale-105 transition-transform duration-700 select-none" 
+            <img
+              src={currentDraw.image}
+              alt={currentDraw.title}
+              className="w-full h-full object-cover hover:scale-105 transition-transform duration-700 select-none"
             />
           </div>
 
@@ -345,7 +370,7 @@ function FeaturedPrize() {
                   {currentDraw.ticketPrice.toLocaleString()} {currentDraw.currency}
                 </span>
               </div>
-              
+
               {/* Vertical divider line on desktop */}
               <div className="hidden sm:block w-px h-12 bg-white/10 shrink-0 self-center" />
 
@@ -634,78 +659,36 @@ function CtaSection() {
   const router = useRouter()
   return (
     <Section>
-      <style dangerouslySetInnerHTML={{__html: `
-        @keyframes float-box {
-          0%, 100% { transform: translateY(0px) rotate(0deg); }
-          50% { transform: translateY(-12px) rotate(1.5deg); }
-        }
-        @keyframes orbit-rotate {
-          0% { transform: rotate(0deg); }
-          100% { transform: rotate(360deg); }
-        }
-        @keyframes glow-pulse {
-          0%, 100% { opacity: 0.5; transform: scale(1); }
-          50% { opacity: 0.8; transform: scale(1.05); }
-        }
-      `}} />
-
-      <div className="relative bg-gradient-to-br from-[#1a0f35] via-[#100624] to-[#080312] border border-white/10 rounded-[3rem] px-8 py-16 lg:p-20 overflow-hidden shadow-2xl text-left">
+      <div className="relative bg-gradient-to-br from-[#120b24] to-[#080414] border border-white/10 rounded-[2rem] px-5 py-12 md:py-20 text-center overflow-hidden shadow-2xl">
         {/* Subtle dynamic background ambient glows */}
         <div className="absolute -top-40 -left-40 w-[600px] h-[600px] bg-primary/10 blur-[120px] rounded-full pointer-events-none"></div>
         <div className="absolute -bottom-40 -right-40 w-[600px] h-[600px] bg-purple-500/10 blur-[120px] rounded-full pointer-events-none"></div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center relative z-10">
-          {/* Left Column: Bold Asymmetric Headline and Text */}
-          <div className="lg:col-span-7">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/5 border border-white/10 text-primary text-xs font-bold uppercase tracking-wider mb-6 backdrop-blur-md">
-              <CrownFilled className="text-sm animate-pulse text-[#FFB900]" />
-              Join the Elite Club
-            </div>
+        <div className="relative z-10 max-w-3xl mx-auto">
+          <h2 className="text-4xl md:text-6xl font-black text-white leading-tight mb-6">
+            Ready to win{' '}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-[#ff8c00]">
+              something amazing?
+            </span>
+          </h2>
 
-            <h2 className="text-4xl md:text-6xl font-black text-white leading-[1.12] mb-6">
-              Your next luxury win is{' '}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-[#ff8c00] to-yellow-400">
-                one tap away.
-              </span>
-            </h2>
+          <p className="text-white/60 text-lg md:text-xl font-medium leading-relaxed mb-10 max-w-2xl mx-auto">
+            Create your account in under a minute and grab a ticket for this week's mega draw before time runs out.
+          </p>
 
-            <p className="text-white/60 text-lg font-medium leading-relaxed max-w-xl">
-              Create your account in under a minute, pick this week's live mega draw, and participate with secure mobile payment validation. Don't let someone else claim it!
-            </p>
-
-            <div className="flex flex-col sm:flex-row items-center gap-4 mt-8">
-              <button
-                onClick={() => router.push('/register')}
-                className="w-full sm:w-auto px-10 py-5 bg-gradient-to-r from-primary to-primary-dark hover:from-primary-dark hover:to-primary text-white rounded-2xl font-black text-lg transition-all hover:scale-105 shadow-[0_10px_30px_rgba(255,105,0,0.3)] cursor-pointer spell-btn-glow"
-              >
-                Join Now
-              </button>
-              <button
-                onClick={() => router.push('/login')}
-                className="w-full sm:w-auto px-10 py-5 bg-white/5 hover:bg-white/10 text-white border border-white/10 rounded-2xl font-bold text-lg backdrop-blur-sm transition-all hover:scale-105 cursor-pointer"
-              >
-                Log In
-              </button>
-            </div>
-          </div>
-
-          {/* Right Column: Holographic floating luxury golden gift box in orbit */}
-          <div className="lg:col-span-5 flex justify-center">
-            <div className="relative w-full aspect-square max-w-[320px] lg:max-w-none flex items-center justify-center select-none pointer-events-none">
-              {/* Neon Glow behind */}
-              <div className="absolute w-[240px] h-[240px] bg-primary/20 rounded-full blur-[80px]" style={{ animation: 'glow-pulse 4s ease-in-out infinite' }} />
-              
-              {/* Orbit Ring 1 */}
-              <div className="absolute w-[280px] h-[280px] rounded-full border border-white/10 border-dashed" style={{ animation: 'orbit-rotate 40s linear infinite' }} />
-              
-              {/* Orbit Ring 2 with double style */}
-              <div className="absolute w-[220px] h-[220px] rounded-full border border-primary/20 border-double" style={{ animation: 'orbit-rotate 25s linear infinite reverse' }} />
-              
-              {/* Main Floating 3D Gift Box Image */}
-              <div className="relative z-10 w-[200px] h-[200px]" style={{ animation: 'float-box 5s ease-in-out infinite' }}>
-                <img src={giftBoxImg.src} alt="Luxury Gift Box" className="w-full h-full object-contain filter drop-shadow-[0_15px_30px_rgba(255,105,0,0.35)]" />
-              </div>
-            </div>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <button
+              onClick={() => router.push('/register')}
+              className="w-full sm:w-auto px-10 py-5 bg-primary hover:bg-primary-dark text-white rounded-2xl font-black text-lg transition-all hover:scale-105 shadow-[0_0_40px_rgba(255,105,0,0.2)] cursor-pointer spell-btn-glow"
+            >
+              Create Free Account
+            </button>
+            <button
+              onClick={() => router.push('/login')}
+              className="w-full sm:w-auto px-10 py-5 bg-white/5 hover:bg-white/10 text-white border border-white/10 rounded-2xl font-bold text-lg backdrop-blur-sm transition-all hover:scale-105 cursor-pointer"
+            >
+              Log In
+            </button>
           </div>
         </div>
       </div>
