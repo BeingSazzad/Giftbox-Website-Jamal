@@ -307,3 +307,8 @@ input:autofill:active,
   opacity: 0.6;
   transform: scale(1.05);
 }
+
+/* Ant Design Form Spacing Adjustments */
+.ant-form-item .ant-form-item-label {
+  padding-bottom: 4px !important;
+}

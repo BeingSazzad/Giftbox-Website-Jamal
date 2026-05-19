@@ -53,6 +53,7 @@ export default function RegisterPage() {
         <Form.Item
           name="fullName"
           label={<span className="text-body">Full Name</span>}
+          style={{ marginBottom: '12px' }}
         >
           <Input
             size="large"
@@ -65,6 +66,7 @@ export default function RegisterPage() {
         <Form.Item
           name="email"
           label={<span className="text-body">Email</span>}
+          style={{ marginBottom: '12px' }}
         >
           <Input
             size="large"
@@ -77,6 +79,7 @@ export default function RegisterPage() {
         <Form.Item
           name="phone"
           label={<span className="text-body">Phone</span>}
+          style={{ marginBottom: '12px' }}
         >
           <Input
             size="large"
@@ -89,6 +92,7 @@ export default function RegisterPage() {
         <Form.Item
           name="password"
           label={<span className="text-body">Password</span>}
+          style={{ marginBottom: '12px' }}
         >
           <Input.Password
             size="large"
@@ -101,6 +105,7 @@ export default function RegisterPage() {
         <Form.Item
           name="confirmPassword"
           label={<span className="text-body">Confirm Password</span>}
+          style={{ marginBottom: '16px' }}
         >
           <Input.Password
             size="large"
@@ -110,7 +115,7 @@ export default function RegisterPage() {
           />
         </Form.Item>
 
-        <Form.Item className="mt-2 mb-0">
+        <Form.Item className="mt-2 mb-0" style={{ marginBottom: 0 }}>
           <Button type="primary" size="large" block onClick={handleSubmitAny}>
             Create Account
           </Button>

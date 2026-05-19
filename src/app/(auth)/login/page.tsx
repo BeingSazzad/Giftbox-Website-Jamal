@@ -59,6 +59,7 @@ export default function LoginPage() {
         <Form.Item
           name="email"
           label={<span className="text-body">Email</span>}
+          style={{ marginBottom: '12px' }}
         >
           <Input
             size="large"
@@ -71,6 +72,7 @@ export default function LoginPage() {
         <Form.Item
           name="password"
           label={<span className="text-body">Password</span>}
+          style={{ marginBottom: '16px' }}
         >
           <Input.Password
             size="large"
@@ -89,7 +91,7 @@ export default function LoginPage() {
           </Link>
         </div>
 
-        <Form.Item className="mb-0">
+        <Form.Item className="mb-0" style={{ marginBottom: 0 }}>
           <Button type="primary" size="large" block onClick={handleSubmitAny}>
             Sign In
           </Button>
