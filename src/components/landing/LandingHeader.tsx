@@ -202,9 +202,6 @@ export function LandingHeader() {
                 classNames={{ root: "custom-dropdown-dark" }}
               >
                 <div className="flex items-center gap-3 cursor-pointer hover:opacity-90 transition-all group">
-                  <div className="text-right hidden sm:block">
-                    <div className="text-white text-sm font-bold leading-none group-hover:text-primary transition-colors">{userName}</div>
-                  </div>
                   <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-primary to-[#ff8c00] p-0.5 shadow-lg shadow-primary/20 group-hover:scale-105 transition-transform duration-300">
                     <img
                       src={avatar}
