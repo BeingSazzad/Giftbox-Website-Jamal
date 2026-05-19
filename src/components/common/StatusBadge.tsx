@@ -3,19 +3,19 @@ import type { ParticipationStatus } from '../../data/participations'
 const STYLES: Record<ParticipationStatus, { label: string; cls: string }> = {
   pending: {
     label: 'Pending',
-    cls: 'text-primary bg-primary/12 border-primary/40',
+    cls: 'text-primary bg-[#1f150e]/95 border-primary/50 shadow-lg shadow-black/40',
   },
   approved: {
     label: 'Approved',
-    cls: 'text-success bg-success/12 border-success/40',
+    cls: 'text-[#10b981] bg-[#0c1c14]/95 border-[#10b981]/50 shadow-lg shadow-black/40',
   },
   rejected: {
     label: 'Rejected',
-    cls: 'text-danger bg-danger/12 border-danger/40',
+    cls: 'text-[#ef4444] bg-[#1c0c0c]/95 border-[#ef4444]/50 shadow-lg shadow-black/40',
   },
   completed: {
     label: 'Completed',
-    cls: 'text-sky-400 bg-sky-400/12 border-sky-400/40',
+    cls: 'text-[#06b6d4] bg-[#0c1820]/95 border-[#06b6d4]/50 shadow-lg shadow-black/40',
   },
 }
 
@@ -30,7 +30,7 @@ export function StatusBadge({ status, size = 'sm' }: StatusBadgeProps) {
   return (
     <span
       className={[
-        'inline-block rounded-full border font-semibold leading-tight',
+        'inline-block rounded-full border font-bold leading-tight backdrop-blur-md select-none',
         sizeCls,
         s.cls,
       ].join(' ')}
