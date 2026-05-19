@@ -34,7 +34,7 @@ body,
 body {
   margin: 0;
   font-family: var(--font-sans);
-  background: linear-gradient(135deg, #2a1854 0%, #1a0f3d 40%, #0d0820 100%);
+  background: linear-gradient(135deg, #22124e 0%, #150a2e 50%, #0a0516 100%);
   background-attachment: fixed;
   color: var(--color-body);
 }
