@@ -26,6 +26,7 @@ import { Countdown } from '@/components/common/Countdown'
 import { currentDraw } from '@/data/draws'
 import { participations } from '@/data/participations'
 import splashImg from '@/assets/splash.png'
+import giftBoxImg from '@/assets/images/luxury_gift_box.png'
 import { useAuth } from '@/hooks/useAuth'
 
 const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -243,21 +244,37 @@ function AboutUsShort() {
   return (
     <Section id="about" className="mt-12">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-        <div className="relative">
-          <div className="absolute inset-0 bg-gradient-to-r from-purple-500/20 to-primary/20 rounded-[3rem] blur-2xl transform -rotate-6"></div>
-          <div className="relative bg-surface/50 border border-white/10 rounded-[3rem] p-10 backdrop-blur-xl">
-            <GiftFilled className="text-6xl text-primary mb-6" />
-            <h3 className="text-3xl font-bold text-white mb-4">We are Gift Box.</h3>
-            <p className="text-white/70 text-lg leading-relaxed mb-6">
-              Our mission is to make premium luxury prizes accessible to everyone. We believe that a small participation shouldn't mean a small chance. By bringing thousands of people together, we fund weekly prizes that change lives.
-            </p>
-            <div className="flex gap-4 items-center">
-              <div className="flex -space-x-4">
+        <div className="relative w-full aspect-[4/3] flex items-center justify-center">
+          {/* Glowing colorful backdrop blur blob */}
+          <div className="absolute inset-0 bg-gradient-to-tr from-primary/30 to-purple-600/30 rounded-[3rem] blur-3xl transform rotate-3 scale-95 pointer-events-none"></div>
+          
+          {/* Glass Card frame */}
+          <div className="relative w-full h-full bg-[#0c071a]/40 backdrop-blur-2xl border border-white/10 rounded-[3rem] p-6 flex flex-col items-center justify-center overflow-hidden group shadow-2xl">
+            {/* Absolute Decorative Shimmer badge */}
+            <div className="absolute top-6 left-6 bg-[#ffb900]/10 border border-[#ffb900]/35 px-4 py-1.5 rounded-full text-[#ffb900] text-xs font-black uppercase tracking-wider select-none backdrop-blur-md">
+              ✨ Premium Showcase
+            </div>
+            
+            {/* Floating Luxury Gift Box Image with glow shadow */}
+            <div className="relative w-full max-w-[280px] md:max-w-[320px] aspect-square flex items-center justify-center">
+              <div className="absolute inset-0 bg-primary/10 rounded-full blur-2xl opacity-50 group-hover:opacity-80 transition-opacity duration-700 pointer-events-none"></div>
+              <img 
+                src={giftBoxImg.src} 
+                alt="Luxury Golden Gift Box" 
+                className="w-full h-auto max-h-[90%] object-contain drop-shadow-[0_20px_50px_rgba(255,185,0,0.35)] animate-[float_4s_ease-in-out_infinite] group-hover:scale-105 transition-transform duration-700 select-none" 
+              />
+            </div>
+
+            {/* Micro avatar member pile positioned beautifully inside the visual card */}
+            <div className="absolute bottom-6 left-6 right-6 bg-[#0a0514]/85 backdrop-blur-xl border border-white/10 rounded-2xl p-4 flex flex-wrap items-center justify-between gap-4 shadow-xl select-none">
+              <div className="flex -space-x-3">
                 {[1,2,3,4].map(i => (
-                  <img key={i} src={`https://i.pravatar.cc/100?img=${i+10}`} className="w-12 h-12 rounded-full border-2 border-deep" alt="User" />
+                  <img key={i} src={`https://i.pravatar.cc/100?img=${i+10}`} className="w-10 h-10 rounded-full border-2 border-[#120a21] object-cover" alt="User" />
                 ))}
               </div>
-              <span className="text-white/60 text-sm font-medium">Joined by 10k+ members</span>
+              <span className="text-white/80 text-xs md:text-sm font-black tracking-wide flex items-center gap-1.5">
+                <span className="w-2 h-2 rounded-full bg-success animate-pulse" /> Join 10k+ active members
+              </span>
             </div>
           </div>
         </div>
