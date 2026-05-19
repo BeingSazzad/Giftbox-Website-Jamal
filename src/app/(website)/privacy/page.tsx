@@ -1,101 +1,16 @@
 'use client'
 import { WebShell } from '@/components/layout/WebShell'
 import { BackHeader } from '@/components/layout/BackHeader'
+import { useState, useEffect } from 'react'
 import { LockFilled } from '@ant-design/icons'
-
-interface PolicySection {
-  id: string
-  number: string
-  title: string
-  paragraphs?: string[]
-  bullets?: string[]
-}
-
-const sections: PolicySection[] = [
-  {
-    id: 'collect',
-    number: '1',
-    title: 'Information We Collect',
-    paragraphs: [
-      'We collect personal information including name, email address, phone number, and payment details necessary for draw participation and prize distribution.',
-      'We may also collect device information such as IP address, browser type, and usage data to improve the platform experience.',
-    ],
-  },
-  {
-    id: 'usage',
-    number: '2',
-    title: 'How We Use Your Data',
-    bullets: [
-      'To process your draw entries and verify payments.',
-      'To communicate draw results and prize delivery arrangements.',
-      'To improve our services and personalise your experience on the platform.',
-      'We never sell your personal data to third parties.',
-    ],
-  },
-  {
-    id: 'security',
-    number: '3',
-    title: 'Data Security',
-    paragraphs: [
-      'We implement industry-standard security measures including encryption and access controls to protect your personal information from unauthorized access, alteration, disclosure, or destruction.',
-      'While we take all reasonable precautions, no method of transmission over the internet is 100% secure. We cannot guarantee absolute security.',
-    ],
-  },
-  {
-    id: 'rights',
-    number: '4',
-    title: 'Your Rights',
-    bullets: [
-      'You have the right to access the personal data we hold about you.',
-      'You may request correction of inaccurate information at any time.',
-      'You can request deletion of your account and associated personal data.',
-      'To exercise any of these rights, please contact our support team.',
-    ],
-  },
-  {
-    id: 'cookies',
-    number: '5',
-    title: 'Cookies & Tracking',
-    paragraphs: [
-      'We use cookies and similar tracking technologies to enhance user experience, analyze platform usage, and remember your preferences.',
-      'You can manage cookie preferences in your device or browser settings. Disabling cookies may affect some features of the platform.',
-    ],
-  },
-  {
-    id: 'sharing',
-    number: '6',
-    title: 'Data Sharing',
-    paragraphs: [
-      'We do not sell, trade, or otherwise transfer your personal information to outside parties except to trusted third parties who assist us in operating the platform, conducting our business, or serving users — provided that those parties agree to keep this information confidential.',
-    ],
-  },
-  {
-    id: 'retention',
-    number: '7',
-    title: 'Data Retention',
-    paragraphs: [
-      'We retain your personal data for as long as your account remains active or as needed to provide you services. You may request account deletion at any time by contacting support.',
-    ],
-  },
-  {
-    id: 'changes',
-    number: '8',
-    title: 'Changes to This Policy',
-    paragraphs: [
-      'Gift Box reserves the right to update this Privacy Policy at any time. We will notify you of significant changes via the platform or your registered contact details. Continued use of the platform after changes constitutes acceptance of the revised policy.',
-    ],
-  },
-  {
-    id: 'contact',
-    number: '9',
-    title: 'Contact',
-    paragraphs: [
-      'If you have any questions or concerns about this Privacy Policy or how your data is handled, please contact us at: support@coffretcadeau.cd or via WhatsApp: +243 xxx xxx xxx',
-    ],
-  },
-]
+import { getDynamicPrivacy, PrivacySection } from '@/data/websiteContent'
 
 export default function PrivacyPolicyPage() {
+  const [sections, setSections] = useState<PrivacySection[]>([])
+
+  useEffect(() => {
+    setSections(getDynamicPrivacy())
+  }, [])
   return (
     <WebShell maxWidth={1200}>
       <div className="relative py-4">

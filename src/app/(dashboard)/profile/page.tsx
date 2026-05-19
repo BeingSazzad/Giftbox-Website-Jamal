@@ -1,4 +1,4 @@
-'use client';
+'use client'
 import {
   UserOutlined,
   LockOutlined,
@@ -10,7 +10,9 @@ import {
   BellOutlined,
   MailOutlined,
   PhoneOutlined,
-  CalendarOutlined
+  CalendarOutlined,
+  SettingOutlined,
+  ReloadOutlined
 } from '@ant-design/icons'
 import { Modal, Form, Input, Button, DatePicker, Select, Switch, message } from 'antd'
 import { useState, useRef, useEffect, Suspense } from 'react'
@@ -18,8 +20,20 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import { useAuth } from '@/hooks/useAuth'
 import dayjs from 'dayjs'
 import { WebShell } from '@/components/layout/WebShell'
+import {
+  getDynamicFaqs,
+  setDynamicFaqs,
+  getDynamicTerms,
+  setDynamicTerms,
+  getDynamicPrivacy,
+  setDynamicPrivacy,
+  resetDynamicContent,
+  FaqItem,
+  TermsSection,
+  PrivacySection
+} from '@/data/websiteContent'
 
-type SettingsTab = 'profile' | 'password' | 'preferences' | 'support'
+type SettingsTab = 'profile' | 'password' | 'preferences' | 'support' | 'admin'
 
 function SettingsHubContent() {
   const router = useRouter()
@@ -36,6 +50,67 @@ function SettingsHubContent() {
   const supportInputRef = useRef<HTMLInputElement>(null)
   const supportPhotoBlobRef = useRef<string | null>(null)
 
+  const [adminFaqs, setAdminFaqs] = useState<FaqItem[]>([])
+  const [adminTerms, setAdminTerms] = useState<TermsSection[]>([])
+  const [adminPrivacy, setAdminPrivacy] = useState<PrivacySection[]>([])
+
+  useEffect(() => {
+    setAdminFaqs(getDynamicFaqs())
+    setAdminTerms(getDynamicTerms())
+    setAdminPrivacy(getDynamicPrivacy())
+  }, [])
+
+  const handleFaqChange = (index: number, key: 'q' | 'a', value: string) => {
+    const next = [...adminFaqs]
+    next[index] = { ...next[index], [key]: value }
+    setAdminFaqs(next)
+  }
+
+  const handleAddFaq = () => {
+    setAdminFaqs([...adminFaqs, { q: 'New Question', a: 'New Answer content goes here.' }])
+  }
+
+  const handleRemoveFaq = (index: number) => {
+    setAdminFaqs(adminFaqs.filter((_, i) => i !== index))
+  }
+
+  const handleTermsChange = (index: number, val: string) => {
+    const next = [...adminTerms]
+    if (next[index]) {
+      next[index] = {
+        ...next[index],
+        paragraphs: [val, ...(next[index].paragraphs?.slice(1) || [])]
+      }
+    }
+    setAdminTerms(next)
+  }
+
+  const handlePrivacyChange = (index: number, val: string) => {
+    const next = [...adminPrivacy]
+    if (next[index]) {
+      next[index] = {
+        ...next[index],
+        paragraphs: [val, ...(next[index].paragraphs?.slice(1) || [])]
+      }
+    }
+    setAdminPrivacy(next)
+  }
+
+  const handleSaveAllContent = () => {
+    setDynamicFaqs(adminFaqs)
+    setDynamicTerms(adminTerms)
+    setDynamicPrivacy(adminPrivacy)
+    message.success('Website dynamic content saved successfully!')
+  }
+
+  const handleResetAllContent = () => {
+    resetDynamicContent()
+    setAdminFaqs(getDynamicFaqs())
+    setAdminTerms(getDynamicTerms())
+    setAdminPrivacy(getDynamicPrivacy())
+    message.success('Reset website content to baseline defaults!')
+  }
+
   useEffect(() => () => {
     if (avatarBlobRef.current) URL.revokeObjectURL(avatarBlobRef.current)
     if (supportPhotoBlobRef.current) URL.revokeObjectURL(supportPhotoBlobRef.current)
@@ -48,7 +123,7 @@ function SettingsHubContent() {
 
   useEffect(() => {
     const tabParam = searchParams.get('tab') as SettingsTab
-    if (tabParam && ['profile', 'password', 'preferences', 'support'].includes(tabParam)) {
+    if (tabParam && ['profile', 'password', 'preferences', 'support', 'admin'].includes(tabParam)) {
       setActiveTab(tabParam)
     }
   }, [searchParams])
@@ -113,6 +188,7 @@ function SettingsHubContent() {
     { value: 'password', label: 'Security & Password', icon: <LockOutlined /> },
     { value: 'preferences', label: 'Preferences', icon: <GlobalOutlined /> },
     { value: 'support', label: 'Help & Support', icon: <QuestionCircleOutlined /> },
+    { value: 'admin', label: 'Admin Control', icon: <SettingOutlined /> },
   ]
 
   return (
@@ -467,6 +543,118 @@ function SettingsHubContent() {
                     </p>
                   </div>
                 </div>
+              </div>
+            </div>
+          )}
+
+          {/* 5. Admin Control Panel */}
+          {activeTab === 'admin' && (
+            <div className="space-y-6 animate-fade-in">
+              <div>
+                <h2 className="text-white text-lg font-bold mb-1 flex items-center gap-2">
+                  <SettingOutlined className="text-primary" /> Dynamic Content Manager
+                </h2>
+                <p className="text-white/50 text-xs mb-5 leading-relaxed">
+                  Modify terms, privacy paragraphs, and FAQ questions dynamically. Updates will persist locally and reflect instantly on website views.
+                </p>
+              </div>
+
+              {/* FAQs Editor */}
+              <div className="bg-deep/30 border border-white/5 rounded-2xl p-5 space-y-4">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-white text-sm font-bold m-0">Frequently Asked Questions ({adminFaqs.length})</h3>
+                  <button
+                    type="button"
+                    onClick={handleAddFaq}
+                    className="px-3 py-1.5 bg-primary/10 hover:bg-primary/20 text-primary border border-primary/20 rounded-lg text-xs font-bold transition-all cursor-pointer"
+                  >
+                    + Add New FAQ
+                  </button>
+                </div>
+                
+                <div className="space-y-4 max-h-[300px] overflow-y-auto pr-1 scrollbar-thin">
+                  {adminFaqs.map((faq, index) => (
+                    <div key={index} className="bg-black/20 border border-white/5 rounded-xl p-4 space-y-3 relative">
+                      <button
+                        type="button"
+                        onClick={() => handleRemoveFaq(index)}
+                        className="absolute top-3 right-3 text-red-500 hover:text-red-400 bg-transparent border-0 cursor-pointer text-xs font-bold"
+                      >
+                        Delete
+                      </button>
+                      <div>
+                        <span className="text-[10px] text-white/40 font-bold block mb-1 uppercase">Question</span>
+                        <input
+                          type="text"
+                          value={faq.q}
+                          onChange={(e) => handleFaqChange(index, 'q', e.target.value)}
+                          className="w-full bg-[#0a0514] border border-white/10 rounded-xl px-4 py-2 text-white text-sm focus:border-primary/50 focus:outline-none transition-all"
+                          placeholder="e.g. How do I participate?"
+                        />
+                      </div>
+                      <div>
+                        <span className="text-[10px] text-white/40 font-bold block mb-1 uppercase">Answer</span>
+                        <textarea
+                          rows={2}
+                          value={faq.a}
+                          onChange={(e) => handleFaqChange(index, 'a', e.target.value)}
+                          className="w-full bg-[#0a0514] border border-white/10 rounded-xl px-4 py-2 text-white text-sm focus:border-primary/50 focus:outline-none transition-all resize-none"
+                          placeholder="e.g. Select a draw, complete the payment..."
+                        />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* T&C Paragraphs Editor */}
+              <div className="bg-deep/30 border border-white/5 rounded-2xl p-5 space-y-4">
+                <h3 className="text-white text-sm font-bold m-0">Terms &amp; Conditions (First Section)</h3>
+                {adminTerms.slice(0, 2).map((section, index) => (
+                  <div key={section.id} className="space-y-2">
+                    <span className="text-xs text-white/70 font-semibold">{section.number}. {section.title}</span>
+                    <textarea
+                      rows={2}
+                      value={section.paragraphs?.[0] || ''}
+                      onChange={(e) => handleTermsChange(index, e.target.value)}
+                      className="w-full bg-[#0a0514] border border-white/10 rounded-xl px-4 py-2.5 text-white text-sm focus:border-primary/50 focus:outline-none transition-all"
+                    />
+                  </div>
+                ))}
+              </div>
+
+              {/* Privacy Paragraphs Editor */}
+              <div className="bg-deep/30 border border-white/5 rounded-2xl p-5 space-y-4">
+                <h3 className="text-white text-sm font-bold m-0">Privacy Policy (First Section)</h3>
+                {adminPrivacy.slice(0, 2).map((section, index) => (
+                  <div key={section.id} className="space-y-2">
+                    <span className="text-xs text-white/70 font-semibold">{section.number}. {section.title}</span>
+                    <textarea
+                      rows={2}
+                      value={section.paragraphs?.[0] || ''}
+                      onChange={(e) => handlePrivacyChange(index, e.target.value)}
+                      className="w-full bg-[#0a0514] border border-white/10 rounded-xl px-4 py-2.5 text-white text-sm focus:border-primary/50 focus:outline-none transition-all"
+                    />
+                  </div>
+                ))}
+              </div>
+
+              {/* Action Buttons */}
+              <div className="flex gap-4">
+                <button
+                  type="button"
+                  onClick={handleSaveAllContent}
+                  className="flex-1 h-12 bg-primary hover:bg-primary-hover text-[#1a0f0a] font-bold rounded-xl shadow-lg hover:shadow-primary/20 transition-all cursor-pointer border-none"
+                >
+                  Save All Changes
+                </button>
+                <button
+                  type="button"
+                  onClick={handleResetAllContent}
+                  className="h-12 px-5 bg-white/5 hover:bg-white/10 border border-white/10 text-white rounded-xl font-bold transition-all cursor-pointer flex items-center gap-2"
+                >
+                  <ReloadOutlined /> Reset Defaults
+                </button>
               </div>
             </div>
           )}

@@ -1,63 +1,22 @@
 'use client';
 import { Button } from 'antd'
 import { DownOutlined, QuestionCircleOutlined, MessageOutlined } from '@ant-design/icons'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation';
 import { WebShell } from '@/components/layout/WebShell'
 import { BackHeader } from '@/components/layout/BackHeader'
 
-interface FaqItem {
-  q: string
-  a: string
-}
-
-const faqs: FaqItem[] = [
-  {
-    q: 'How do I participate in a draw?',
-    a: 'Select a draw, complete the payment, upload payment proof, and wait for approval.',
-  },
-  {
-    q: 'How long does verification take?',
-    a: 'Payment verification usually takes 24-48 hours. You will be notified by app and email once complete.',
-  },
-  {
-    q: 'How are winners selected?',
-    a: 'Winners are chosen through a certified random draw on the scheduled date. Each ticket has an equal chance.',
-  },
-  {
-    q: 'Can I get a refund?',
-    a: 'Tickets are non-refundable, even in case of error or non-winning. Please double-check your details before submitting.',
-  },
-  {
-    q: 'How do I claim my prize?',
-    a: 'If you win, our team will reach out via WhatsApp or phone call within 24 hours to arrange delivery.',
-  },
-  {
-    q: 'Is there a limit to how many tickets I can purchase?',
-    a: 'No, you can purchase as many tickets as you like to increase your chances of winning the featured prize.',
-  },
-  {
-    q: 'What payment methods are supported?',
-    a: 'We support secure payments via popular mobile payment methods (M-Pesa, Orange Money, Wave) and bank transfers.',
-  },
-  {
-    q: 'How can I verify the draw is genuine?',
-    a: 'Every single draw is conducted live using a certified random draw system. We publish full draw recordings and verified winner lists.',
-  },
-  {
-    q: 'Are my personal details secure?',
-    a: 'Absolutely. We only use your registration details for delivery and identification. We never store financial credentials.',
-  },
-  {
-    q: 'What if I upload the wrong payment proof?',
-    a: 'Our support team will decline the proof and add a note explaining why. You will be able to upload the correct transaction proof immediately.',
-  }
-]
+import { getDynamicFaqs, FaqItem } from '@/data/websiteContent'
 
 export default function FaqPage() {
   const router = useRouter()
+  const [faqs, setFaqs] = useState<FaqItem[]>([])
   const [openIndex, setOpenIndex] = useState<number | null>(0)
   const [showAll, setShowAll] = useState(false)
+
+  useEffect(() => {
+    setFaqs(getDynamicFaqs())
+  }, [])
 
   const visibleFaqs = showAll ? faqs : faqs.slice(0, 6)
 
