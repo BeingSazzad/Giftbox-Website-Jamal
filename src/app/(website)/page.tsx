@@ -88,7 +88,7 @@ function Hero() {
   const isAuthenticated = !!token
 
   return (
-    <section className="relative w-full max-w-7xl mx-auto px-6 md:px-12 pt-32 pb-24 overflow-hidden">
+    <section className="relative w-full max-w-7xl mx-auto px-6 md:px-12 pt-20 pb-12 md:pt-36 md:pb-24 overflow-hidden">
       {/* Background Glows */}
       <div className="absolute top-20 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-primary/20 blur-[120px] rounded-full pointer-events-none"></div>
       <div className="absolute top-40 right-0 w-[400px] h-[400px] bg-purple-600/20 blur-[100px] rounded-full pointer-events-none"></div>
@@ -243,8 +243,8 @@ function StatsBar() {
 
 function AboutUsShort() {
   return (
-    <Section id="about" className="mt-12">
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+    <Section id="about" className="mt-6 md:mt-12">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-16 items-center">
         <div className="relative w-full aspect-square md:aspect-[4/3] flex items-center justify-center">
           {/* Glowing colorful backdrop blur blob */}
           <div className="absolute inset-0 bg-gradient-to-tr from-primary/20 to-purple-600/20 rounded-[3rem] blur-3xl transform rotate-3 scale-95 pointer-events-none"></div>
@@ -316,10 +316,10 @@ function FeaturedPrize() {
     <Section id="prizes">
       <SectionTitle eyebrow="Featured" title="The prize on the line" subtitle="Brand new, sealed, and ready to ship to the winner free of charge." />
 
-      <div className="relative bg-gradient-to-br from-[#1a0f3d] to-[#0d0722] border border-primary/20 rounded-[2.5rem] p-6 md:p-10 overflow-hidden shadow-2xl shadow-primary/10">
+      <div className="relative bg-gradient-to-br from-[#1a0f3d] to-[#0d0722] border border-primary/20 rounded-[2rem] p-4 md:p-10 overflow-hidden shadow-2xl shadow-primary/10">
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/10 blur-[100px] rounded-full"></div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 items-stretch relative z-10">
           <div className="relative overflow-hidden rounded-[2rem] border border-white/10 shadow-2xl aspect-square lg:aspect-auto lg:h-[380px] bg-night/20 backdrop-blur-sm">
             <img 
               src={currentDraw.image} 
@@ -382,7 +382,7 @@ function WhyUs() {
   ]
   return (
     <Section id="why-us">
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-16 items-center">
         {/* Left Side: Stunning Editorial Image */}
         <div className="relative group">
           {/* Multi-layered gradient neon glowing blobs */}
@@ -520,33 +520,33 @@ function Winners() {
 function DownloadApp() {
   return (
     <Section id="app">
-      <div className="bg-gradient-to-r from-[#1a0f3d] to-[#0d0722] border border-white/10 rounded-[3rem] px-8 py-16 md:p-16 flex flex-col md:flex-row items-center justify-between overflow-hidden relative shadow-2xl">
+      <div className="bg-gradient-to-r from-[#1a0f3d] to-[#0d0722] border border-white/10 rounded-[2.5rem] px-5 py-10 md:p-14 flex flex-col md:flex-row items-center justify-between overflow-hidden relative shadow-2xl">
         <div className="absolute top-0 right-0 w-full h-full bg-[radial-gradient(circle_at_top_right,rgba(255,105,0,0.2)_0%,transparent_60%)] z-0" />
 
-        <div className="relative z-10 max-w-xl mb-12 md:mb-0 text-center md:text-left">
-          <div className="inline-flex items-center justify-center px-4 py-1.5 rounded-full bg-white/10 text-white text-sm font-bold uppercase tracking-widest mb-6 backdrop-blur-md">
+        <div className="relative z-10 max-w-xl mb-8 md:mb-0 text-center md:text-left">
+          <div className="inline-flex items-center justify-center px-4 py-1.5 rounded-full bg-white/10 text-white text-xs font-bold uppercase tracking-widest mb-4 md:mb-6 backdrop-blur-md">
             Mobile App
           </div>
-          <h2 className="text-4xl md:text-5xl font-black text-white leading-tight mb-6">
+          <h2 className="text-3xl md:text-5xl font-black text-white leading-tight mb-4 md:mb-6">
             Take Gift Box <br /><span className="text-primary">everywhere you go.</span>
           </h2>
-          <p className="text-white/70 text-lg leading-relaxed mb-10">
+          <p className="text-white/70 text-base leading-relaxed mb-6 md:mb-10">
             Never miss a draw. Upload your payment proofs in one tap, track your entries, and get instant notifications when you win. Available now on iOS and Android.
           </p>
 
           <div className="flex flex-wrap items-center justify-center md:justify-start gap-4">
-            <button className="flex items-center gap-3 bg-black border border-white/20 hover:border-white/40 text-white px-6 py-3 rounded-2xl transition-all hover:scale-105 cursor-pointer">
+            <button className="flex items-center gap-3 bg-black border border-white/20 hover:border-white/40 text-white px-5 py-2.5 rounded-2xl transition-all hover:scale-105 cursor-pointer">
               <AppleLogo />
               <div className="text-left">
-                <div className="text-[10px] text-white/60 font-semibold uppercase tracking-wider leading-none mb-1">Available for</div>
-                <div className="text-lg font-bold leading-none">Apple iOS</div>
+                <div className="text-[9px] text-white/60 font-semibold uppercase tracking-wider leading-none mb-1">Available for</div>
+                <div className="text-base font-bold leading-none">Apple iOS</div>
               </div>
             </button>
-            <button className="flex items-center gap-3 bg-black border border-white/20 hover:border-white/40 text-white px-6 py-3 rounded-2xl transition-all hover:scale-105 cursor-pointer">
+            <button className="flex items-center gap-3 bg-black border border-white/20 hover:border-white/40 text-white px-5 py-2.5 rounded-2xl transition-all hover:scale-105 cursor-pointer">
               <PlayLogo />
               <div className="text-left">
-                <div className="text-[10px] text-white/60 font-semibold uppercase tracking-wider leading-none mb-1">Available for</div>
-                <div className="text-lg font-bold leading-none">Android</div>
+                <div className="text-[9px] text-white/60 font-semibold uppercase tracking-wider leading-none mb-1">Available for</div>
+                <div className="text-base font-bold leading-none">Android</div>
               </div>
             </button>
           </div>
@@ -555,81 +555,107 @@ function DownloadApp() {
         <div className="relative z-10 w-full max-w-[320px] flex justify-center">
           {/* Phone Frame Mockup */}
           <div className="relative w-full aspect-[1/2.05] rounded-[3.2rem] border-[10px] border-[#1e1635] bg-[#080414] shadow-2xl overflow-hidden transform rotate-[-5deg] hover:rotate-0 transition-transform duration-700 select-none">
+            {/* iOS Status Bar */}
+            <div className="absolute top-2 w-full px-6 flex justify-between items-center text-[8px] font-bold text-white/90 z-30">
+              <span>9:41</span>
+              <div className="flex items-center gap-1">
+                <span>📶</span>
+                <span>📶</span>
+                <span>🔋</span>
+              </div>
+            </div>
+
             {/* Dynamic Island / Speaker Notch */}
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-28 h-6 bg-black rounded-b-2xl z-30 flex items-center justify-center">
-              <div className="w-12 h-1 bg-white/10 rounded-full mb-1"></div>
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-24 h-5 bg-black rounded-b-xl z-40 flex items-center justify-center">
+              <div className="w-10 h-0.5 bg-white/10 rounded-full mb-1"></div>
             </div>
 
             {/* App UI Screen Content */}
-            <div className="w-full h-full pt-8 pb-4 px-4 flex flex-col justify-between relative z-10 text-left text-white bg-gradient-to-b from-[#0f0724] to-[#080414]">
+            <div className="w-full h-full pt-8 pb-3 px-3.5 flex flex-col justify-between relative z-10 text-left text-white bg-gradient-to-b from-[#180f33] to-[#070312]">
               {/* Floating ambient glow in app */}
               <div className="absolute top-10 right-4 w-32 h-32 bg-primary/20 blur-2xl rounded-full pointer-events-none"></div>
 
-              {/* App Navbar */}
-              <div className="flex items-center justify-between py-2 border-b border-white/5 relative z-10">
-                <div className="flex items-center gap-2">
-                  <div className="w-6 h-6 rounded-full bg-gradient-to-tr from-primary to-purple-600 flex items-center justify-center font-black text-[9px]">G</div>
-                  <span className="text-[11px] font-black tracking-tight">GiftBox</span>
+              {/* Sazzad Dashboard Header */}
+              <div className="flex items-center justify-between py-2 border-b border-white/5 relative z-10 mt-1">
+                <div className="flex items-center gap-1.5">
+                  <div className="w-7 h-7 rounded-full overflow-hidden border border-white/20 bg-white/10 shrink-0">
+                    {/* User profile avatar style */}
+                    <div className="w-full h-full bg-cover bg-center bg-[#251552]" />
+                  </div>
+                  <div>
+                    <h4 className="text-[9px] font-black leading-tight flex items-center gap-0.5">Hello, Sazzad <span className="text-[8px]">👋</span></h4>
+                    <p className="text-[6px] text-white/50 leading-none mt-0.5">Welcome to Weekly Prize Draw</p>
+                  </div>
                 </div>
-                <div className="bg-primary/20 text-primary border border-primary/30 rounded-full px-2 py-0.5 text-[8px] font-black flex items-center gap-1">
-                  ✨ 2.5K
+                {/* Notification Bell */}
+                <div className="w-5 h-5 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-[8px] text-white/80 cursor-pointer relative shrink-0">
+                  🔔
+                  <span className="absolute top-1.5 right-1.5 w-1 h-1 bg-danger rounded-full"></span>
                 </div>
               </div>
 
-              {/* App Banner */}
-              <div className="my-3 relative z-10">
-                <div className="bg-white/5 border border-white/10 rounded-2xl p-3 flex flex-col gap-2 relative overflow-hidden">
-                  <div className="flex items-center justify-between">
-                    <span className="text-[7px] bg-danger/20 text-danger border border-danger/30 rounded-full px-2 py-0.5 font-bold uppercase tracking-wider">LIVE DRAW</span>
-                    <span className="text-[8px] text-white/50 font-bold">14h left</span>
+              {/* Title Header */}
+              <div className="my-1 relative z-10">
+                <h3 className="text-[10px] font-black text-white flex items-center gap-0.5 leading-none">This Week's Draw <span className="text-[9px]">🎁</span></h3>
+              </div>
+
+              {/* Main Laptop Draw Card */}
+              <div className="bg-[#110928] border border-white/5 rounded-xl overflow-hidden flex flex-col relative z-10 shadow-lg flex-grow">
+                {/* Image Cover */}
+                <div className="w-full aspect-[16/10] overflow-hidden relative border-b border-white/5 shrink-0">
+                  <img src={currentDraw.image} className="w-full h-full object-cover" />
+                </div>
+
+                {/* Details Area */}
+                <div className="p-2 flex flex-col justify-between flex-grow gap-1.5">
+                  <div>
+                    <h4 className="text-[9px] font-black text-white leading-tight line-clamp-1">{currentDraw.title}</h4>
+                    <p className="text-[6px] text-white/50 leading-tight mt-0.5 line-clamp-2">
+                      {currentDraw.description}
+                    </p>
                   </div>
-                  <div className="flex items-center gap-2.5">
-                    <div className="w-12 h-12 bg-white/5 rounded-xl border border-white/10 flex items-center justify-center p-1 overflow-hidden shrink-0">
-                      <img src={currentDraw.image} className="w-full h-full object-contain" />
-                    </div>
-                    <div>
-                      <h4 className="text-[10px] font-bold leading-tight line-clamp-1">{currentDraw.title}</h4>
-                      <p className="text-[8px] text-white/50 mt-0.5">Ticket: 2,500 CDF</p>
+
+                  {/* Ticket Price Ribbon */}
+                  <div className="bg-white/5 border border-white/10 rounded-lg p-1 flex items-center justify-between text-[7px] shrink-0">
+                    <span className="text-white/60 font-semibold flex items-center gap-1">🎫 Ticket Price</span>
+                    <span className="text-primary font-black text-[8px]">{currentDraw.ticketPrice.toLocaleString()} {currentDraw.currency}</span>
+                  </div>
+
+                  {/* Ends In Countdown */}
+                  <div className="shrink-0">
+                    <span className="text-[6px] text-white/40 font-bold uppercase tracking-wider block mb-0.5">Draw ends in</span>
+                    <div className="grid grid-cols-4 gap-1">
+                      {[
+                        { v: '06', l: 'Day' },
+                        { v: '18', l: 'Hours' },
+                        { v: '57', l: 'Mins' },
+                        { v: '42', l: 'Secs' }
+                      ].map((c, idx) => (
+                        <div key={idx} className="bg-[#0a051c] border border-white/5 rounded py-0.5 px-0.5 text-center">
+                          <div className="text-primary text-[8px] font-black leading-none">{c.v}</div>
+                          <div className="text-white/40 text-[4px] mt-0.5 leading-none">{c.l}</div>
+                        </div>
+                      ))}
                     </div>
                   </div>
-                  <button className="w-full py-1.5 bg-gradient-to-r from-primary to-primary-dark text-white rounded-lg font-black text-[9px] text-center shadow-[0_4px_10px_rgba(255,105,0,0.2)]">
-                    Get Ticket
+
+                  {/* Action Button */}
+                  <button className="w-full py-1 bg-gradient-to-r from-primary to-primary-dark text-white rounded-md font-black text-[8px] text-center shadow-[0_3px_8px_rgba(255,105,0,0.15)] shrink-0">
+                    Participate Now
                   </button>
                 </div>
               </div>
 
-              {/* Live activity feed */}
-              <div className="flex-grow flex flex-col justify-end relative z-10 mb-2">
-                <span className="text-[8px] text-white/40 font-bold uppercase tracking-wider block mb-1.5">Recent Winners</span>
-                <div className="space-y-1.5">
-                  {[
-                    { name: 'Aris K.', prize: 'iPhone 15 Pro', time: '2m ago' },
-                    { name: 'Sarah M.', prize: 'PS5 Slim', time: '15m ago' }
-                  ].map((w, idx) => (
-                    <div key={idx} className="bg-white/5 border border-white/5 rounded-xl p-2 flex items-center justify-between gap-2">
-                      <div className="flex items-center gap-2">
-                        <div className="w-5 h-5 rounded-full bg-white/10 flex items-center justify-center text-[7px] font-bold">{w.name[0]}</div>
-                        <div>
-                          <p className="text-[8px] font-bold leading-none">{w.name}</p>
-                          <p className="text-[6px] text-primary font-medium mt-0.5">Won {w.prize}</p>
-                        </div>
-                      </div>
-                      <span className="text-[6px] text-white/30">{w.time}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
               {/* App Bottom Navigation */}
-              <div className="grid grid-cols-3 gap-1 pt-2 border-t border-white/5 text-center text-white/40 relative z-10">
-                <div className="text-[8px] font-bold text-primary flex flex-col items-center gap-0.5 cursor-pointer">
-                  <span>🏆</span> Draws
+              <div className="grid grid-cols-3 gap-1 pt-1.5 border-t border-white/5 text-center text-white/45 relative z-10 mt-1 shrink-0">
+                <div className="text-[6px] font-bold text-primary flex flex-col items-center gap-0.5 cursor-pointer">
+                  <span className="text-[8px] bg-white/5 border border-white/10 px-2 py-0.5 rounded-md leading-none">🏠</span> Home
                 </div>
-                <div className="text-[8px] font-bold flex flex-col items-center gap-0.5 cursor-pointer">
-                  <span>🎟️</span> Tickets
+                <div className="text-[6px] font-bold flex flex-col items-center gap-0.5 cursor-pointer">
+                  <span className="text-[8px]">🎁</span> My Draws
                 </div>
-                <div className="text-[8px] font-bold flex flex-col items-center gap-0.5 cursor-pointer">
-                  <span>👤</span> Profile
+                <div className="text-[6px] font-bold flex flex-col items-center gap-0.5 cursor-pointer">
+                  <span className="text-[8px]">👤</span> Profile
                 </div>
               </div>
             </div>
@@ -705,7 +731,7 @@ function CtaSection() {
   const router = useRouter()
   return (
     <Section>
-      <div className="relative bg-gradient-to-br from-[#120b24] to-[#080414] border border-white/10 rounded-[3rem] px-8 py-20 text-center overflow-hidden shadow-2xl">
+      <div className="relative bg-gradient-to-br from-[#120b24] to-[#080414] border border-white/10 rounded-[2rem] px-5 py-12 md:py-20 text-center overflow-hidden shadow-2xl">
         {/* Subtle dynamic background ambient glows */}
         <div className="absolute -top-40 -left-40 w-[600px] h-[600px] bg-primary/10 blur-[120px] rounded-full pointer-events-none"></div>
         <div className="absolute -bottom-40 -right-40 w-[600px] h-[600px] bg-purple-500/10 blur-[120px] rounded-full pointer-events-none"></div>
