@@ -27,6 +27,7 @@ import { currentDraw } from '@/data/draws'
 import { participations } from '@/data/participations'
 import splashImg from '@/assets/splash.png'
 import giftBoxImg from '@/assets/images/luxury_gift_box.png'
+import premiumPrizesImg from '@/assets/images/luxury_premium_prizes.png'
 import { useAuth } from '@/hooks/useAuth'
 
 const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -374,17 +375,12 @@ function WhyUs() {
         {/* Left Side: Stunning Editorial Image */}
         <div className="relative">
           <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-purple-500/20 rounded-[3rem] blur-2xl transform rotate-3"></div>
-          <div className="relative overflow-hidden rounded-[3.5rem] border border-white/10 shadow-2xl">
+          <div className="relative overflow-hidden rounded-[3.5rem] border border-white/10 shadow-2xl aspect-[4/3] flex items-center justify-center">
             <img 
-              src="https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=800&q=80" 
+              src={premiumPrizesImg.src} 
               alt="Premium Gift Quality" 
-              className="w-full h-auto aspect-[4/5] object-cover hover:scale-105 transition-transform duration-700"
+              className="w-full h-full object-cover hover:scale-105 transition-transform duration-700 select-none"
             />
-            {/* Elegant Overlay Badge */}
-            <div className="absolute bottom-8 left-8 right-8 bg-black/60 backdrop-blur-xl border border-white/10 rounded-3xl p-6 text-left">
-              <h4 className="text-white text-lg font-bold mb-1">Guaranteed Premium Prizes</h4>
-              <p className="text-white/60 text-xs m-0 leading-relaxed">All rewards are verified brand new, in original retail packaging, and covered by official warranties.</p>
-            </div>
           </div>
         </div>
 
