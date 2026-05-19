@@ -15,7 +15,8 @@ import {
   LeftOutlined,
   RightOutlined,
   SmileFilled,
-  CalendarFilled
+  CalendarFilled,
+  CrownFilled
 } from '@ant-design/icons'
 import { useState, useRef } from 'react'
 import { useRouter } from 'next/navigation';
@@ -162,7 +163,7 @@ function StatsBar() {
     {
       value: '5M+',
       label: 'Prizes Distributed',
-      icon: <TrophyFilled className="text-xl md:text-2xl text-primary" />,
+      icon: <CrownFilled className="text-xl md:text-2xl text-primary animate-pulse" />,
       glowColor: 'rgba(254, 147, 1, 0.12)',
       gradient: 'from-[#FFB900] via-[#FF6900] to-[#E65E00]',
       bgGlow: 'bg-primary/5',
@@ -171,7 +172,7 @@ function StatsBar() {
     {
       value: '1,200+',
       label: 'Happy Winners',
-      icon: <SmileFilled className="text-xl md:text-2xl text-[#10b981]" />,
+      icon: <TrophyFilled className="text-xl md:text-2xl text-[#10b981]" />,
       glowColor: 'rgba(16, 185, 129, 0.12)',
       gradient: 'from-[#10b981] via-[#059669] to-[#047857]',
       bgGlow: 'bg-[#10b981]/5',
@@ -180,7 +181,7 @@ function StatsBar() {
     {
       value: '52',
       label: 'Draws per Year',
-      icon: <CalendarFilled className="text-xl md:text-2xl text-[#3b82f6]" />,
+      icon: <ThunderboltFilled className="text-xl md:text-2xl text-[#3b82f6]" />,
       glowColor: 'rgba(59, 130, 246, 0.12)',
       gradient: 'from-[#3b82f6] via-[#2563eb] to-[#1d4ed8]',
       bgGlow: 'bg-[#3b82f6]/5',
