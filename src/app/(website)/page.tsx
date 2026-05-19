@@ -740,7 +740,7 @@ function FaqPreview() {
   return (
     <Section id="faq" className="max-w-4xl">
       <SectionTitle
-        eyebrow="Help & Support"
+        eyebrow="FAQ"
         title="Answers to your questions."
         subtitle="Find quick, transparent answers to everything about tickets, payments, draws, and prize delivery."
       />
