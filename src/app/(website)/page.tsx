@@ -156,40 +156,51 @@ function Hero() {
 
           {/* Floating Premium Card Frame with Outer Outline & Border Radius */}
           <div 
-            className="relative z-10 w-full max-w-[380px] bg-[#160d30]/75 backdrop-blur-xl border border-white/10 rounded-[2.5rem] p-6 shadow-[0_20px_50px_rgba(0,0,0,0.4)] flex flex-col items-center gap-4 cursor-pointer"
+            className="relative z-10 w-full max-w-[380px] bg-[#160d30]/75 backdrop-blur-xl border border-white/10 rounded-[2.5rem] p-5 shadow-[0_20px_50px_rgba(0,0,0,0.4)] flex flex-col items-center gap-4 cursor-pointer"
             style={{ animation: 'float-box 6s ease-in-out infinite' }}
           >
-            {/* Top Floating Badge */}
-            <div className="w-full flex justify-between items-center">
+            {/* Top Badge & Rating Row */}
+            <div className="w-full flex justify-between items-center px-1">
               <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-white text-[10px] font-black uppercase tracking-wider backdrop-blur-md shadow-sm">
-                <span className="w-1.5 h-1.5 rounded-full bg-primary animate-ping" />
-                ⚡ Weekly Mega Draw
+                <span className="w-1.5 h-1.5 rounded-full bg-[#00FF66] animate-pulse" />
+                🏆 Verified Success
               </div>
-              <div className="text-[10px] font-black text-primary bg-primary/10 px-2.5 py-1 rounded-lg border border-primary/20">
-                🎫 {currentDraw.ticketPrice.toLocaleString()} {currentDraw.currency}
+              <div className="text-[10px] font-black text-yellow-400 bg-yellow-400/10 px-2.5 py-1 rounded-lg border border-yellow-400/20 flex items-center gap-1">
+                ⭐ 4.9/5 Trust Score
               </div>
             </div>
 
-            {/* Inner Image Slot with beautiful border, radius and dynamic scale hover */}
-            <div className="relative w-full aspect-[16/10] flex items-center justify-center bg-[#0d061c]/45 border border-white/5 rounded-2xl p-4 overflow-hidden group">
+            {/* Winner Image Container (4:3 ratio cover styling) */}
+            <div className="relative w-full aspect-[4/3] rounded-2xl border border-white/5 overflow-hidden group">
               <img 
-                src={currentDraw.image} 
-                alt={currentDraw.title} 
-                className="w-full h-full object-contain filter drop-shadow-[0_15px_30px_rgba(0,0,0,0.5)] transition-transform duration-500 hover:scale-105" 
+                src="/images/happy_winner.png" 
+                alt="Happy Winner" 
+                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
               />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#0d061c]/80 via-transparent to-transparent" />
+              
+              {/* Floating Winner Info Overlay */}
+              <div className="absolute bottom-3 left-3 right-3 flex justify-between items-end">
+                <div>
+                  <h4 className="text-sm font-black text-white leading-none">Samy K.</h4>
+                  <span className="text-[9px] text-white/60 font-medium">Kinshasa, DRC</span>
+                </div>
+                <div className="bg-[#00FF66]/20 border border-[#00FF66]/35 text-[#00FF66] text-[8px] font-black uppercase px-2 py-0.5 rounded-md">
+                  Verified Win
+                </div>
+              </div>
             </div>
 
-            {/* Title & Description */}
-            <div className="text-center w-full">
-              <h3 className="text-xl font-black text-white tracking-tight mb-1">{currentDraw.title}</h3>
-              <p className="text-[11px] text-white/50 leading-normal line-clamp-2 px-1">
-                {currentDraw.description}
+            {/* Testimonial Quote */}
+            <div className="text-center w-full px-1">
+              <p className="text-[11px] text-white/70 italic leading-relaxed font-medium">
+                "I entered the weekly draw on my phone, validated securely via M-Pesa, and won this gorgeous golden luxury box! Absolutely authentic and simple."
               </p>
             </div>
 
-            {/* Scarcity Countdown Timer Area */}
+            {/* Scarcity Countdown Area for Next Winners */}
             <div className="w-full border-t border-white/5 pt-4">
-              <span className="text-[10px] text-white/40 font-bold uppercase tracking-wider block mb-2 text-center">Draw Closes In</span>
+              <span className="text-[10px] text-white/40 font-bold uppercase tracking-wider block mb-2 text-center">Next Draw Closes In</span>
               <Countdown endsAt={currentDraw.endsAt} />
             </div>
           </div>
