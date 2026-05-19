@@ -138,7 +138,7 @@ function Hero() {
           </div>
         </div>
 
-        <div className="relative w-full aspect-square flex justify-center items-center select-none pointer-events-none">
+        <div className="relative w-full aspect-square flex justify-center items-center select-none">
           {/* Pulsing Neon Backdrop Glow */}
           <div className="absolute w-[360px] h-[360px] bg-gradient-to-tr from-primary/20 to-purple-500/25 rounded-full blur-[90px]" style={{ animation: 'glow-pulse 4s ease-in-out infinite' }} />
 
@@ -154,29 +154,43 @@ function Hero() {
             <div className="absolute -top-1.5 left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-primary shadow-[0_0_15px_#ff6900] animate-pulse" />
           </div>
 
-          {/* Floating Premium MacBook Frame and Badges */}
-          <div className="relative z-10 flex flex-col items-center" style={{ animation: 'float-box 6s ease-in-out infinite' }}>
+          {/* Floating Premium Card Frame with Outer Outline & Border Radius */}
+          <div 
+            className="relative z-10 w-full max-w-[380px] bg-[#160d30]/75 backdrop-blur-xl border border-white/10 rounded-[2.5rem] p-6 shadow-[0_20px_50px_rgba(0,0,0,0.4)] flex flex-col items-center gap-4 cursor-pointer"
+            style={{ animation: 'float-box 6s ease-in-out infinite' }}
+          >
             {/* Top Floating Badge */}
-            <div className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-white text-xs font-black uppercase tracking-wider mb-4 backdrop-blur-md shadow-lg">
-              <span className="w-2 h-2 rounded-full bg-primary animate-ping" />
-              ⚡ This Week's Mega Prize
+            <div className="w-full flex justify-between items-center">
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-white text-[10px] font-black uppercase tracking-wider backdrop-blur-md shadow-sm">
+                <span className="w-1.5 h-1.5 rounded-full bg-primary animate-ping" />
+                ⚡ Weekly Mega Draw
+              </div>
+              <div className="text-[10px] font-black text-primary bg-primary/10 px-2.5 py-1 rounded-lg border border-primary/20">
+                🎫 {currentDraw.ticketPrice.toLocaleString()} {currentDraw.currency}
+              </div>
             </div>
 
-            {/* Laptop Image */}
-            <div className="relative w-[340px] md:w-[380px] aspect-[16/10] flex items-center justify-center">
-              <img
-                src={currentDraw.image}
-                alt={currentDraw.title}
-                className="w-full h-full object-contain filter drop-shadow-[0_20px_45px_rgba(0,0,0,0.65)]"
+            {/* Inner Image Slot with beautiful border, radius and dynamic scale hover */}
+            <div className="relative w-full aspect-[16/10] flex items-center justify-center bg-[#0d061c]/45 border border-white/5 rounded-2xl p-4 overflow-hidden group">
+              <img 
+                src={currentDraw.image} 
+                alt={currentDraw.title} 
+                className="w-full h-full object-contain filter drop-shadow-[0_15px_30px_rgba(0,0,0,0.5)] transition-transform duration-500 hover:scale-105" 
               />
             </div>
 
-            {/* Bottom Title & Price Badge */}
-            <div className="mt-4 text-center">
-              <h3 className="text-xl md:text-2xl font-black text-white tracking-tight mb-2">{currentDraw.title}</h3>
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-primary/10 border border-primary/20 text-primary font-black text-lg backdrop-blur-md shadow-sm">
-                🎟️ Ticket Price: {currentDraw.ticketPrice.toLocaleString()} {currentDraw.currency}
-              </div>
+            {/* Title & Description */}
+            <div className="text-center w-full">
+              <h3 className="text-xl font-black text-white tracking-tight mb-1">{currentDraw.title}</h3>
+              <p className="text-[11px] text-white/50 leading-normal line-clamp-2 px-1">
+                {currentDraw.description}
+              </p>
+            </div>
+
+            {/* Scarcity Countdown Timer Area */}
+            <div className="w-full border-t border-white/5 pt-4">
+              <span className="text-[10px] text-white/40 font-bold uppercase tracking-wider block mb-2 text-center">Draw Closes In</span>
+              <Countdown endsAt={currentDraw.endsAt} />
             </div>
           </div>
         </div>
