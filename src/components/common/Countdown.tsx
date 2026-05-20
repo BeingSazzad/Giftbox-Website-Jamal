@@ -50,12 +50,12 @@ export function Countdown({ endsAt }: CountdownProps) {
       {cells.map((c) => (
         <div
           key={c.label}
-          className="bg-deep/50 border border-white/6 rounded-[10px] py-3 px-1.5 text-center"
+          className="bg-deep/50 border border-white/6 rounded-[10px] py-2 sm:py-3 px-1 text-center"
         >
-          <div className="text-primary text-[22px] font-bold leading-[1.1]">
+          <div className="text-primary text-[18px] sm:text-[22px] font-bold leading-[1.1]">
             {String(c.value).padStart(2, '0')}
           </div>
-          <div className="text-white/55 text-xs mt-1">{c.label}</div>
+          <div className="text-white/55 text-[10px] sm:text-xs mt-0.5 sm:mt-1">{c.label}</div>
         </div>
       ))}
     </div>
