@@ -41,15 +41,15 @@ export default function FaqPage() {
                   <button
                     type="button"
                     onClick={() => setOpenIndex(isOpen ? null : i)}
-                    className="w-full px-6 py-5 bg-transparent border-0 text-white text-left flex items-center justify-between gap-3 text-lg font-bold cursor-pointer outline-none"
+                    className="w-full px-4 py-3.5 sm:px-6 sm:py-5 bg-transparent border-0 text-white text-left flex items-center justify-between gap-3 text-base sm:text-lg font-bold cursor-pointer outline-none"
                   >
                     <span>{f.q}</span>
                     <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 transition-all duration-300 ${isOpen ? 'bg-primary text-white rotate-180' : 'bg-white/5 text-white/50'}`}>
                       <DownOutlined className="text-sm" />
                     </div>
                   </button>
-                  <div className={`px-6 overflow-hidden transition-all duration-300 ease-in-out ${isOpen ? 'max-h-40 pb-5 opacity-100' : 'max-h-0 pb-0 opacity-0'}`}>
-                    <p className="text-white/60 text-base leading-relaxed m-0">
+                  <div className={`px-4 sm:px-6 overflow-hidden transition-all duration-300 ease-in-out ${isOpen ? 'max-h-40 pb-4 sm:pb-5 opacity-100' : 'max-h-0 pb-0 opacity-0'}`}>
+                    <p className="text-white/60 text-sm sm:text-base leading-relaxed m-0">
                       {f.a}
                     </p>
                   </div>
