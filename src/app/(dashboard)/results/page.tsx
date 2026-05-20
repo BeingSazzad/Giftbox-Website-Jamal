@@ -101,7 +101,7 @@ function ResultsContent() {
           <p className="text-white/50 text-xs mt-1">Keep an eye on active draws for incoming winners!</p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6">
           {completedDraws.map((draw) => {
             const dateStr = draw.submittedOn ? new Date(draw.submittedOn).toLocaleDateString('en-US', {
               month: 'short',
@@ -115,32 +115,32 @@ function ResultsContent() {
                 className="group relative bg-surface/40 backdrop-blur-md border border-white/5 hover:border-white/12 rounded-2xl overflow-hidden flex flex-col transition-all duration-300 hover:-translate-y-1 shadow-lg"
               >
                 {/* Prize Image Header */}
-                <div className="h-44 w-full bg-deep relative overflow-hidden">
+                <div className="h-24 sm:h-44 w-full bg-deep relative overflow-hidden">
                   <img 
                     src={draw.prizeImage} 
                     alt={draw.prizeTitle} 
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" 
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-deep via-deep/20 to-transparent" />
-                  <span className="absolute bottom-3 left-4 bg-primary/20 backdrop-blur-md border border-primary/30 text-primary text-[10px] font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wider">
+                  <span className="absolute bottom-2.5 left-3 sm:bottom-3 sm:left-4 bg-primary/20 backdrop-blur-md border border-primary/30 text-primary text-[8px] sm:text-[10px] font-bold px-2 sm:px-2.5 py-0.5 rounded-full uppercase tracking-wider">
                     Completed
                   </span>
                 </div>
 
                 {/* Details */}
-                <div className="p-5 flex-1 flex flex-col">
-                  <h3 className="text-white text-base font-bold m-0 group-hover:text-primary transition-colors">
+                <div className="p-3 sm:p-5 flex-1 flex flex-col">
+                  <h3 className="text-white text-xs sm:text-base font-bold m-0 group-hover:text-primary transition-colors line-clamp-1">
                     {draw.prizeTitle}
                   </h3>
-                  <p className="text-white/55 text-xs mt-1.5 line-clamp-2 leading-relaxed flex-1">
+                  <p className="text-white/55 text-[10px] sm:text-xs mt-1 sm:mt-1.5 line-clamp-2 leading-relaxed flex-1">
                     {draw.prizeDescription}
                   </p>
 
-                  <div className="flex items-center justify-between mt-4 pt-4 border-t border-white/5">
-                    <span className="text-white/40 text-[11px] flex items-center gap-1.5">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 sm:gap-0 mt-3 sm:mt-4 pt-3 sm:pt-4 border-t border-white/5">
+                    <span className="text-white/40 text-[9px] sm:text-[11px] flex items-center gap-1 sm:gap-1.5">
                       <CalendarOutlined /> {dateStr}
                     </span>
-                    <span className="text-white/40 text-[11px] flex items-center gap-1.5">
+                    <span className="text-white/40 text-[9px] sm:text-[11px] flex items-center gap-1 sm:gap-1.5">
                       <UserOutlined /> {draw.winners?.length || 0} {draw.winners?.length === 1 ? 'Winner' : 'Winners'}
                     </span>
                   </div>
@@ -148,7 +148,7 @@ function ResultsContent() {
                   <button
                     type="button"
                     onClick={() => router.push(`/results?id=${draw.id}`)}
-                    className="mt-4 w-full h-10 bg-white/6 hover:bg-primary hover:text-[#1a0f0a] text-white border border-white/10 hover:border-transparent rounded-xl font-bold text-xs cursor-pointer flex items-center justify-center gap-2 transition-all"
+                    className="mt-3 sm:mt-4 w-full h-8 sm:h-10 bg-white/6 hover:bg-primary hover:text-[#1a0f0a] text-white border border-white/10 hover:border-transparent rounded-xl font-bold text-[10px] sm:text-xs cursor-pointer flex items-center justify-center gap-1.5 sm:gap-2 transition-all"
                   >
                     View Lucky Winners <RightOutlined style={{ fontSize: 10 }} />
                   </button>

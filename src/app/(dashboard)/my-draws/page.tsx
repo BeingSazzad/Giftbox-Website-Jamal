@@ -79,7 +79,7 @@ export default function MyDrawsPage() {
 
       {/* Grid Container */}
       {filteredParticipations.length > 0 ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6">
           {filteredParticipations.map((p) => {
             const isRejected = p.status === 'rejected'
             const isCompleted = p.status === 'completed'
@@ -91,7 +91,7 @@ export default function MyDrawsPage() {
                 type="button"
                 onClick={() => router.push(`/participation/${p.id}`)}
                 className={[
-                  'w-full bg-surface/40 hover:bg-surface/50 backdrop-blur-md rounded-2xl p-5 flex flex-col justify-between cursor-pointer text-left transition-all duration-300 relative overflow-hidden group',
+                  'w-full bg-surface/40 hover:bg-surface/50 backdrop-blur-md rounded-2xl p-3 sm:p-5 flex flex-col justify-between cursor-pointer text-left transition-all duration-300 relative overflow-hidden group',
                   'border',
                   isRejected
                     ? 'border-danger/20 hover:border-danger/45 shadow-[0_0_15px_rgba(255,77,79,0.02)]'
@@ -101,15 +101,15 @@ export default function MyDrawsPage() {
                   'hover:-translate-y-1',
                 ].join(' ')}
               >
-                <div>
+                <div className="w-full">
                   {/* Card Image */}
-                  <div className="w-full h-40 rounded-xl overflow-hidden bg-night mb-4 relative">
+                  <div className="w-full h-24 sm:h-40 rounded-xl overflow-hidden bg-night mb-2.5 sm:mb-4 relative">
                     <img
                       src={p.prizeImage}
                       alt={p.prizeTitle}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />
-                    <div className="absolute top-3 right-3 z-10">
+                    <div className="absolute top-2 right-2 sm:top-3 sm:right-3 z-10">
                       <StatusBadge status={p.status} />
                     </div>
                     {userWon && (
@@ -118,36 +118,36 @@ export default function MyDrawsPage() {
                   </div>
 
                   {/* Title & Info */}
-                  <div className="text-white text-base font-bold mb-2 line-clamp-1 group-hover:text-primary transition-colors flex items-center justify-between gap-2">
+                  <div className="text-white text-xs sm:text-base font-bold mb-1.5 sm:mb-2 line-clamp-1 group-hover:text-primary transition-colors flex items-center justify-between gap-1.5 sm:gap-2">
                     <span className="truncate">{p.prizeTitle}</span>
                     {isCompleted && (
                       userWon ? (
-                        <span className="shrink-0 bg-primary/20 text-primary border border-primary/30 px-2 py-0.5 rounded-lg text-[9px] font-black uppercase tracking-wider animate-pulse">
+                        <span className="shrink-0 bg-primary/20 text-primary border border-primary/30 px-1.5 sm:px-2 py-0.5 rounded-lg text-[8px] sm:text-[9px] font-black uppercase tracking-wider animate-pulse">
                           Won! 🎉
                         </span>
                       ) : (
-                        <span className="shrink-0 bg-white/5 text-white/40 border border-white/5 px-2 py-0.5 rounded-lg text-[9px] font-bold uppercase tracking-wider">
+                        <span className="shrink-0 bg-white/5 text-white/40 border border-white/5 px-1.5 sm:px-2 py-0.5 rounded-lg text-[8px] sm:text-[9px] font-bold uppercase tracking-wider">
                           Ended
                         </span>
                       )
                     )}
                   </div>
                   
-                  <div className="flex items-center justify-between text-xs text-white/50 mb-4">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 sm:gap-0 text-[10px] sm:text-xs text-white/50 mb-3 sm:mb-4">
                     <span>Ticket: <strong className="text-white/80 font-mono">{p.ticketNumber}</strong></span>
                     <span>Price: <strong className="text-primary">{p.ticketPrice} {p.currency}</strong></span>
                   </div>
                 </div>
 
                 {/* Footer Section */}
-                <div className="pt-3 border-t border-white/5 flex flex-col gap-2.5 w-full">
-                  <div className="text-white/40 text-[11px] font-semibold flex items-center justify-between">
+                <div className="pt-2.5 border-t border-white/5 flex flex-col gap-2 w-full">
+                  <div className="text-white/40 text-[9px] sm:text-[11px] font-semibold flex items-center justify-between">
                     <span>SUBMISSION DATE</span>
                     <span className="text-white/60">{formatShortDate(p.submittedOn)}</span>
                   </div>
 
                   {isRejected && p.rejectionReason && (
-                    <div className="flex gap-2 items-start text-danger text-[11px] pt-1.5 border-t border-white/5 italic">
+                    <div className="flex gap-1.5 items-start text-danger text-[9px] sm:text-[11px] pt-1.5 border-t border-white/5 italic">
                       <ExclamationCircleOutlined className="mt-0.5 shrink-0" />
                       <span className="line-clamp-2">
                         Verification rejected: Check details & re-submit.
