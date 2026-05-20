@@ -256,7 +256,7 @@ function StatsBar() {
   ]
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-12 relative z-20 -mt-10">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-12 relative z-20 mt-12 md:-mt-10">
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
         {stats.map((s) => (
           <div
@@ -434,9 +434,9 @@ function WhyUs() {
         {/* Left Side: Stunning Editorial Image */}
         <div className="relative group">
           {/* Multi-layered gradient neon glowing blobs */}
-          <div className="absolute inset-0 bg-gradient-to-tr from-primary/20 to-purple-600/20 rounded-[3.5rem] blur-3xl transform rotate-3 scale-95 pointer-events-none"></div>
+          <div className="absolute inset-0 bg-gradient-to-tr from-primary/20 to-purple-600/20 rounded-2xl blur-3xl transform rotate-3 scale-95 pointer-events-none"></div>
 
-          <div className="relative overflow-hidden rounded-[3.5rem] border border-white/10 shadow-2xl aspect-[4/3] flex items-center justify-center bg-[#0c071a]/40 backdrop-blur-md">
+          <div className="relative overflow-hidden rounded-2xl border border-white/10 shadow-2xl aspect-[4/3] flex items-center justify-center bg-[#0c071a]/40 backdrop-blur-md">
             <img
               src={premiumPrizesImg.src}
               alt="Premium Gift Quality"
