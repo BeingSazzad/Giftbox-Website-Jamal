@@ -380,16 +380,13 @@ function FeaturedPrize() {
           </div>
 
           <div className="flex flex-col justify-center">
-            <div className="inline-block bg-danger/20 text-danger border border-danger/30 rounded-full px-3 py-1 text-xs font-bold w-max mb-4">
-              Ends very soon
-            </div>
             <h3 className="text-3xl md:text-4xl font-black text-white mb-4 leading-tight">{currentDraw.title}</h3>
             <p className="text-white/70 text-base leading-relaxed mb-6">
               {currentDraw.description}
             </p>
 
             {/* Clean, Premium Info Bar */}
-            <div className="flex flex-wrap items-center gap-x-8 gap-y-6 mb-8 py-5 border-y border-white/10">
+            <div className="flex flex-col sm:flex-row sm:items-center gap-x-8 gap-y-6 mb-8 py-5 border-y border-white/10">
               <div className="shrink-0">
                 <span className="text-white/40 text-xs font-bold uppercase tracking-wider block mb-2">Ticket Price</span>
                 <span className="text-primary text-2xl lg:text-3xl font-black block leading-none select-none">
@@ -400,7 +397,7 @@ function FeaturedPrize() {
               {/* Vertical divider line on desktop */}
               <div className="hidden sm:block w-px h-12 bg-white/10 shrink-0 self-center" />
 
-              <div className="min-w-0 w-full sm:min-w-[280px] flex-grow">
+              <div className="min-w-0 flex-grow">
                 <span className="text-white/40 text-xs font-bold uppercase tracking-wider block mb-2">Countdown</span>
                 <Countdown endsAt={currentDraw.endsAt} />
               </div>
