@@ -102,7 +102,7 @@ export default function ParticipationDetailsPage() {
           <div className="bg-surface/50 backdrop-blur-md border border-white/10 rounded-3xl p-5 md:p-6 shadow-xl">
             <div className="flex items-center gap-2.5 mb-4">
               <span className="text-primary text-lg">🎟️</span>
-              <h3 className="m-0 text-white text-base font-bold">Ticket Details</h3>
+              <h3 className="m-0 text-white text-base font-bold">Ticket Information</h3>
             </div>
             
             <div className="space-y-3.5">
@@ -112,13 +112,13 @@ export default function ParticipationDetailsPage() {
               </div>
 
               <div className="bg-deep/50 border border-white/5 rounded-xl px-4 py-3 flex items-center justify-between">
-                <div>
-                  <div className="text-white/50 text-[10px] font-bold uppercase tracking-wider mb-0.5">Ticket Price</div>
-                  <div className="text-primary text-base font-bold">{participation.ticketPrice.toLocaleString()} {participation.currency}</div>
-                </div>
-                <div className="bg-white/5 border border-white/10 rounded-lg px-2.5 py-1 text-white/50 text-[11px] font-bold">
-                  Paid
-                </div>
+                <div className="text-white/70 text-sm">Ticket Price</div>
+                <div className="text-primary text-base font-bold">{participation.ticketPrice.toLocaleString()} {participation.currency}</div>
+              </div>
+
+              <div className="bg-deep/50 border border-white/5 rounded-xl px-4 py-3 flex items-center justify-between">
+                <div className="text-white/70 text-sm">Submitted On</div>
+                <div className="text-white text-sm font-bold">{participation.submittedOn}</div>
               </div>
             </div>
           </div>
