@@ -199,22 +199,24 @@ export default function DrawDetailsPage() {
               {paymentNumbers.map((pn) => (
                 <div
                   key={pn.id}
-                  className="bg-deep/60 border border-white/6 rounded-xl px-4 py-3.5 flex items-center gap-3.5"
+                  className="bg-deep/60 border border-white/6 rounded-xl p-3.5 sm:px-4 sm:py-3.5 flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-3.5"
                 >
-                  <div className="w-11 h-11 rounded-[10px] gradient-brand flex items-center justify-center text-[#1a0f0a] shrink-0">
-                    <CreditCardOutlined style={{ fontSize: 20 }} />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="text-white/60 text-xs">{pn.provider}</div>
-                    <div className="text-white text-[15px] font-semibold">{pn.number}</div>
+                  <div className="flex items-center gap-3.5 flex-1 min-w-0">
+                    <div className="w-11 h-11 rounded-[10px] gradient-brand flex items-center justify-center text-[#1a0f0a] shrink-0">
+                      <CreditCardOutlined style={{ fontSize: 20 }} />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="text-white/60 text-xs">{pn.provider}</div>
+                      <div className="text-white text-[15px] font-semibold">{pn.number}</div>
+                    </div>
                   </div>
                   <button
                     type="button"
                     onClick={() => handleCopy(pn.number, pn.provider)}
-                    className="bg-deep/60 border border-white/10 rounded-lg px-3.5 py-2 text-white/85 text-[13px] cursor-pointer flex items-center gap-1.5 hover:bg-white/10 transition-colors"
+                    className="w-full sm:w-auto bg-deep/60 border border-white/10 rounded-lg px-3.5 py-2 text-white/85 text-[13px] cursor-pointer flex items-center justify-center gap-1.5 hover:bg-white/10 transition-colors"
                   >
                     <CopyOutlined />
-                    Copy
+                    Copy Number
                   </button>
                 </div>
               ))}
