@@ -74,9 +74,6 @@ export function LandingFooter() {
         <div className="text-white/50 text-sm text-center">
           © {new Date().getFullYear()} Gift Box. All rights reserved.
         </div>
-        <div className="flex items-center justify-center gap-6 text-white/40 text-sm">
-          <span>Made with ❤️ for everyone.</span>
-        </div>
       </div>
     </footer>
   )
