@@ -623,15 +623,15 @@ function DownloadApp() {
               <button className="flex items-center gap-3 bg-white/5 hover:bg-white/10 border border-white/12 hover:border-white/25 text-white px-5 py-3 rounded-2xl transition-all hover:scale-105 cursor-pointer backdrop-blur-md">
                 <AppleLogo />
                 <div className="text-left">
-                  <div className="text-[9px] text-white/40 font-semibold uppercase tracking-wider leading-none mb-1">Available on</div>
-                  <div className="text-sm font-bold leading-none">Apple iOS</div>
+                  <div className="text-[9px] text-white/40 font-semibold uppercase tracking-wider leading-none mb-1">Download on the</div>
+                  <div className="text-sm font-bold leading-none">App Store</div>
                 </div>
               </button>
               <button className="flex items-center gap-3 bg-white/5 hover:bg-white/10 border border-white/12 hover:border-white/25 text-white px-5 py-3 rounded-2xl transition-all hover:scale-105 cursor-pointer backdrop-blur-md">
                 <PlayLogo />
                 <div className="text-left">
-                  <div className="text-[9px] text-white/40 font-semibold uppercase tracking-wider leading-none mb-1">Available on</div>
-                  <div className="text-sm font-bold leading-none">Android</div>
+                  <div className="text-[9px] text-white/40 font-semibold uppercase tracking-wider leading-none mb-1">GET IT ON</div>
+                  <div className="text-sm font-bold leading-none">Google Play</div>
                 </div>
               </button>
             </div>
