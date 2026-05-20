@@ -151,40 +151,29 @@ body {
   background-color: transparent !important;
   border: none !important;
   border-radius: 0 !important;
-  padding: 0 !important;
-}
-
-.ant-input-affix-wrapper .ant-input:not(:-webkit-autofill):not(:autofill) {
   box-shadow: none !important;
 }
 
-/* Fix browser autofill style overrides */
+/* Add proper gap between prefix/suffix and input */
+.ant-input-affix-wrapper {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+}
+
+/* Fix browser autofill style overrides with higher specificity */
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
 input:-webkit-autofill:active,
-input:-internal-autofill-selected,
-input:-internal-autofill-previewed,
-input:autofill,
-input:autofill:hover,
-input:autofill:focus,
-input:autofill:active,
 .ant-input:-webkit-autofill,
-.ant-input:-webkit-autofill:hover,
-.ant-input:-webkit-autofill:focus,
-.ant-input:-webkit-autofill:active,
-.ant-input:autofill,
-.ant-input:autofill:hover,
-.ant-input:autofill:focus,
-.ant-input:autofill:active,
-.ant-input-affix-wrapper input:-webkit-autofill,
-.ant-input-affix-wrapper input:-internal-autofill-selected {
+.ant-input-affix-wrapper input.ant-input:-webkit-autofill {
   -webkit-text-fill-color: #ffffff !important;
-  color: #ffffff !important;
-  -webkit-box-shadow: 0 0 0 1000px #0c061a inset !important;
-  box-shadow: 0 0 0 1000px #0c061a inset !important;
-  background-color: #0c061a !important;
+  -webkit-box-shadow: 0 0 0px 1000px #0c061a inset !important;
+  box-shadow: 0 0 0px 1000px #0c061a inset !important;
+  background-color: transparent !important;
   transition: background-color 99999s ease-in-out 0s !important;
+  caret-color: #ffffff !important;
 }
 
 .ant-input::placeholder,
