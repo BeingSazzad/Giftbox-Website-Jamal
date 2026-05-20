@@ -139,7 +139,7 @@ export function LandingHeader() {
       <div className="max-w-7xl mx-auto px-4 sm:px-8 py-3 sm:py-4 flex items-center justify-between relative">
         <Link href="/" className="flex items-center gap-1.5 sm:gap-2.5 no-underline z-10">
           <img src={logoImg.src} alt="Logo" className="w-8 h-8 sm:w-10 sm:h-10 object-contain" />
-          <span className="text-white font-bold text-lg sm:text-xl font-display tracking-tight whitespace-nowrap">Gift Box</span>
+          <span className="text-white font-bold text-lg sm:text-xl font-display tracking-tight whitespace-nowrap hidden min-[440px]:inline">Gift Box</span>
         </Link>
 
         <nav className="absolute left-1/2 -translate-x-1/2 hidden md:flex items-center gap-1.5 z-10">
