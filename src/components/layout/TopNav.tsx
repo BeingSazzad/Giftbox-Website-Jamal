@@ -1,5 +1,5 @@
 'use client'
-import { BellOutlined, DownOutlined, UserOutlined } from '@ant-design/icons'
+import { BellOutlined, DownOutlined } from '@ant-design/icons'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
@@ -33,10 +33,9 @@ const dropdownLinks = [
 interface TopNavProps {
   userName?: string
   avatar?: string
-  maxWidth?: number
 }
 
-export function TopNav({ userName = 'Sazzad', avatar = 'https://i.pravatar.cc/200?img=12', maxWidth = 1280 }: TopNavProps) {
+export function TopNav({ userName = 'Sazzad', avatar = 'https://i.pravatar.cc/200?img=12' }: TopNavProps) {
   const pathname = usePathname()
   const router = useRouter()
   const { token, logout } = useAuth()

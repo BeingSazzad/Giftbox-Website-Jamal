@@ -1,6 +1,5 @@
 import Link from 'next/link'
 import logoImg from '@/assets/logo.png'
-import { GiftFilled, FacebookFilled, TwitterOutlined, InstagramOutlined, YoutubeFilled } from '@ant-design/icons'
 
 const columns = [
   {

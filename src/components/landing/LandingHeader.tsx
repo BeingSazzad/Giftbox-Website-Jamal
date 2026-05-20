@@ -3,7 +3,7 @@ import { Button, Dropdown, MenuProps, message } from 'antd'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import { DownOutlined, UserOutlined, BellOutlined, MenuOutlined, CloseOutlined } from '@ant-design/icons'
+import { DownOutlined, BellOutlined, MenuOutlined, CloseOutlined } from '@ant-design/icons'
 import logoImg from '@/assets/logo.png'
 import { useAuth } from '@/hooks/useAuth'
 

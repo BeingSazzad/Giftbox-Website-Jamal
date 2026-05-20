@@ -80,12 +80,13 @@ function Hero() {
   const isAuthenticated = !!token
 
   return (
-    <section className="relative w-full max-w-7xl mx-auto px-6 md:px-12 pt-20 pb-12 md:pt-36 md:pb-24 overflow-hidden">
+    <section className="relative w-full pt-20 pb-12 md:pt-36 md:pb-24 overflow-hidden">
       {/* Background Glows */}
       <div className="absolute top-20 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-primary/20 blur-[120px] rounded-full pointer-events-none"></div>
       <div className="absolute top-40 right-0 w-[400px] h-[400px] bg-purple-600/20 blur-[100px] rounded-full pointer-events-none"></div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center relative z-10">
+      <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
         <div className="text-left">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 text-white/80 text-sm font-medium mb-8 backdrop-blur-md">
             <span className="w-2.5 h-2.5 rounded-full bg-success animate-pulse" />
@@ -204,6 +205,7 @@ function Hero() {
             />
           </div>
         </div>
+      </div>
       </div>
     </section>
   )
