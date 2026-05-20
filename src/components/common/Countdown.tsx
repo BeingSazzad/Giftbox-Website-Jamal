@@ -23,20 +23,26 @@ function calculateTimeLeft(endsAt: string): TimeLeft {
 }
 
 export function Countdown({ endsAt }: CountdownProps) {
-  const [timeLeft, setTimeLeft] = useState<TimeLeft>(() =>
-    calculateTimeLeft(endsAt),
-  )
+  const [mounted, setMounted] = useState(false)
+  const [timeLeft, setTimeLeft] = useState<TimeLeft>({
+    days: 0,
+    hours: 0,
+    minutes: 0,
+    seconds: 0
+  })
 
   useEffect(() => {
+    setMounted(true)
+    setTimeLeft(calculateTimeLeft(endsAt))
     const t = setInterval(() => setTimeLeft(calculateTimeLeft(endsAt)), 1000)
     return () => clearInterval(t)
   }, [endsAt])
 
   const cells: { value: number; label: string }[] = [
-    { value: timeLeft.days, label: 'Day' },
-    { value: timeLeft.hours, label: 'Hours' },
-    { value: timeLeft.minutes, label: 'Mins' },
-    { value: timeLeft.seconds, label: 'Secs' },
+    { value: mounted ? timeLeft.days : 0, label: 'Day' },
+    { value: mounted ? timeLeft.hours : 0, label: 'Hours' },
+    { value: mounted ? timeLeft.minutes : 0, label: 'Mins' },
+    { value: mounted ? timeLeft.seconds : 0, label: 'Secs' },
   ]
 
   return (
