@@ -120,7 +120,7 @@ export function LandingHeader() {
   const linkClass = (href: string) => {
     const isActive = pathname === href
     return [
-      'px-3.5 py-2 rounded-[10px] text-sm font-medium no-underline transition-all duration-200 inline-flex items-center justify-center h-[38px]',
+      'px-2 lg:px-3.5 py-2 rounded-[10px] text-xs lg:text-sm font-medium no-underline transition-all duration-200 inline-flex items-center justify-center h-[38px]',
       isActive
         ? 'text-primary bg-primary/10 font-semibold'
         : 'text-white/70 hover:text-white hover:bg-white/5'
@@ -136,13 +136,13 @@ export function LandingHeader() {
           : 'bg-transparent border-b border-transparent',
       ].join(' ')}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-8 py-3 sm:py-4 flex items-center justify-between relative">
+      <div className="max-w-7xl mx-auto px-4 sm:px-4 lg:px-8 py-3 sm:py-4 flex items-center justify-between relative">
         <Link href="/" className="flex items-center gap-1.5 sm:gap-2.5 no-underline z-10">
           <img src={logoImg.src} alt="Logo" className="w-8 h-8 sm:w-10 sm:h-10 object-contain" />
           <span className="text-white font-bold text-lg sm:text-xl font-display tracking-tight whitespace-nowrap hidden min-[440px]:inline">Gift Box</span>
         </Link>
 
-        <nav className="absolute left-1/2 -translate-x-1/2 hidden md:flex items-center gap-1.5 z-10">
+        <nav className="absolute left-1/2 -translate-x-1/2 hidden md:flex items-center gap-0.5 lg:gap-1.5 z-10">
           {mainLinks.map((l) => (
             <Link key={l.label} href={l.href} className={linkClass(l.href)}>
               {l.label}
@@ -157,14 +157,14 @@ export function LandingHeader() {
             classNames={{ root: "custom-dropdown-dark" }}
           >
             <button
-              className="px-3.5 py-2 rounded-[10px] text-white/70 text-sm font-medium transition-all duration-200 hover:text-white hover:bg-white/5 flex items-center justify-center gap-1.5 cursor-pointer bg-transparent border-none outline-none h-[38px] group"
+              className="px-2 lg:px-3.5 py-2 rounded-[10px] text-white/70 text-xs lg:text-sm font-medium transition-all duration-200 hover:text-white hover:bg-white/5 flex items-center justify-center gap-1 cursor-pointer bg-transparent border-none outline-none h-[38px] group"
             >
               More <DownOutlined className="text-[10px] text-white/40 group-hover:text-primary transition-colors duration-200" />
             </button>
           </Dropdown>
         </nav>
 
-        <div className="z-10 flex items-center gap-2 sm:gap-4 md:gap-6">
+        <div className="z-10 flex items-center gap-2 sm:gap-2.5 lg:gap-6">
           {/* Language Switcher */}
           <Dropdown
             menu={{ items: langMenuItems }}
@@ -174,7 +174,7 @@ export function LandingHeader() {
           >
             <button
               type="button"
-              className="px-1.5 sm:px-2.5 py-1 sm:py-1.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-white flex items-center gap-1 cursor-pointer transition-all duration-200 outline-none hover:border-primary/30 h-9 sm:h-10 select-none font-semibold text-[10px] sm:text-xs"
+              className="px-1.5 sm:px-2 py-1 sm:py-1.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-white flex items-center gap-1 cursor-pointer transition-all duration-200 outline-none hover:border-primary/30 h-9 sm:h-10 select-none font-semibold text-[10px] sm:text-xs shrink-0"
             >
               <span className="text-xs sm:text-sm leading-none select-none">{lang === 'en' ? '🇺🇸' : '🇫🇷'}</span>
               <span className="text-white/70 uppercase">{lang}</span>
