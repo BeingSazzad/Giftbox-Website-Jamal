@@ -136,10 +136,10 @@ export function LandingHeader() {
           : 'bg-transparent border-b border-transparent',
       ].join(' ')}
     >
-      <div className="max-w-7xl mx-auto px-8 py-4 flex items-center justify-between relative">
-        <Link href="/" className="flex items-center gap-2.5 no-underline z-10">
-          <img src={logoImg.src} alt="Logo" className="w-10 h-10 object-contain" />
-          <span className="text-white font-bold text-xl font-display tracking-tight">Gift Box</span>
+      <div className="max-w-7xl mx-auto px-4 sm:px-8 py-3 sm:py-4 flex items-center justify-between relative">
+        <Link href="/" className="flex items-center gap-1.5 sm:gap-2.5 no-underline z-10">
+          <img src={logoImg.src} alt="Logo" className="w-8 h-8 sm:w-10 sm:h-10 object-contain" />
+          <span className="text-white font-bold text-lg sm:text-xl font-display tracking-tight whitespace-nowrap">Gift Box</span>
         </Link>
 
         <nav className="absolute left-1/2 -translate-x-1/2 hidden md:flex items-center gap-1.5 z-10">
@@ -164,7 +164,7 @@ export function LandingHeader() {
           </Dropdown>
         </nav>
 
-        <div className="z-10 flex items-center gap-4 md:gap-6">
+        <div className="z-10 flex items-center gap-2 sm:gap-4 md:gap-6">
           {/* Language Switcher */}
           <Dropdown
             menu={{ items: langMenuItems }}
@@ -174,11 +174,11 @@ export function LandingHeader() {
           >
             <button
               type="button"
-              className="px-2.5 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-white flex items-center gap-1.5 cursor-pointer transition-all duration-200 outline-none hover:border-primary/30 h-10 select-none font-semibold text-xs"
+              className="px-1.5 sm:px-2.5 py-1 sm:py-1.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-white flex items-center gap-1 cursor-pointer transition-all duration-200 outline-none hover:border-primary/30 h-9 sm:h-10 select-none font-semibold text-[10px] sm:text-xs"
             >
-              <span className="text-sm leading-none select-none">{lang === 'en' ? '🇺🇸' : '🇫🇷'}</span>
+              <span className="text-xs sm:text-sm leading-none select-none">{lang === 'en' ? '🇺🇸' : '🇫🇷'}</span>
               <span className="text-white/70 uppercase">{lang}</span>
-              <DownOutlined className="text-[9px] text-white/30" />
+              <DownOutlined className="text-[8px] sm:text-[9px] text-white/30" />
             </button>
           </Dropdown>
 
@@ -202,7 +202,7 @@ export function LandingHeader() {
               >
                 <button
                   type="button"
-                  className="w-10 h-10 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-white flex items-center justify-center cursor-pointer relative transition-all duration-200 outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0514]"
+                  className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-white flex items-center justify-center cursor-pointer relative transition-all duration-200 outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0514]"
                 >
                   <BellOutlined style={{ fontSize: 16 }} />
                 </button>
@@ -216,7 +216,7 @@ export function LandingHeader() {
                 classNames={{ root: "custom-dropdown-dark" }}
               >
                 <div className="flex items-center gap-3 cursor-pointer hover:opacity-90 transition-all group">
-                  <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-primary to-[#ff8c00] p-0.5 shadow-lg shadow-primary/20 group-hover:scale-105 transition-transform duration-300">
+                  <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-gradient-to-tr from-primary to-[#ff8c00] p-0.5 shadow-lg shadow-primary/20 group-hover:scale-105 transition-transform duration-300">
                     <img
                       src={avatar}
                       alt={userName}
@@ -227,7 +227,11 @@ export function LandingHeader() {
               </Dropdown>
             </>
           ) : (
-            <Button type="primary" onClick={() => router.push('/login')}>
+            <Button
+              type="primary"
+              className="h-9 sm:h-10 text-xs sm:text-sm px-3 sm:px-4 flex items-center justify-center"
+              onClick={() => router.push('/login')}
+            >
               Get Started
             </Button>
           )}
@@ -236,7 +240,7 @@ export function LandingHeader() {
           <button
             type="button"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="md:hidden w-10 h-10 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-white flex items-center justify-center cursor-pointer transition-all duration-200 outline-none"
+            className="md:hidden w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-white flex items-center justify-center cursor-pointer transition-all duration-200 outline-none"
             aria-label="Toggle mobile menu"
           >
             {isMobileMenuOpen ? (
@@ -250,7 +254,7 @@ export function LandingHeader() {
 
       {/* Mobile Menu Drawer */}
       {isMobileMenuOpen && (
-        <div className="md:hidden fixed inset-x-0 top-[73px] bottom-0 z-40 bg-[#0a0514]/95 backdrop-blur-2xl border-t border-white/6 flex flex-col justify-between p-6 animate-in slide-in-from-top duration-300 overflow-y-auto">
+        <div className="md:hidden fixed inset-x-0 top-[61px] sm:top-[73px] bottom-0 z-40 bg-[#0a0514]/95 backdrop-blur-2xl border-t border-white/6 flex flex-col justify-between p-6 animate-in slide-in-from-top duration-300 overflow-y-auto">
           <div className="flex flex-col gap-2">
             {mainLinks.map((l) => (
               <Link
