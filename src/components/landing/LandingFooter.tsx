@@ -34,7 +34,7 @@ export function LandingFooter() {
       {/* Background glow */}
       <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[800px] h-[200px] bg-primary/10 blur-[100px] rounded-full pointer-events-none"></div>
       
-      <div className="max-w-7xl mx-auto px-6 md:px-12 pt-16 pb-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[1.5fr_1fr_1fr_1fr] gap-12 relative z-10">
+      <div className="max-w-7xl mx-auto px-6 md:px-12 pt-16 pb-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-[1.5fr_1fr_1fr_1fr] gap-12 relative z-10">
         <div>
           <div className="flex items-center gap-3 mb-6">
             <img src={logoImg.src} alt="Logo" className="w-10 h-10 object-contain" />

@@ -46,7 +46,7 @@ export default function MyDrawsPage() {
       </div>
 
       {/* Filter Tabs */}
-      <div className="flex border-b border-white/10 mb-6 overflow-x-auto scrollbar-none gap-2 md:gap-4">
+      <div className="flex border-b border-white/10 mb-6 overflow-x-auto scrollbar-none gap-2 md:gap-4" style={{ WebkitOverflowScrolling: 'touch' }}>
         {tabs.map((tab) => {
           const isActive = activeTab === tab.value
           const count = tab.value === 'all' 

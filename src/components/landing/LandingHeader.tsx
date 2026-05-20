@@ -3,7 +3,7 @@ import { Button, Dropdown, MenuProps, message } from 'antd'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import { DownOutlined, UserOutlined, BellOutlined } from '@ant-design/icons'
+import { DownOutlined, UserOutlined, BellOutlined, MenuOutlined, CloseOutlined } from '@ant-design/icons'
 import logoImg from '@/assets/logo.png'
 import { useAuth } from '@/hooks/useAuth'
 
@@ -34,6 +34,7 @@ export function LandingHeader() {
   const pathname = usePathname()
   const router = useRouter()
   const [scrolled, setScrolled] = useState(false)
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const { token, logout } = useAuth()
   const isAuthenticated = !!token
 
@@ -41,6 +42,18 @@ export function LandingHeader() {
   const avatar = 'https://i.pravatar.cc/200?img=12'
 
   const [lang, setLang] = useState('en')
+
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = ''
+    }
+    return () => {
+      document.body.style.overflow = ''
+    }
+  }, [isMobileMenuOpen])
+
   useEffect(() => {
     if (typeof window !== 'undefined') {
       setLang(localStorage.getItem('gb_lang') || 'en')
@@ -218,8 +231,74 @@ export function LandingHeader() {
               Get Started
             </Button>
           )}
+
+          {/* Mobile Menu Toggle Button */}
+          <button
+            type="button"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            className="md:hidden w-10 h-10 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-white flex items-center justify-center cursor-pointer transition-all duration-200 outline-none"
+            aria-label="Toggle mobile menu"
+          >
+            {isMobileMenuOpen ? (
+              <CloseOutlined style={{ fontSize: 18 }} />
+            ) : (
+              <MenuOutlined style={{ fontSize: 18 }} />
+            )}
+          </button>
         </div>
       </div>
+
+      {/* Mobile Menu Drawer */}
+      {isMobileMenuOpen && (
+        <div className="md:hidden fixed inset-x-0 top-[73px] bottom-0 z-40 bg-[#0a0514]/95 backdrop-blur-2xl border-t border-white/6 flex flex-col justify-between p-6 animate-in slide-in-from-top duration-300 overflow-y-auto">
+          <div className="flex flex-col gap-2">
+            {mainLinks.map((l) => (
+              <Link
+                key={l.label}
+                href={l.href}
+                onClick={() => setIsMobileMenuOpen(false)}
+                className={[
+                  'w-full px-4 py-3 rounded-xl text-base font-semibold no-underline transition-all duration-200 flex items-center',
+                  pathname === l.href
+                    ? 'text-primary bg-primary/10'
+                    : 'text-white/70 hover:text-white hover:bg-white/5'
+                ].join(' ')}
+              >
+                {l.label}
+              </Link>
+            ))}
+            
+            <div className="h-px bg-white/10 my-2" />
+            <span className="px-4 text-xs font-bold text-white/35 uppercase tracking-wider mb-2">More Information</span>
+            {dropdownLinks.map((l) => (
+              <Link
+                key={l.label}
+                href={l.href}
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="w-full px-4 py-2.5 rounded-xl text-sm font-medium text-white/60 hover:text-white hover:bg-white/5 no-underline transition-all duration-200"
+              >
+                {l.label}
+              </Link>
+            ))}
+          </div>
+          
+          {!isAuthenticated && (
+            <div className="pt-4 border-t border-white/10">
+              <Button
+                type="primary"
+                size="large"
+                className="w-full"
+                onClick={() => {
+                  setIsMobileMenuOpen(false);
+                  router.push('/login');
+                }}
+              >
+                Get Started
+              </Button>
+            </div>
+          )}
+        </div>
+      )}
     </header>
   )
 }

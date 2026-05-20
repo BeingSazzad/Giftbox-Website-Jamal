@@ -92,7 +92,7 @@ function Hero() {
             Live Now: Weekly Mega Draw
           </div>
 
-          <h1 className="text-5xl md:text-7xl font-black text-white leading-[1.1] tracking-tight mb-6">
+          <h1 className="text-4xl sm:text-5xl md:text-7xl font-black text-white leading-[1.1] tracking-tight mb-6">
             Win premium <br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FFB900] via-[#FF6900] to-[#E65E00]">
               luxury & prizes.
@@ -160,7 +160,7 @@ function Hero() {
 
             {/* Left Floating Star Badge (Aspirational Social Proof) */}
             <div 
-              className="absolute top-1/4 -left-10 z-20 flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-[#160d30]/80 border border-white/15 text-white text-[10px] font-black uppercase tracking-widest backdrop-blur-md shadow-2xl transition-transform hover:scale-105"
+              className="absolute top-1/4 left-2 md:-left-10 z-20 flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-[#160d30]/80 border border-white/15 text-white text-[10px] font-black uppercase tracking-widest backdrop-blur-md shadow-2xl transition-transform hover:scale-105"
               style={{ animation: 'float-box 5.5s ease-in-out infinite alternate' }}
             >
               <span className="w-1.5 h-1.5 rounded-full bg-[#00FF66] animate-pulse" />
@@ -169,7 +169,7 @@ function Hero() {
 
             {/* Right Floating Reward Badge (Cash/Success Glow) */}
             <div 
-              className="absolute bottom-1/3 -right-8 z-20 flex items-center gap-1.5 px-4 py-2.5 rounded-2xl bg-gradient-to-r from-primary to-primary-dark text-white text-[10px] font-black uppercase tracking-widest shadow-[0_10px_25px_rgba(255,105,0,0.3)] hover:scale-105 transition-transform"
+              className="absolute bottom-1/3 right-2 md:-right-8 z-20 flex items-center gap-1.5 px-4 py-2.5 rounded-2xl bg-gradient-to-r from-primary to-primary-dark text-white text-[10px] font-black uppercase tracking-widest shadow-[0_10px_25px_rgba(255,105,0,0.3)] hover:scale-105 transition-transform"
               style={{ animation: 'float-box 7s ease-in-out infinite alternate-reverse' }}
             >
               🎉 Mega Prize Claimed
@@ -255,11 +255,11 @@ function StatsBar() {
 
   return (
     <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-20 -mt-10">
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
         {stats.map((s) => (
           <div
             key={s.label}
-            className={`relative overflow-hidden bg-[#0c071a]/50 backdrop-blur-2xl border ${s.borderColor} rounded-[2rem] p-6 md:p-8 flex flex-col items-center text-center group transition-all duration-500 hover:-translate-y-2 select-none`}
+            className={`relative overflow-hidden bg-[#0c071a]/50 backdrop-blur-2xl border ${s.borderColor} rounded-[2rem] p-5 sm:p-6 md:p-8 flex flex-col items-center text-center group transition-all duration-500 hover:-translate-y-2 select-none`}
             style={{
               boxShadow: `0 20px 40px -15px rgba(0, 0, 0, 0.5), 0 0 30px 0 var(--hover-glow, transparent)`
             }}
@@ -342,7 +342,7 @@ function HowItWorks() {
           <div
             key={s.n}
             onMouseMove={handleMouseMove}
-            className="bg-surface/50 border border-white/10 hover:border-primary/50 transition-all duration-500 rounded-[2rem] p-10 relative overflow-hidden group spell-glow-card"
+            className="bg-surface/50 border border-white/10 hover:border-primary/50 transition-all duration-500 rounded-[2rem] p-6 sm:p-10 relative overflow-hidden group spell-glow-card"
           >
             <div className="absolute -right-10 -top-10 text-9xl font-black text-white/[0.03] group-hover:text-primary/10 transition-all duration-500 transform group-hover:scale-110">{s.n}</div>
             <div className="w-16 h-16 rounded-2xl bg-primary/10 text-primary flex items-center justify-center text-3xl mb-8 group-hover:bg-primary group-hover:text-white transition-colors duration-300">
@@ -398,7 +398,7 @@ function FeaturedPrize() {
               {/* Vertical divider line on desktop */}
               <div className="hidden sm:block w-px h-12 bg-white/10 shrink-0 self-center" />
 
-              <div className="min-w-[280px] flex-grow">
+              <div className="min-w-0 w-full sm:min-w-[280px] flex-grow">
                 <span className="text-white/40 text-xs font-bold uppercase tracking-wider block mb-2">Countdown</span>
                 <Countdown endsAt={currentDraw.endsAt} />
               </div>
@@ -462,7 +462,7 @@ function WhyUs() {
             {cards.map((c, i) => (
               <div
                 key={i}
-                className="group flex gap-5 items-start p-5 rounded-[2rem] bg-[#0c071a]/30 hover:bg-[#0c071a]/60 border border-white/5 hover:border-primary/25 transition-all duration-300 hover:-translate-y-1 shadow-lg"
+                className="group flex flex-col sm:flex-row gap-4 sm:gap-5 items-start p-5 sm:p-6 rounded-[2rem] bg-[#0c071a]/30 hover:bg-[#0c071a]/60 border border-white/5 hover:border-primary/25 transition-all duration-300 hover:-translate-y-1 shadow-lg"
               >
                 <div className="w-12 h-12 rounded-2xl bg-primary/10 border border-primary/20 group-hover:bg-primary group-hover:border-primary transition-all duration-300 flex items-center justify-center shrink-0">
                   {c.icon}
@@ -638,7 +638,7 @@ function DownloadApp() {
           </div>
 
           {/* Right: Phone Mockup */}
-          <div className="relative w-[320px] md:w-[450px] shrink-0 select-none transform hover:scale-[1.02] transition-transform duration-700">
+          <div className="relative w-full max-w-[320px] md:w-[450px] shrink-0 select-none transform hover:scale-[1.02] transition-transform duration-700">
             {/* Outer glow */}
             <div className="absolute inset-0 bg-primary/20 blur-[80px] rounded-full scale-90 pointer-events-none" />
 

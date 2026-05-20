@@ -31,7 +31,7 @@ export function BackHeader({ title, subtitle, onBack, rightSlot }: BackHeaderPro
       {/* Center Column: Centered Title & Subtitle */}
       <div className="text-center flex flex-col items-center justify-center">
         <h1 className="m-0 text-white text-2xl md:text-3xl font-black tracking-tight leading-tight">{title}</h1>
-        {subtitle && <span className="text-white/40 text-sm mt-1.5 font-medium whitespace-nowrap">{subtitle}</span>}
+        {subtitle && <span className="text-white/40 text-xs md:text-sm mt-1.5 font-medium max-w-xs md:max-w-md">{subtitle}</span>}
       </div>
 
       {/* Right Column: Custom Slot */}
