@@ -109,13 +109,13 @@ function Hero() {
               onClick={() => {
                 document.getElementById('prizes')?.scrollIntoView({ behavior: 'smooth' })
               }}
-              className="px-8 py-4 bg-gradient-to-br from-[#FFB900] to-[#FF6900] hover:from-[#FFC933] hover:to-[#FF7E1A] text-[#1a0f0a] rounded-xl font-bold text-lg transition-all hover:-translate-y-px hover:scale-105 shadow-[0_4px_20px_rgba(255,105,0,0.35)] hover:shadow-[0_8px_32px_rgba(255,105,0,0.5)] flex items-center gap-2 cursor-pointer border-none outline-none spell-btn-glow"
+              className="h-12 px-8 bg-gradient-to-br from-[#FFB900] to-[#FF6900] hover:from-[#FFC933] hover:to-[#FF7E1A] text-[#1a0f0a] rounded-xl font-bold text-lg transition-all hover:-translate-y-px hover:scale-105 shadow-[0_4px_20px_rgba(255,105,0,0.35)] hover:shadow-[0_8px_32px_rgba(255,105,0,0.5)] flex items-center justify-center gap-2 cursor-pointer border-none outline-none spell-btn-glow"
             >
               Participate Now <ArrowRightOutlined />
             </button>
             <button
               onClick={() => { document.getElementById('how-it-works')?.scrollIntoView({ behavior: 'smooth' }) }}
-              className="px-8 py-4 bg-white/5 hover:bg-white/10 text-white border border-white/10 rounded-xl font-bold text-lg transition-all backdrop-blur-sm cursor-pointer"
+              className="h-12 px-8 bg-white/5 hover:bg-white/10 text-white border border-white/10 rounded-xl font-bold text-lg transition-all backdrop-blur-sm cursor-pointer flex items-center justify-center"
             >
               How it Works
             </button>
@@ -411,7 +411,7 @@ function FeaturedPrize() {
                   router.push('/login')
                 }
               }}
-              className="w-full py-4 bg-gradient-to-br from-[#FFB900] to-[#FF6900] hover:from-[#FFC933] hover:to-[#FF7E1A] text-[#1a0f0a] rounded-xl font-bold text-lg shadow-[0_4px_20px_rgba(255,105,0,0.3)] hover:shadow-[0_8px_28px_rgba(255,105,0,0.45)] hover:-translate-y-px hover:scale-[1.02] transition-all cursor-pointer flex justify-center items-center gap-2 spell-btn-glow"
+              className="h-12 w-full bg-gradient-to-br from-[#FFB900] to-[#FF6900] hover:from-[#FFC933] hover:to-[#FF7E1A] text-[#1a0f0a] rounded-xl font-bold text-lg shadow-[0_4px_20px_rgba(255,105,0,0.3)] hover:shadow-[0_8px_28px_rgba(255,105,0,0.45)] hover:-translate-y-px hover:scale-[1.02] transition-all cursor-pointer flex justify-center items-center gap-2 spell-btn-glow"
             >
               {isAuthenticated ? 'Participate Now' : 'Sign In to Participate'} <ArrowRightOutlined />
             </button>
@@ -516,14 +516,14 @@ function Winners() {
         <div className="flex items-center gap-2 mt-6 md:mt-0">
           <button
             onClick={() => handleScroll('left')}
-            className="w-11 h-11 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 text-white/70 hover:text-white flex items-center justify-center transition-all cursor-pointer hover:scale-105 active:scale-95"
+            className="w-12 h-12 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 text-white/70 hover:text-white flex items-center justify-center transition-all cursor-pointer hover:scale-105 active:scale-95"
             aria-label="Previous slide"
           >
             <LeftOutlined className="text-sm" />
           </button>
           <button
             onClick={() => handleScroll('right')}
-            className="w-11 h-11 rounded-xl bg-primary hover:bg-primary-dark text-white flex items-center justify-center transition-all cursor-pointer hover:scale-105 active:scale-95 shadow-[0_4px_16px_rgba(255,105,0,0.4)]"
+            className="w-12 h-12 rounded-xl bg-primary hover:bg-primary-dark text-white flex items-center justify-center transition-all cursor-pointer hover:scale-105 active:scale-95 shadow-[0_4px_16px_rgba(255,105,0,0.4)]"
             aria-label="Next slide"
           >
             <RightOutlined className="text-sm" />
@@ -619,14 +619,14 @@ function DownloadApp() {
             </p>
 
             <div className="flex flex-wrap items-center justify-center md:justify-start gap-3">
-              <button className="flex items-center gap-3 bg-white/5 hover:bg-white/10 border border-white/12 hover:border-white/25 text-white px-5 py-3 rounded-2xl transition-all hover:scale-105 cursor-pointer backdrop-blur-md">
+              <button className="h-12 flex items-center gap-3 bg-white/5 hover:bg-white/10 border border-white/12 hover:border-white/25 text-white px-5 rounded-2xl transition-all hover:scale-105 cursor-pointer backdrop-blur-md">
                 <AppleLogo />
                 <div className="text-left">
                   <div className="text-[9px] text-white/40 font-semibold uppercase tracking-wider leading-none mb-1">Download on the</div>
                   <div className="text-sm font-bold leading-none">App Store</div>
                 </div>
               </button>
-              <button className="flex items-center gap-3 bg-white/5 hover:bg-white/10 border border-white/12 hover:border-white/25 text-white px-5 py-3 rounded-2xl transition-all hover:scale-105 cursor-pointer backdrop-blur-md">
+              <button className="h-12 flex items-center gap-3 bg-white/5 hover:bg-white/10 border border-white/12 hover:border-white/25 text-white px-5 rounded-2xl transition-all hover:scale-105 cursor-pointer backdrop-blur-md">
                 <PlayLogo />
                 <div className="text-left">
                   <div className="text-[9px] text-white/40 font-semibold uppercase tracking-wider leading-none mb-1">GET IT ON</div>
@@ -706,7 +706,7 @@ function FaqPreview() {
       <div className="text-center mt-10">
         <button
           onClick={() => setShowAll(!showAll)}
-          className="px-8 py-4 bg-white/5 hover:bg-white/10 hover:border-primary/50 text-white border border-white/10 rounded-xl font-bold text-base transition-all cursor-pointer inline-flex items-center gap-2"
+          className="h-12 px-8 bg-white/5 hover:bg-white/10 hover:border-primary/50 text-white border border-white/10 rounded-xl font-bold text-base transition-all cursor-pointer inline-flex items-center justify-center gap-2"
         >
           {showAll ? 'Show Less' : 'See More FAQs'}
           <DownOutlined className={`text-xs transition-transform duration-300 ${showAll ? 'rotate-180' : ''}`} />
@@ -765,7 +765,7 @@ function CtaSection() {
 
           <button
             onClick={() => router.push('/register')}
-            className="px-12 py-4 bg-gradient-to-br from-[#FFB900] to-[#FF6900] hover:from-[#FFC933] hover:to-[#FF7E1A] text-[#1a0f0a] rounded-2xl font-black text-lg transition-all hover:-translate-y-px hover:scale-[1.04] shadow-[0_6px_28px_rgba(255,105,0,0.4)] hover:shadow-[0_14px_44px_rgba(255,105,0,0.55)] cursor-pointer mb-7"
+            className="h-12 px-12 bg-gradient-to-br from-[#FFB900] to-[#FF6900] hover:from-[#FFC933] hover:to-[#FF7E1A] text-[#1a0f0a] rounded-2xl font-black text-lg transition-all hover:-translate-y-px hover:scale-[1.04] shadow-[0_6px_28px_rgba(255,105,0,0.4)] hover:shadow-[0_14px_44px_rgba(255,105,0,0.55)] cursor-pointer inline-flex items-center justify-center mb-7"
           >
             Join Now →
           </button>
