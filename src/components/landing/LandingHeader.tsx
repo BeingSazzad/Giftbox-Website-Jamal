@@ -175,8 +175,8 @@ export function LandingHeader() {
               <Dropdown
                 trigger={['click']}
                 placement="bottomRight"
-                dropdownRender={() => (
-                  <div className="bg-[#110a20] border border-white/10 rounded-2xl shadow-2xl shadow-black/50 w-72 overflow-hidden">
+                popupRender={() => (
+                  <div className="bg-surface border border-white/10 rounded-2xl w-80 shadow-2xl overflow-hidden mt-2 animate-in fade-in zoom-in duration-200">
                     <div className="px-4 py-3 border-b border-white/10 bg-white/[0.02]">
                       <span className="text-white font-bold text-sm">Notifications</span>
                     </div>

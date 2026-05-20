@@ -163,7 +163,7 @@ export function TopNav({ userName = 'Sazzad', avatar = 'https://i.pravatar.cc/20
               <Dropdown
                 trigger={['click']}
                 placement="bottomRight"
-                dropdownRender={() => (
+                popupRender={() => (
                   <div className="bg-[#110a20] border border-white/10 rounded-2xl shadow-2xl shadow-black/50 w-72 overflow-hidden">
                     <div className="px-4 py-3 border-b border-white/10 bg-white/[0.02]">
                       <span className="text-white font-bold text-sm">Notifications</span>
