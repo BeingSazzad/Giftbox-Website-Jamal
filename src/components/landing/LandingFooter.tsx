@@ -44,13 +44,6 @@ export function LandingFooter() {
             The most trusted prize-winning platform. Daily draws for premium
             gadgets, electronics, and lifestyle products.
           </p>
-          
-          <div className="flex items-center gap-4">
-            <a href="#" className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/60 hover:text-primary hover:bg-white/10 hover:border-primary/50 transition-all"><FacebookFilled className="text-lg" /></a>
-            <a href="#" className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/60 hover:text-primary hover:bg-white/10 hover:border-primary/50 transition-all"><TwitterOutlined className="text-lg" /></a>
-            <a href="#" className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/60 hover:text-primary hover:bg-white/10 hover:border-primary/50 transition-all"><InstagramOutlined className="text-lg" /></a>
-            <a href="#" className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/60 hover:text-primary hover:bg-white/10 hover:border-primary/50 transition-all"><YoutubeFilled className="text-lg" /></a>
-          </div>
         </div>
 
         {columns.map((col) => (
@@ -77,11 +70,11 @@ export function LandingFooter() {
         ))}
       </div>
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 py-6 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4">
-        <div className="text-white/50 text-sm">
+      <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 py-6 border-t border-white/10 flex flex-col items-center justify-center gap-2">
+        <div className="text-white/50 text-sm text-center">
           © {new Date().getFullYear()} Gift Box. All rights reserved.
         </div>
-        <div className="flex items-center gap-6 text-white/40 text-sm">
+        <div className="flex items-center justify-center gap-6 text-white/40 text-sm">
           <span>Made with ❤️ for everyone.</span>
         </div>
       </div>

@@ -331,7 +331,7 @@ export default function DrawDetailsPage() {
               ) : (
                 <>
                   <SendOutlined />
-                  Send proof of payment
+                  Submit Proof
                 </>
               )}
             </button>

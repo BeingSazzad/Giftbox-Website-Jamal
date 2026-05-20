@@ -103,12 +103,10 @@ export default function ContactPage() {
               </span>
               
               <h2 className="text-white text-2xl md:text-3xl font-black m-0 tracking-tight flex items-center gap-2.5">
-                {isSignedIn ? 'Contact Support' : 'Send Us a Message'}
+                Contact Support
               </h2>
               <p className="text-white/50 text-sm mt-2 mb-0 leading-relaxed max-w-xl">
-                {isSignedIn 
-                  ? 'Have a question or need assistance? Reach out to our support team, and we’ll get back to you as soon as possible.'
-                  : 'Have a question about a ticket, draw verification, or payment? Write to us and our support team will reply within 24 hours.'}
+                Have a question or need assistance? Reach out to our support team, and we’ll get back to you as soon as possible.
               </p>
             </div>
 
@@ -154,43 +152,33 @@ export default function ContactPage() {
                 name="subject"
                 label={
                   <span className="text-white/80 font-bold text-xs uppercase tracking-wider flex items-center gap-1.5">
-                    <span className="w-1 h-1 rounded-full bg-primary" /> {isSignedIn ? 'Subject' : 'Inquiry Topic'}
+                    <span className="w-1 h-1 rounded-full bg-primary" /> Subject
                   </span>
                 }
-                rules={[{ required: true, message: isSignedIn ? 'Please enter a subject' : 'Please select a topic' }]}
+                rules={[{ required: true, message: 'Please enter a subject' }]}
               >
-                {isSignedIn ? (
-                  <Input size="large" placeholder="What can we help you with?" className="h-12" />
-                ) : (
-                  <Select size="large" placeholder="Select what you need help with" className="h-12">
-                    <Select.Option value="general">General Inquiry</Select.Option>
-                    <Select.Option value="draws">Ticket & Draw Support</Select.Option>
-                    <Select.Option value="billing">Payments & Proof Verification</Select.Option>
-                    <Select.Option value="technical">Technical Account Issue</Select.Option>
-                    <Select.Option value="partnerships">Business & Partnerships</Select.Option>
-                  </Select>
-                )}
+                <Input size="large" placeholder="What can we help you with?" className="h-12" />
               </Form.Item>
 
               <Form.Item
                 name="message"
                 label={
                   <span className="text-white/80 font-bold text-xs uppercase tracking-wider flex items-center gap-1.5">
-                    <span className="w-1 h-1 rounded-full bg-primary" /> {isSignedIn ? 'Message' : 'Message Details'}
+                    <span className="w-1 h-1 rounded-full bg-primary" /> Message
                   </span>
                 }
                 rules={[{ required: true, message: 'Please enter your message' }]}
               >
                 <Input.TextArea
                   rows={5}
-                  placeholder={isSignedIn ? 'Describe your issue...' : 'Describe your request in detail...'}
+                  placeholder="Describe your issue..."
                   className="resize-y p-3.5"
                 />
               </Form.Item>
 
               <div className="pt-2">
                 <span className="text-white/80 font-bold text-xs uppercase tracking-wider flex items-center gap-1.5 mb-2.5">
-                  <span className="w-1 h-1 rounded-full bg-primary" /> {isSignedIn ? 'Attach Photo (Optional)' : 'Attachment (Optional)'}
+                  <span className="w-1 h-1 rounded-full bg-primary" /> Attach Photo (Optional)
                 </span>
                 
                 <button
@@ -211,10 +199,10 @@ export default function ContactPage() {
                       </div>
                       <div className="text-center">
                         <div className="text-white text-sm font-bold group-hover:text-primary transition-colors">
-                          {isSignedIn ? 'Upload Photo' : 'Upload Proof or Screenshot'}
+                          Upload Photo
                         </div>
                         <div className="text-white/40 text-[11px] mt-1">
-                          {isSignedIn ? 'JPG, PNG up to 5MB' : 'JPG or PNG format up to 5MB'}
+                          JPG, PNG up to 5MB
                         </div>
                       </div>
                     </>
@@ -242,7 +230,7 @@ export default function ContactPage() {
                   block 
                   className="h-13 text-sm font-black flex items-center justify-center gap-2 shadow-[0_4px_25px_rgba(254,147,1,0.2)] hover:shadow-[0_4px_30px_rgba(254,147,1,0.3)] transition-all spell-btn-glow"
                 >
-                  <SendOutlined style={{ fontSize: 13 }} /> {isSignedIn ? 'Send Message' : 'Send Message Inquiry'}
+                  <SendOutlined style={{ fontSize: 13 }} /> Send Message
                 </Button>
               </Form.Item>
             </Form>

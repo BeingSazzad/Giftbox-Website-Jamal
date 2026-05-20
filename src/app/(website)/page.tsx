@@ -638,80 +638,17 @@ function DownloadApp() {
           </div>
 
           {/* Right: Phone Mockup */}
-          <div className="relative w-[220px] shrink-0 select-none">
+          <div className="relative w-[320px] md:w-[450px] shrink-0 select-none transform hover:scale-[1.02] transition-transform duration-700">
             {/* Outer glow */}
-            <div className="absolute inset-0 bg-primary/20 blur-3xl rounded-full scale-110 pointer-events-none" />
+            <div className="absolute inset-0 bg-primary/20 blur-[80px] rounded-full scale-90 pointer-events-none" />
 
-            {/* Phone shell */}
-            <div className="relative rounded-[2.8rem] border-[7px] border-[#2a1d4e] bg-[#0a0518] shadow-[0_32px_80px_rgba(0,0,0,0.7)] overflow-hidden rotate-[-4deg] hover:rotate-0 transition-transform duration-700">
-              {/* Dynamic island */}
-              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-20 h-[18px] bg-[#0a0518] z-30 rounded-b-2xl flex items-center justify-center gap-1.5">
-                <div className="w-2 h-2 rounded-full bg-[#1a1228]" />
-                <div className="w-8 h-1.5 rounded-full bg-[#1a1228]" />
-              </div>
-
-              {/* Screen content */}
-              <div className="bg-[#0d0820] pt-6 pb-4 px-3 min-h-[440px] flex flex-col gap-3">
-                {/* Status bar */}
-                <div className="flex items-center justify-between px-2 mb-1 mt-1">
-                  <span className="text-white/40 text-[9px] font-bold">9:41</span>
-                  <div className="flex items-center gap-1">
-                    <div className="w-3 h-1.5 rounded-sm bg-white/30" />
-                    <div className="w-3 h-1.5 rounded-sm bg-white/30" />
-                    <div className="w-4 h-2 rounded-sm bg-white/40 relative"><div className="absolute inset-[2px] right-[3px] bg-white/70 rounded-[1px]" /></div>
-                  </div>
-                </div>
-
-                {/* App header */}
-                <div className="flex items-center justify-between px-1 mb-1">
-                  <div>
-                    <div className="text-white/30 text-[8px] font-semibold uppercase tracking-widest">Welcome back</div>
-                    <div className="text-white text-xs font-black leading-tight">My Draws 🎁</div>
-                  </div>
-                  <div className="w-7 h-7 rounded-full bg-gradient-to-tr from-primary to-[#ffaa00] p-[1.5px]">
-                    <img src="https://i.pravatar.cc/200?img=12" className="w-full h-full rounded-full object-cover" />
-                  </div>
-                </div>
-
-                {/* Active draw card */}
-                <div className="bg-gradient-to-br from-[#ff6900]/20 to-[#7c3aed]/15 border border-primary/20 rounded-2xl p-3 relative overflow-hidden">
-                  <div className="absolute top-2 right-2 bg-green-500/20 border border-green-400/30 text-green-400 text-[7px] font-black uppercase tracking-wider px-1.5 py-0.5 rounded-full">Live</div>
-                  <div className="text-white/40 text-[7px] uppercase tracking-wider mb-1">Featured Draw</div>
-                  <div className="text-white text-[11px] font-black leading-tight mb-2">Samsung Galaxy S25 Ultra</div>
-                  <div className="w-full bg-white/10 rounded-full h-1 mb-1">
-                    <div className="bg-gradient-to-r from-primary to-[#ffaa00] h-1 rounded-full w-3/4" />
-                  </div>
-                  <div className="text-white/30 text-[7px]">148 / 200 tickets sold</div>
-                </div>
-
-                {/* Ticket entries */}
-                {[
-                  { prize: 'iPhone 16 Pro', ticket: '#TKT-000103', status: 'verified', color: 'text-green-400', dot: 'bg-green-400' },
-                  { prize: 'iPad Pro 12.9"', ticket: '#TKT-000098', status: 'pending', color: 'text-yellow-400', dot: 'bg-yellow-400' },
-                ].map((entry, i) => (
-                  <div key={i} className="bg-white/4 border border-white/6 rounded-xl px-3 py-2 flex items-center justify-between">
-                    <div>
-                      <div className="text-white text-[9px] font-bold leading-tight">{entry.prize}</div>
-                      <div className="text-white/30 text-[7px] font-mono mt-0.5">{entry.ticket}</div>
-                    </div>
-                    <div className="flex items-center gap-1">
-                      <div className={`w-1.5 h-1.5 rounded-full ${entry.dot}`} />
-                      <span className={`text-[7px] font-bold uppercase ${entry.color}`}>{entry.status}</span>
-                    </div>
-                  </div>
-                ))}
-
-                {/* Bottom nav */}
-                <div className="mt-auto flex items-center justify-around bg-[#150d2e] rounded-2xl py-2.5 px-2 border border-white/5">
-                  {['🏠', '🎟️', '🏆', '👤'].map((icon, i) => (
-                    <div key={i} className={`flex flex-col items-center gap-0.5 ${i === 0 ? 'opacity-100' : 'opacity-30'}`}>
-                      <span className="text-sm">{icon}</span>
-                      {i === 0 && <div className="w-1 h-1 rounded-full bg-primary" />}
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
+            {/* App Preview Image */}
+            <img 
+              src="/app_preview.png" 
+              alt="Gift Box App Preview" 
+              className="relative z-10 w-full h-auto object-contain drop-shadow-[0_32px_80px_rgba(0,0,0,0.7)]"
+              draggable="false"
+            />
           </div>
         </div>
       </div>
