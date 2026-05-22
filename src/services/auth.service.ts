@@ -1,21 +1,7 @@
 import api from '@/lib/axios'
 
-export interface LoginPayload {
-  email: string
-  password: string
-}
+import { LoginPayload, RegisterPayload, AuthResponse } from '@/types'
 
-export interface RegisterPayload {
-  fullName: string
-  email: string
-  phone: string
-  password: string
-}
-
-export interface AuthResponse {
-  user: { id: string; name: string; email: string }
-  token: string
-}
 
 export const authService = {
   login: (data: LoginPayload) =>
