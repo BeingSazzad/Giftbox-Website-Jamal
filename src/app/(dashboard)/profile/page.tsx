@@ -3,15 +3,12 @@ import {
   UserOutlined,
   LockOutlined,
   QuestionCircleOutlined,
-  LogoutOutlined,
   CameraOutlined,
-  SafetyCertificateOutlined,
-  BellOutlined,
   MailOutlined,
   PhoneOutlined,
   CalendarOutlined
 } from '@ant-design/icons'
-import { Form, Input, Button, DatePicker, Select, Switch, message } from 'antd'
+import { Form, Input, Button, DatePicker, Select, message } from 'antd'
 import { useState, useRef, useEffect, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useAuth } from '@/hooks/useAuth'
@@ -23,7 +20,7 @@ type SettingsTab = 'profile' | 'password' | 'support'
 function SettingsHubContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
-  const { logout } = useAuth()
+  const { user } = useAuth()
   const [activeTab, setActiveTab] = useState<SettingsTab>('profile')
   const [avatar, setAvatar] = useState('https://i.pravatar.cc/200?img=12')
   const fileInputRef = useRef<HTMLInputElement>(null)
@@ -46,7 +43,7 @@ function SettingsHubContent() {
 
   useEffect(() => {
     const tabParam = searchParams.get('tab') as SettingsTab
-    if (tabParam && ['profile', 'password', 'support', 'admin'].includes(tabParam)) {
+    if (tabParam && ['profile', 'password', 'support'].includes(tabParam)) {
       setActiveTab(tabParam)
     }
   }, [searchParams])
@@ -69,16 +66,16 @@ function SettingsHubContent() {
     message.success('Avatar updated successfully')
   }
 
-  const handleProfileSave = (values: any) => {
+  const handleProfileSave = (_values: any) => {
     message.success('Profile updated successfully!')
   }
 
-  const handlePasswordSave = (values: any) => {
+  const handlePasswordSave = (_values: any) => {
     message.success('Password changed successfully!')
     passwordForm.resetFields()
   }
 
-  const handleSupportSubmit = (values: any) => {
+  const handleSupportSubmit = (_values: any) => {
     message.success('Support ticket submitted! We will respond shortly.')
     supportForm.resetFields()
     setSupportPhoto(null)
@@ -146,8 +143,8 @@ function SettingsHubContent() {
                 onChange={(e) => handleAvatarChange(e.target.files?.[0] ?? null)}
               />
             </div>
-            <h3 className="m-0 text-white text-base font-bold leading-snug">Sazzad Chowdhury</h3>
-            <p className="m-0 text-white/50 text-xs mt-0.5">Joined March 2024</p>
+            <h3 className="m-0 text-white text-base font-bold leading-snug">{user?.name || 'User'}</h3>
+            <p className="m-0 text-white/50 text-xs mt-0.5">{user?.email || ''}</p>
           </div>
 
           {/* Tab Navigation Menu */}
@@ -189,9 +186,9 @@ function SettingsHubContent() {
                 layout="vertical"
                 requiredMark={false}
                 initialValues={{
-                  fullName: 'Sazzad Chowdhury',
-                  email: 'user@example.com',
-                  phone: '9876543210',
+                  fullName: user?.name || '',
+                  email: user?.email || '',
+                  phone: user?.phone || '',
                   city: 'Kinshasa',
                   dob: dayjs('1998-05-12'),
                 }}
@@ -247,15 +244,19 @@ function SettingsHubContent() {
                   label={<span className="text-white/70 font-semibold text-xs">City of Residence</span>}
                   rules={[{ required: true, message: 'Please select your city' }]}
                 >
-                  <Select size="large" placeholder="Select your city">
-                    <Select.Option value="Kinshasa">Kinshasa</Select.Option>
-                    <Select.Option value="Matadi">Matadi</Select.Option>
-                    <Select.Option value="Boma">Boma</Select.Option>
-                    <Select.Option value="Moanda">Moanda</Select.Option>
-                    <Select.Option value="Kimpese">Kimpese</Select.Option>
-                    <Select.Option value="Kisantu">Kisantu</Select.Option>
-                    <Select.Option value="Mbanza-Ngungu">Mbanza-Ngungu</Select.Option>
-                  </Select>
+                  <Select
+                    size="large"
+                    placeholder="Select your city"
+                    options={[
+                      { value: 'Kinshasa', label: 'Kinshasa' },
+                      { value: 'Matadi', label: 'Matadi' },
+                      { value: 'Boma', label: 'Boma' },
+                      { value: 'Moanda', label: 'Moanda' },
+                      { value: 'Kimpese', label: 'Kimpese' },
+                      { value: 'Kisantu', label: 'Kisantu' },
+                      { value: 'Mbanza-Ngungu', label: 'Mbanza-Ngungu' },
+                    ]}
+                  />
                 </Form.Item>
 
                 <Form.Item className="mt-6 mb-0">

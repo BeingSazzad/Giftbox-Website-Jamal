@@ -9,16 +9,13 @@ import { useAuth } from '@/hooks/useAuth'
 
 import { PUBLIC_LINKS as publicLinks, AUTH_LINKS as authLinks, DROPDOWN_LINKS as dropdownLinks } from '@/utils/constants'
 
-interface TopNavProps {
-  userName?: string
-  avatar?: string
-}
-
-export function TopNav({ userName = 'Sazzad', avatar = 'https://i.pravatar.cc/200?img=12' }: TopNavProps) {
+export function TopNav() {
   const pathname = usePathname()
   const router = useRouter()
-  const { token, logout } = useAuth()
+  const { token, logout, user } = useAuth()
   const isAuthenticated = !!token
+  const userName = user?.name || 'User'
+  const avatar = user?.avatar || 'https://i.pravatar.cc/200?img=12'
 
   const mainLinks = isAuthenticated ? authLinks : publicLinks
 
@@ -77,15 +74,18 @@ export function TopNav({ userName = 'Sazzad', avatar = 'https://i.pravatar.cc/20
     },
   ]
 
-  const linkClass = (href: string) => {
-    const isActive = pathname === href
-    return [
+  const isActive = (href: string) => pathname === href
+
+  const linkClass = (href: string) =>
+    [
       'px-3.5 py-2 rounded-[10px] text-sm font-medium no-underline transition-all duration-200 inline-flex items-center justify-center h-[38px] outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0514]',
-      isActive
-        ? 'text-primary bg-primary/10 font-semibold'
-        : 'text-white/70 hover:text-white hover:bg-white/5'
+      isActive(href) ? 'bg-primary/10 font-semibold' : 'hover:bg-white/5'
     ].join(' ')
-  }
+
+  const linkStyle = (href: string) =>
+    isActive(href)
+      ? { color: 'var(--color-primary)' }
+      : { color: 'rgba(255,255,255,0.7)' }
 
   return (
     <header className="hidden md:block sticky top-0 z-50 bg-[#0a0514]/85 backdrop-blur-xl border-b border-white/6">
@@ -97,7 +97,7 @@ export function TopNav({ userName = 'Sazzad', avatar = 'https://i.pravatar.cc/20
 
         <nav className="absolute left-1/2 -translate-x-1/2 hidden md:flex items-center gap-1.5 z-10">
           {mainLinks.map((item) => (
-            <Link key={item.label} href={item.href} className={linkClass(item.href)}>
+            <Link key={item.label} href={item.href} className={linkClass(item.href)} style={linkStyle(item.href)}>
               {item.label}
             </Link>
           ))}

@@ -14,11 +14,10 @@ export function LandingHeader() {
   const router = useRouter()
   const [scrolled, setScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-  const { token, logout } = useAuth()
+  const { token, logout, user } = useAuth()
   const isAuthenticated = !!token
-
-  const userName = 'Sazzad'
-  const avatar = 'https://i.pravatar.cc/200?img=12'
+  const userName = user?.name || 'User'
+  const avatar = user?.avatar || 'https://i.pravatar.cc/200?img=12'
 
   const [lang, setLang] = useState('en')
 

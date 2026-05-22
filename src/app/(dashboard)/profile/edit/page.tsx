@@ -1,7 +1,8 @@
 'use client';
 import { Button, DatePicker, Form, Input, message } from 'antd'
 import { useEffect, useRef, useState } from 'react'
-import { useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation'
+import { useAuth } from '@/hooks/useAuth'
 import dayjs, { type Dayjs } from 'dayjs'
 import { WebShell } from '@/components/layout/WebShell'
 import { BackHeader } from '@/components/layout/BackHeader'
@@ -16,8 +17,9 @@ interface EditProfileValues {
 
 export default function EditProfilePage() {
   const router = useRouter()
+  const { user } = useAuth()
   const [form] = Form.useForm<EditProfileValues>()
-  const [avatar, setAvatar] = useState<string>('https://i.pravatar.cc/200?img=12')
+  const [avatar, setAvatar] = useState<string>(user?.avatar || 'https://i.pravatar.cc/200?img=12')
   const inputRef = useRef<HTMLInputElement>(null)
   const avatarBlobRef = useRef<string | null>(null)
 
@@ -81,10 +83,10 @@ export default function EditProfilePage() {
         layout="vertical"
         requiredMark={false}
         initialValues={{
-          fullName: 'Sazzad Chowdhury',
-          email: '',
-          phone: '9876543210',
-          city: 'New York',
+          fullName: user?.name || '',
+          email: user?.email || '',
+          phone: user?.phone || '',
+          city: '',
         }}
         onFinish={onFinish}
       >

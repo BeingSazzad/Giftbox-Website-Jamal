@@ -191,7 +191,7 @@ function StatusBlock({ participation }: StatusBlockProps) {
 
         <button
           type="button"
-          onClick={() => router.push('/support')}
+          onClick={() => router.push('/profile?tab=support')}
           className="w-full h-12 bg-danger/10 hover:bg-danger/20 border border-danger/40 text-danger rounded-xl font-bold text-sm cursor-pointer flex items-center justify-center gap-2 transition-all"
         >
           <CustomerServiceOutlined />
