@@ -1,16 +1,17 @@
 import axios from 'axios'
+import { API_BASE_URL } from '@/config/env'
+import { API_TIMEOUT } from '@/utils/constants'
+import { getToken } from '@/lib/auth'
 
 const api = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL,
+  baseURL: API_BASE_URL,
   headers: { 'Content-Type': 'application/json' },
-  timeout: 10000,
+  timeout: API_TIMEOUT,
 })
 
 api.interceptors.request.use((config) => {
-  if (typeof window !== 'undefined') {
-    const token = localStorage.getItem('token')
-    if (token) config.headers.Authorization = `Bearer ${token}`
-  }
+  const token = getToken()
+  if (token) config.headers.Authorization = `Bearer ${token}`
   return config
 })
 

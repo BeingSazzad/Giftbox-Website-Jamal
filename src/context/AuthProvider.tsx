@@ -1,6 +1,6 @@
 'use client'
 import { createContext, useEffect, useState, type ReactNode } from 'react'
-import { clearToken, getToken } from '@/lib/auth'
+import { clearToken, getToken, setToken as saveToken } from '@/lib/auth'
 
 interface User {
   id: string
@@ -29,7 +29,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   function login(user: User, token: string) {
     setUser(user)
     setToken(token)
-    localStorage.setItem('token', token)
+    saveToken(token)
   }
 
   function logout() {
