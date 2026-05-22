@@ -18,7 +18,7 @@ export function SuccessModal({
       footer={null}
       closable={false}
       centered
-      maskClosable={false}
+      mask={{ closable: false }}
       width={480}
       styles={{
         body: {

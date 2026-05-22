@@ -2,7 +2,8 @@
 import { Button, Checkbox, Form, Input, message } from 'antd'
 import { LockOutlined, MailOutlined } from '@ant-design/icons'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
+import { Suspense } from 'react'
 import { AuthCard } from '@/components/auth/AuthCard'
 import { useAuth } from '@/hooks/useAuth'
 
@@ -12,8 +13,10 @@ interface LoginFormValues {
   remember: boolean
 }
 
-export default function LoginPage() {
+function LoginForm() {
   const router = useRouter()
+  const searchParams = useSearchParams()
+  const redirect = searchParams?.get('redirect') || '/'
   const { login } = useAuth()
   const [form] = Form.useForm<LoginFormValues>()
 
@@ -27,7 +30,7 @@ export default function LoginPage() {
     }
     login(mockUser, mockToken)
     message.success('Signed in successfully!')
-    router.push('/my-draws')
+    router.push(redirect)
   }
 
   const handleSubmitAny = () => {
@@ -42,7 +45,7 @@ export default function LoginPage() {
       footer={
         <>
           Don&apos;t have an account?{' '}
-          <Link href="/register" className="text-primary font-semibold">
+          <Link href={redirect ? `/register?redirect=${encodeURIComponent(redirect)}` : '/register'} className="text-primary font-semibold">
             Create one
           </Link>
         </>
@@ -98,5 +101,13 @@ export default function LoginPage() {
         </Form.Item>
       </Form>
     </AuthCard>
+  )
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={<div className="text-white text-center py-8">Loading...</div>}>
+      <LoginForm />
+    </Suspense>
   )
 }

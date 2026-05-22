@@ -2,7 +2,8 @@
 import { Button, Form, Input, message } from 'antd'
 import { LockOutlined, MailOutlined, PhoneOutlined, UserOutlined } from '@ant-design/icons'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
+import { Suspense } from 'react'
 import { AuthCard } from '@/components/auth/AuthCard'
 import { useAuth } from '@/hooks/useAuth'
 
@@ -14,8 +15,10 @@ interface RegisterFormValues {
   confirmPassword: string
 }
 
-export default function RegisterPage() {
+function RegisterForm() {
   const router = useRouter()
+  const searchParams = useSearchParams()
+  const redirect = searchParams?.get('redirect') || '/'
   const { login } = useAuth()
   const [form] = Form.useForm<RegisterFormValues>()
 
@@ -28,7 +31,7 @@ export default function RegisterPage() {
     }
     login(mockUser, mockToken)
     message.success('Account created successfully!')
-    router.push('/my-draws')
+    router.push(redirect)
   }
 
   const handleSubmitAny = () => {
@@ -43,7 +46,7 @@ export default function RegisterPage() {
       footer={
         <>
           Already have an account?{' '}
-          <Link href="/login" className="text-primary font-semibold">
+          <Link href={redirect ? `/login?redirect=${encodeURIComponent(redirect)}` : '/login'} className="text-primary font-semibold">
             Sign in
           </Link>
         </>
@@ -84,7 +87,7 @@ export default function RegisterPage() {
           <Input
             size="large"
             prefix={<PhoneOutlined className="text-white/50" />}
-            placeholder="+880 1XXXXXXXXX"
+            placeholder="+243 XXXXXXXXX"
             autoComplete="off"
           />
         </Form.Item>
@@ -122,5 +125,13 @@ export default function RegisterPage() {
         </Form.Item>
       </Form>
     </AuthCard>
+  )
+}
+
+export default function RegisterPage() {
+  return (
+    <Suspense fallback={<div className="text-white text-center py-8">Loading...</div>}>
+      <RegisterForm />
+    </Suspense>
   )
 }

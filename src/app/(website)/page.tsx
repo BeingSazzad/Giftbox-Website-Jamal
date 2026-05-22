@@ -408,7 +408,7 @@ function FeaturedPrize() {
                 if (isAuthenticated) {
                   router.push(`/draws/${currentDraw.id}`)
                 } else {
-                  router.push('/login')
+                  router.push(`/login?redirect=/draws/${currentDraw.id}`)
                 }
               }}
               className="h-12 w-full bg-gradient-to-br from-[#FFB900] to-[#FF6900] hover:from-[#FFC933] hover:to-[#FF7E1A] text-[#1a0f0a] rounded-xl font-bold text-lg shadow-[0_4px_20px_rgba(255,105,0,0.3)] hover:shadow-[0_8px_28px_rgba(255,105,0,0.45)] hover:-translate-y-px hover:scale-[1.02] transition-all cursor-pointer flex justify-center items-center gap-2 spell-btn-glow"
@@ -637,7 +637,7 @@ function DownloadApp() {
           </div>
 
           {/* Right: Phone Mockup */}
-          <div className="relative w-full max-w-[320px] md:w-[450px] shrink-0 select-none transform hover:scale-[1.02] transition-transform duration-700">
+          <div className="relative w-full max-w-[380px] md:w-[500px] lg:w-[540px] shrink-0 select-none transform hover:scale-[1.02] transition-transform duration-700">
             {/* Outer glow */}
             <div className="absolute inset-0 bg-primary/20 blur-[80px] rounded-full scale-90 pointer-events-none" />
 
@@ -674,43 +674,45 @@ function FaqPreview() {
   const visibleFaqs = showAll ? faqs : faqs.slice(0, 6)
 
   return (
-    <Section id="faq" className="max-w-4xl">
-      <SectionTitle
-        eyebrow="FAQ"
-        title="Answers to your questions."
-        subtitle="Find quick, transparent answers to everything about tickets, payments, draws, and prize delivery."
-      />
+    <Section id="faq">
+      <div className="max-w-3xl mx-auto">
+        <SectionTitle
+          eyebrow="FAQ"
+          title="Answers to your questions."
+          subtitle="Find quick, transparent answers to everything about tickets, payments, draws, and prize delivery."
+        />
 
-      <div className="space-y-4">
-        {visibleFaqs.map((f, i) => {
-          const isOpen = openIndex === i
-          return (
-            <div key={i} className={`bg-surface/40 backdrop-blur-md border rounded-2xl overflow-hidden transition-all duration-300 ${isOpen ? 'border-primary/50 bg-surface/80' : 'border-white/10 hover:border-white/20'}`}>
-              <button
-                onClick={() => setOpenIndex(isOpen ? null : i)}
-                className="w-full px-6 py-5 flex items-center justify-between text-left cursor-pointer bg-transparent border-none outline-none"
-              >
-                <span className="text-lg font-bold text-white">{f.q}</span>
-                <div className={`w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 ${isOpen ? 'bg-primary text-white rotate-180' : 'bg-white/5 text-white/50'}`}>
-                  <DownOutlined className="text-sm" />
+        <div className="space-y-4">
+          {visibleFaqs.map((f, i) => {
+            const isOpen = openIndex === i
+            return (
+              <div key={i} className={`bg-surface/40 backdrop-blur-md border rounded-2xl overflow-hidden transition-all duration-300 ${isOpen ? 'border-primary/50 bg-surface/80' : 'border-white/10 hover:border-white/20'}`}>
+                <button
+                  onClick={() => setOpenIndex(isOpen ? null : i)}
+                  className="w-full px-5 py-4 sm:px-6 sm:py-4 flex items-center justify-between text-left cursor-pointer bg-transparent border-none outline-none"
+                >
+                  <span className="text-base sm:text-lg font-bold text-white">{f.q}</span>
+                  <div className={`w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 ${isOpen ? 'bg-primary text-white rotate-180' : 'bg-white/5 text-white/50'}`}>
+                    <DownOutlined className="text-sm" />
+                  </div>
+                </button>
+                <div className={`px-5 sm:px-6 overflow-hidden transition-all duration-300 ease-in-out ${isOpen ? 'max-h-40 pb-4 sm:pb-4.5 opacity-100' : 'max-h-0 pb-0 opacity-0'}`}>
+                  <p className="text-white/60 text-sm sm:text-base leading-relaxed m-0">{f.a}</p>
                 </div>
-              </button>
-              <div className={`px-6 overflow-hidden transition-all duration-300 ease-in-out ${isOpen ? 'max-h-40 pb-5 opacity-100' : 'max-h-0 pb-0 opacity-0'}`}>
-                <p className="text-white/60 text-base leading-relaxed m-0">{f.a}</p>
               </div>
-            </div>
-          )
-        })}
-      </div>
+            )
+          })}
+        </div>
 
-      <div className="text-center mt-10">
-        <button
-          onClick={() => setShowAll(!showAll)}
-          className="h-12 px-8 bg-white/5 hover:bg-white/10 hover:border-primary/50 text-white border border-white/10 rounded-xl font-bold text-base transition-all cursor-pointer inline-flex items-center justify-center gap-2"
-        >
-          {showAll ? 'Show Less' : 'See More FAQs'}
-          <DownOutlined className={`text-xs transition-transform duration-300 ${showAll ? 'rotate-180' : ''}`} />
-        </button>
+        <div className="text-center mt-10">
+          <button
+            onClick={() => setShowAll(!showAll)}
+            className="h-12 px-8 bg-white/5 hover:bg-white/10 hover:border-primary/50 text-white border border-white/10 rounded-xl font-bold text-base transition-all cursor-pointer inline-flex items-center justify-center gap-2"
+          >
+            {showAll ? 'Show Less' : 'See More FAQs'}
+            <DownOutlined className={`text-xs transition-transform duration-300 ${showAll ? 'rotate-180' : ''}`} />
+          </button>
+        </div>
       </div>
     </Section>
   )
