@@ -1,6 +1,8 @@
 import { BellOutlined } from '@ant-design/icons'
 import { Dropdown, MenuProps } from 'antd'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+import { useAuth } from '@/hooks/useAuth'
 
 interface MobileHomeHeaderProps {
   userName?: string
@@ -10,12 +12,16 @@ interface MobileHomeHeaderProps {
 }
 
 export function MobileHomeHeader({
-  userName = 'Sazzad',
+  userName: propUserName,
   avatar = 'https://i.pravatar.cc/200?img=12',
   greeting = 'Welcome to Weekly Prize Draw',
   hasNotifications = true,
 }: MobileHomeHeaderProps) {
+  const router = useRouter()
+  const { user, logout } = useAuth()
   
+  const userName = propUserName || user?.name || 'Sazzad'
+
   const userMenuItems: MenuProps['items'] = [
     {
       key: 'edit',
@@ -44,7 +50,17 @@ export function MobileHomeHeader({
     {
       key: 'logout',
       danger: true,
-      label: <Link href="/login" className="font-bold text-danger">Sign Out</Link>,
+      label: (
+        <div 
+          onClick={() => {
+            logout()
+            router.push('/login')
+          }} 
+          className="font-bold text-danger w-full cursor-pointer"
+        >
+          Sign Out
+        </div>
+      ),
     },
   ]
 

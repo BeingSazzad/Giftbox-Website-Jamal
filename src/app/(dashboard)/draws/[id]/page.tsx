@@ -18,6 +18,7 @@ import { SuccessModal } from '@/components/common/SuccessModal'
 import { currentDraw, paymentNumbers } from '@/data/draws'
 
 import { BackHeader } from '@/components/layout/BackHeader'
+import { useCountdown } from '@/hooks/useCountdown'
 
 const MAX_FILE_SIZE = 10 * 1024 * 1024
 
@@ -29,23 +30,7 @@ const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
   e.currentTarget.style.setProperty('--mouse-y', `${y}px`)
 }
 
-function useCountdown(targetIso: string) {
-  const calc = useCallback(() => {
-    const diff = Math.max(0, new Date(targetIso).getTime() - Date.now())
-    const d = Math.floor(diff / 86400000)
-    const h = Math.floor((diff % 86400000) / 3600000)
-    const m = Math.floor((diff % 3600000) / 60000)
-    const s = Math.floor((diff % 60000) / 1000)
-    return { d, h, m, s, expired: diff === 0 }
-  }, [targetIso])
 
-  const [time, setTime] = useState(calc)
-  useEffect(() => {
-    const id = setInterval(() => setTime(calc()), 1000)
-    return () => clearInterval(id)
-  }, [calc])
-  return time
-}
 
 export default function DrawDetailsPage() {
   const router = useRouter()

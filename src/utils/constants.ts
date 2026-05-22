@@ -21,3 +21,27 @@ export const ROUTES = {
   PROFILE: '/profile',
   MY_DRAWS: '/my-draws',
 } as const
+
+// ── Navigation ────────────────────────────────────────────────
+export interface NavItem {
+  href: string
+  label: string
+}
+
+export const PUBLIC_LINKS: NavItem[] = [
+  { href: '/about', label: 'About Us' },
+  { href: '/#how-it-works', label: 'How it Works' },
+  { href: '/contact', label: 'Contact' },
+]
+
+export const AUTH_LINKS: NavItem[] = [
+  { href: '/about', label: 'About Us' },
+  { href: ROUTES.MY_DRAWS, label: 'My Draws' },
+  { href: '/contact', label: 'Contact' },
+]
+
+export const DROPDOWN_LINKS: NavItem[] = [
+  { label: 'FAQ', href: '/faq' },
+  { label: 'Terms & Conditions', href: '/terms' },
+  { label: 'Privacy Policy', href: '/privacy' },
+]

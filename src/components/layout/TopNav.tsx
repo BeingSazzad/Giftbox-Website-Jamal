@@ -7,28 +7,7 @@ import { Button, Dropdown, MenuProps, message } from 'antd'
 import logoImg from '@/assets/logo.png'
 import { useAuth } from '@/hooks/useAuth'
 
-interface NavItem {
-  href: string
-  label: string
-}
-
-const publicLinks: NavItem[] = [
-  { href: '/about', label: 'About Us' },
-  { href: '/#how-it-works', label: 'How it Works' },
-  { href: '/contact', label: 'Contact' },
-]
-
-const authLinks: NavItem[] = [
-  { href: '/about', label: 'About Us' },
-  { href: '/my-draws', label: 'My Draws' },
-  { href: '/contact', label: 'Contact' },
-]
-
-const dropdownLinks = [
-  { label: 'FAQ', href: '/faq' },
-  { label: 'Terms & Conditions', href: '/terms' },
-  { label: 'Privacy Policy', href: '/privacy' },
-]
+import { PUBLIC_LINKS as publicLinks, AUTH_LINKS as authLinks, DROPDOWN_LINKS as dropdownLinks } from '@/utils/constants'
 
 interface TopNavProps {
   userName?: string
