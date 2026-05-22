@@ -10,6 +10,9 @@ export function AntdProvider({ children }: { children: ReactNode }) {
         token: {
           colorPrimary: '#FE9301',
           colorInfo: '#FE9301',
+          colorLink: 'rgba(255,255,255,0.7)',
+          colorLinkHover: '#ffffff',
+          colorLinkActive: 'rgba(255,255,255,0.7)',
           colorBgBase: '#1a0f3d',
           colorBgContainer: '#1f1545',
           colorBgElevated: '#2a1854',

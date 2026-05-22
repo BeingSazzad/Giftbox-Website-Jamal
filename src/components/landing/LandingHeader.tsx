@@ -96,15 +96,20 @@ export function LandingHeader() {
 
   const mainLinks = isAuthenticated ? authLinks : publicLinks
 
-  const linkClass = (href: string) => {
-    const isActive = pathname === href
-    return [
+  const isActive = (href: string) => pathname === href
+
+  const linkClass = (href: string) =>
+    [
       'px-2 lg:px-3.5 py-2 rounded-[10px] text-xs lg:text-sm font-medium no-underline transition-all duration-200 inline-flex items-center justify-center h-[38px]',
-      isActive
-        ? 'text-primary bg-primary/10 font-semibold'
-        : 'text-white/70 hover:text-white hover:bg-white/5'
+      isActive(href)
+        ? 'bg-primary/10 font-semibold'
+        : 'hover:bg-white/5'
     ].join(' ')
-  }
+
+  const linkStyle = (href: string): React.CSSProperties =>
+    isActive(href)
+      ? { color: 'var(--color-primary)' }
+      : { color: 'rgba(255,255,255,0.7)' }
 
   return (
     <header
@@ -123,7 +128,7 @@ export function LandingHeader() {
 
         <nav className="absolute left-1/2 -translate-x-1/2 hidden md:flex items-center gap-0.5 lg:gap-1.5 z-10">
           {mainLinks.map((l) => (
-            <Link key={l.label} href={l.href} className={linkClass(l.href)}>
+            <Link key={l.label} href={l.href} className={linkClass(l.href)} style={linkStyle(l.href)}>
               {l.label}
             </Link>
           ))}
@@ -242,10 +247,9 @@ export function LandingHeader() {
                 onClick={() => setIsMobileMenuOpen(false)}
                 className={[
                   'w-full px-4 py-3 rounded-xl text-base font-semibold no-underline transition-all duration-200 flex items-center',
-                  pathname === l.href
-                    ? 'text-primary bg-primary/10'
-                    : 'text-white/70 hover:text-white hover:bg-white/5'
+                  isActive(l.href) ? 'bg-primary/10' : 'hover:bg-white/5'
                 ].join(' ')}
+                style={linkStyle(l.href)}
               >
                 {l.label}
               </Link>

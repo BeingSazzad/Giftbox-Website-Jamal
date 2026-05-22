@@ -1,26 +1,46 @@
 'use client';
+
+import React from 'react'
 import {
   CheckCircleFilled,
-  DownOutlined,
   SafetyCertificateFilled,
   TrophyFilled,
   ArrowRightOutlined,
   StarFilled,
   ThunderboltFilled,
-  LeftOutlined,
-  RightOutlined,
   CrownFilled
 } from '@ant-design/icons'
-import { useState, useRef } from 'react'
 import { useRouter } from 'next/navigation';
+import dynamic from 'next/dynamic'
 import { LandingHeader } from '@/components/landing/LandingHeader'
 import { LandingFooter } from '@/components/landing/LandingFooter'
 import { Countdown } from '@/components/common/Countdown'
 import { currentDraw } from '@/data/draws'
-import { participations } from '@/data/participations'
 import giftBoxImg from '@/assets/images/luxury_gift_box.png'
 import premiumPrizesImg from '@/assets/images/luxury_premium_prizes.png'
 import { useAuth } from '@/hooks/useAuth'
+import { Section, SectionTitle } from '@/components/landing/Section'
+
+// Below-the-fold sections are lazy-loaded to improve initial bundle and page performance
+const Winners = dynamic(() => import('@/components/landing/Winners'), {
+  loading: () => <div className="min-h-[400px] flex items-center justify-center text-white/50">Loading Winners...</div>,
+  ssr: false
+})
+
+const DownloadApp = dynamic(() => import('@/components/landing/DownloadApp'), {
+  loading: () => <div className="min-h-[300px] flex items-center justify-center text-white/50">Loading Section...</div>,
+  ssr: false
+})
+
+const FaqPreview = dynamic(() => import('@/components/landing/FaqPreview'), {
+  loading: () => <div className="min-h-[400px] flex items-center justify-center text-white/50">Loading FAQ...</div>,
+  ssr: false
+})
+
+const CtaSection = dynamic(() => import('@/components/landing/CtaSection'), {
+  loading: () => <div className="min-h-[250px] flex items-center justify-center text-white/50">Loading...</div>,
+  ssr: false
+})
 
 const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
   const rect = e.currentTarget.getBoundingClientRect()
@@ -49,31 +69,6 @@ export default function LandingPage() {
   )
 }
 
-function Section({ id, children, className = '' }: { id?: string; children: React.ReactNode; className?: string }) {
-  return (
-    <section id={id} className={`max-w-7xl mx-auto px-6 md:px-12 py-14 md:py-16 ${className}`}>
-      {children}
-    </section>
-  )
-}
-
-function SectionTitle({ eyebrow, title, subtitle, align = 'center' }: { eyebrow: string; title: string; subtitle?: string; align?: 'center' | 'left' }) {
-  const isLeft = align === 'left'
-  return (
-    <div className={`${isLeft ? 'text-left' : 'text-center'} mb-10 relative`}>
-      <div className={`inline-flex items-center ${isLeft ? 'justify-start' : 'justify-center'} px-4 py-1.5 rounded-full spell-shimmer-badge text-primary text-xs font-bold uppercase tracking-wider mb-4`}>
-        {eyebrow}
-      </div>
-      <h2 className="m-0 text-white text-3xl md:text-4xl font-black leading-tight mb-2 tracking-tight spell-text-glow">{title}</h2>
-      {subtitle && (
-        <p className={`mt-2 mb-0 ${isLeft ? 'mr-auto' : 'mx-auto'} max-w-2xl text-white/60 text-base leading-relaxed`}>
-          {subtitle}
-        </p>
-      )}
-    </div>
-  )
-}
-
 function Hero() {
   const router = useRouter()
   const { token } = useAuth()
@@ -87,125 +82,125 @@ function Hero() {
 
       <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-        <div className="text-left">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 text-white/80 text-sm font-medium mb-8 backdrop-blur-md">
-            <span className="w-2.5 h-2.5 rounded-full bg-success animate-pulse" />
-            Live Now: Weekly Mega Draw
+          <div className="text-left">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 text-white/80 text-sm font-medium mb-8 backdrop-blur-md">
+              <span className="w-2.5 h-2.5 rounded-full bg-success animate-pulse" />
+              Live Now: Weekly Mega Draw
+            </div>
+
+            <h1 className="text-4xl sm:text-5xl md:text-7xl font-black text-white leading-[1.1] tracking-tight mb-6">
+              Win premium <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FFB900] via-[#FF6900] to-[#E65E00]">
+                luxury & prizes.
+              </span>
+            </h1>
+
+            <p className="text-lg md:text-xl text-white/70 leading-relaxed mb-10 max-w-xl">
+              Turn a small entry into life-changing rewards. Grab your ticket, upload payment proof, and stand a chance to win premium gadgets, luxury gifts, and exclusive prizes â€” delivered straight to your door.
+            </p>
+
+            <div className="flex flex-wrap items-center gap-4">
+              <button
+                onClick={() => {
+                  document.getElementById('prizes')?.scrollIntoView({ behavior: 'smooth' })
+                }}
+                className="h-12 px-8 bg-gradient-to-br from-[#FFB900] to-[#FF6900] hover:from-[#FFC933] hover:to-[#FF7E1A] text-[#1a0f0a] rounded-xl font-bold text-lg transition-all hover:-translate-y-px hover:scale-105 shadow-[0_4px_20px_rgba(255,105,0,0.35)] hover:shadow-[0_8px_32px_rgba(255,105,0,0.5)] flex items-center justify-center gap-2 cursor-pointer border-none outline-none spell-btn-glow"
+              >
+                Participate Now <ArrowRightOutlined />
+              </button>
+              <button
+                onClick={() => { document.getElementById('how-it-works')?.scrollIntoView({ behavior: 'smooth' }) }}
+                className="h-12 px-8 bg-white/5 hover:bg-white/10 text-white border border-white/10 rounded-xl font-bold text-lg transition-all backdrop-blur-sm cursor-pointer flex items-center justify-center"
+              >
+                How it Works
+              </button>
+            </div>
+
+            <div className="flex items-center gap-6 mt-12 text-white/50 text-sm font-medium">
+              <span className="flex items-center gap-2"><SafetyCertificateFilled className="text-primary text-lg" /> Verified Platform</span>
+              <span className="flex items-center gap-2"><TrophyFilled className="text-primary text-lg" /> 100% Random Draw</span>
+            </div>
           </div>
 
-          <h1 className="text-4xl sm:text-5xl md:text-7xl font-black text-white leading-[1.1] tracking-tight mb-6">
-            Win premium <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FFB900] via-[#FF6900] to-[#E65E00]">
-              luxury & prizes.
-            </span>
-          </h1>
+          <div className="relative w-full aspect-square flex justify-center items-center select-none">
+            {/* Pulsing Neon Backdrop Glow */}
+            <div className="absolute w-[360px] h-[360px] bg-gradient-to-tr from-primary/20 to-purple-500/25 rounded-full blur-[90px]" style={{ animation: 'glow-pulse 4s ease-in-out infinite' }} />
 
-          <p className="text-lg md:text-xl text-white/70 leading-relaxed mb-10 max-w-xl">
-            Turn a small entry into life-changing rewards. Grab your ticket, upload payment proof, and stand a chance to win premium gadgets, luxury gifts, and exclusive prizes — delivered straight to your door.
-          </p>
+            {/* Large Outer dashed Orbit Ring */}
+            <div className="absolute w-[440px] h-[440px] rounded-full border border-white/5 border-dashed" style={{ animation: 'orbit-rotate 48s linear infinite' }} />
 
-          <div className="flex flex-wrap items-center gap-4">
-            <button
-              onClick={() => {
-                document.getElementById('prizes')?.scrollIntoView({ behavior: 'smooth' })
-              }}
-              className="h-12 px-8 bg-gradient-to-br from-[#FFB900] to-[#FF6900] hover:from-[#FFC933] hover:to-[#FF7E1A] text-[#1a0f0a] rounded-xl font-bold text-lg transition-all hover:-translate-y-px hover:scale-105 shadow-[0_4px_20px_rgba(255,105,0,0.35)] hover:shadow-[0_8px_32px_rgba(255,105,0,0.5)] flex items-center justify-center gap-2 cursor-pointer border-none outline-none spell-btn-glow"
+            {/* Inner double styling Orbit Ring */}
+            <div className="absolute w-[350px] h-[350px] rounded-full border border-primary/10 border-double" style={{ animation: 'orbit-rotate 28s linear infinite reverse' }} />
+
+            {/* Rotating Glowing Core Ring */}
+            <div className="absolute w-[280px] h-[280px] rounded-full border border-white/10" style={{ animation: 'orbit-rotate 60s linear infinite' }}>
+              {/* Ambient small neon dot floating on core ring */}
+              <div className="absolute -top-1.5 left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-primary shadow-[0_0_15px_#ff6900] animate-pulse" />
+            </div>
+
+            {/* Floating Arched Winner Portrait Canvas with Custom Glow */}
+            <div 
+              className="relative z-10 w-full max-w-[340px] aspect-[3/4] bg-gradient-to-tr from-[#160d30] via-surface/40 to-primary/10 rounded-[3rem] border border-white/10 p-[1.5px] shadow-[0_30px_70px_rgba(0,0,0,0.6)] cursor-pointer"
+              style={{ animation: 'float-box 6s ease-in-out infinite' }}
             >
-              Participate Now <ArrowRightOutlined />
-            </button>
-            <button
-              onClick={() => { document.getElementById('how-it-works')?.scrollIntoView({ behavior: 'smooth' }) }}
-              className="h-12 px-8 bg-white/5 hover:bg-white/10 text-white border border-white/10 rounded-xl font-bold text-lg transition-all backdrop-blur-sm cursor-pointer flex items-center justify-center"
-            >
-              How it Works
-            </button>
-          </div>
+              {/* Arched Photo container */}
+              <div className="relative w-full h-full rounded-[2.9rem] overflow-hidden group">
+                <img 
+                  src="/images/winner_celebration.png" 
+                  alt="Ecstatic Winner Celebrating Success" 
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
+                />
+                {/* Warm dark bottom gradient */}
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0c051a]/95 via-transparent to-transparent" />
+              </div>
 
-          <div className="flex items-center gap-6 mt-12 text-white/50 text-sm font-medium">
-            <span className="flex items-center gap-2"><SafetyCertificateFilled className="text-primary text-lg" /> Verified Platform</span>
-            <span className="flex items-center gap-2"><TrophyFilled className="text-primary text-lg" /> 100% Random Draw</span>
-          </div>
-        </div>
+              {/* Left Floating Star Badge (Aspirational Social Proof) */}
+              <div 
+                className="absolute top-1/4 left-2 md:-left-10 z-20 flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-[#160d30]/80 border border-white/15 text-white text-[10px] font-black uppercase tracking-widest backdrop-blur-md shadow-2xl transition-transform hover:scale-105"
+                style={{ animation: 'float-box 5.5s ease-in-out infinite alternate' }}
+              >
+                <span className="w-1.5 h-1.5 rounded-full bg-[#00FF66] animate-pulse" />
+                ðŸ† Verified Success
+              </div>
 
-        <div className="relative w-full aspect-square flex justify-center items-center select-none">
-          {/* Pulsing Neon Backdrop Glow */}
-          <div className="absolute w-[360px] h-[360px] bg-gradient-to-tr from-primary/20 to-purple-500/25 rounded-full blur-[90px]" style={{ animation: 'glow-pulse 4s ease-in-out infinite' }} />
+              {/* Right Floating Reward Badge (Cash/Success Glow) */}
+              <div 
+                className="absolute bottom-1/3 right-2 md:-right-8 z-20 flex items-center gap-1.5 px-4 py-2.5 rounded-2xl bg-gradient-to-r from-primary to-primary-dark text-white text-[10px] font-black uppercase tracking-widest shadow-[0_10px_25px_rgba(255,105,0,0.3)] hover:scale-105 transition-transform"
+                style={{ animation: 'float-box 7s ease-in-out infinite alternate-reverse' }}
+              >
+                ðŸŽ‰ Mega Prize Claimed
+              </div>
 
-          {/* Large Outer dashed Orbit Ring */}
-          <div className="absolute w-[440px] h-[440px] rounded-full border border-white/5 border-dashed" style={{ animation: 'orbit-rotate 48s linear infinite' }} />
+              {/* Ambient Confetti / Star Particles floating around card */}
+              {/* Gold Star Particle */}
+              <svg 
+                className="absolute -top-6 -right-6 z-20 w-8 h-8 text-yellow-400 animate-pulse select-none pointer-events-none drop-shadow-[0_0_10px_#EAB308]"
+                viewBox="0 0 24 24" 
+                fill="currentColor"
+              >
+                <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+              </svg>
 
-          {/* Inner double styling Orbit Ring */}
-          <div className="absolute w-[350px] h-[350px] rounded-full border border-primary/10 border-double" style={{ animation: 'orbit-rotate 28s linear infinite reverse' }} />
-
-          {/* Rotating Glowing Core Ring */}
-          <div className="absolute w-[280px] h-[280px] rounded-full border border-white/10" style={{ animation: 'orbit-rotate 60s linear infinite' }}>
-            {/* Ambient small neon dot floating on core ring */}
-            <div className="absolute -top-1.5 left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-primary shadow-[0_0_15px_#ff6900] animate-pulse" />
-          </div>
-
-          {/* Floating Arched Winner Portrait Canvas with Custom Glow */}
-          <div 
-            className="relative z-10 w-full max-w-[340px] aspect-[3/4] bg-gradient-to-tr from-[#160d30] via-surface/40 to-primary/10 rounded-[3rem] border border-white/10 p-[1.5px] shadow-[0_30px_70px_rgba(0,0,0,0.6)] cursor-pointer"
-            style={{ animation: 'float-box 6s ease-in-out infinite' }}
-          >
-            {/* Arched Photo container */}
-            <div className="relative w-full h-full rounded-[2.9rem] overflow-hidden group">
-              <img 
-                src="/images/winner_celebration.png" 
-                alt="Ecstatic Winner Celebrating Success" 
-                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
+              {/* Orange Neon Particle */}
+              <div 
+                className="absolute bottom-10 -left-6 z-20 w-3 h-3 rounded-full bg-primary shadow-[0_0_12px_#ff6900] animate-ping"
+                style={{ animationDuration: '3s' }}
               />
-              {/* Warm dark bottom gradient */}
-              <div className="absolute inset-0 bg-gradient-to-t from-[#0c051a]/95 via-transparent to-transparent" />
+
+              {/* Purple Confetti pill */}
+              <div 
+                className="absolute top-1/2 -right-8 z-20 w-2.5 h-6 rounded-full bg-purple-500/60 rotate-45 animate-pulse"
+                style={{ animationDuration: '4s' }}
+              />
+
+              {/* Green Success Confetti pill */}
+              <div 
+                className="absolute bottom-1/4 -left-8 z-20 w-6 h-2 rounded-full bg-[#00FF66]/50 -rotate-12 animate-pulse"
+                style={{ animationDuration: '5s' }}
+              />
             </div>
-
-            {/* Left Floating Star Badge (Aspirational Social Proof) */}
-            <div 
-              className="absolute top-1/4 left-2 md:-left-10 z-20 flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-[#160d30]/80 border border-white/15 text-white text-[10px] font-black uppercase tracking-widest backdrop-blur-md shadow-2xl transition-transform hover:scale-105"
-              style={{ animation: 'float-box 5.5s ease-in-out infinite alternate' }}
-            >
-              <span className="w-1.5 h-1.5 rounded-full bg-[#00FF66] animate-pulse" />
-              🏆 Verified Success
-            </div>
-
-            {/* Right Floating Reward Badge (Cash/Success Glow) */}
-            <div 
-              className="absolute bottom-1/3 right-2 md:-right-8 z-20 flex items-center gap-1.5 px-4 py-2.5 rounded-2xl bg-gradient-to-r from-primary to-primary-dark text-white text-[10px] font-black uppercase tracking-widest shadow-[0_10px_25px_rgba(255,105,0,0.3)] hover:scale-105 transition-transform"
-              style={{ animation: 'float-box 7s ease-in-out infinite alternate-reverse' }}
-            >
-              🎉 Mega Prize Claimed
-            </div>
-
-            {/* Ambient Confetti / Star Particles floating around card */}
-            {/* Gold Star Particle */}
-            <svg 
-              className="absolute -top-6 -right-6 z-20 w-8 h-8 text-yellow-400 animate-pulse select-none pointer-events-none drop-shadow-[0_0_10px_#EAB308]"
-              viewBox="0 0 24 24" 
-              fill="currentColor"
-            >
-              <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
-            </svg>
-
-            {/* Orange Neon Particle */}
-            <div 
-              className="absolute bottom-10 -left-6 z-20 w-3 h-3 rounded-full bg-primary shadow-[0_0_12px_#ff6900] animate-ping"
-              style={{ animationDuration: '3s' }}
-            />
-
-            {/* Purple Confetti pill */}
-            <div 
-              className="absolute top-1/2 -right-8 z-20 w-2.5 h-6 rounded-full bg-purple-500/60 rotate-45 animate-pulse"
-              style={{ animationDuration: '4s' }}
-            />
-
-            {/* Green Success Confetti pill */}
-            <div 
-              className="absolute bottom-1/4 -left-8 z-20 w-6 h-2 rounded-full bg-[#00FF66]/50 -rotate-12 animate-pulse"
-              style={{ animationDuration: '5s' }}
-            />
           </div>
         </div>
-      </div>
       </div>
     </section>
   )
@@ -449,7 +444,7 @@ function WhyUs() {
         <div>
           <div className="text-left mb-10">
             <div className="inline-flex items-center px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-black uppercase tracking-wider mb-6 select-none backdrop-blur-md">
-              🛡️ Why Choose Us
+              ðŸ›¡ï¸ Why Choose Us
             </div>
             <h2 className="m-0 text-white text-3xl md:text-4xl lg:text-5xl font-black leading-[1.1] tracking-tighter mb-4 lg:whitespace-nowrap">Built on trust, not just luck.</h2>
             <p className="mt-4 mb-0 text-white/60 text-base leading-relaxed">
@@ -476,332 +471,5 @@ function WhyUs() {
         </div>
       </div>
     </Section>
-  )
-}
-
-function Winners() {
-  const scrollRef = useRef<HTMLDivElement>(null)
-  const winners = participations
-    .filter((p) => p.status === 'completed' && p.winners && p.winners.length > 0)
-    .flatMap((p) => (p.winners ?? []).map((w) => ({ ...w, prize: p.prizeTitle })))
-
-  const handleScroll = (direction: 'left' | 'right') => {
-    if (scrollRef.current) {
-      const { scrollLeft, clientWidth } = scrollRef.current
-      const cardWidth = clientWidth / 3
-      const offset = direction === 'left' ? -cardWidth * 3 : cardWidth * 3
-      scrollRef.current.scrollTo({ left: scrollLeft + offset, behavior: 'smooth' })
-    }
-  }
-
-  return (
-    <Section id="winners" className="relative overflow-hidden">
-      {/* Background */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_50%_at_50%_100%,rgba(255,105,0,0.07),transparent)] pointer-events-none" />
-      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/8 to-transparent" />
-      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/8 to-transparent" />
-
-      <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 relative z-10">
-        <div className="text-left">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-bold uppercase tracking-widest mb-5">
-            🏆 Hall of Fame
-          </div>
-          <h2 className="m-0 text-white text-4xl md:text-5xl font-black leading-tight tracking-tight mb-3">Latest Winners</h2>
-          <p className="text-white/50 text-base leading-relaxed m-0 max-w-lg">
-            Meet our verified weekly draw winners who walked away with premium luxury prizes.
-          </p>
-        </div>
-
-        {/* Carousel Navigation Buttons */}
-        <div className="flex items-center gap-2 mt-6 md:mt-0">
-          <button
-            onClick={() => handleScroll('left')}
-            className="w-12 h-12 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 text-white/70 hover:text-white flex items-center justify-center transition-all cursor-pointer hover:scale-105 active:scale-95"
-            aria-label="Previous slide"
-          >
-            <LeftOutlined className="text-sm" />
-          </button>
-          <button
-            onClick={() => handleScroll('right')}
-            className="w-12 h-12 rounded-xl bg-primary hover:bg-primary-dark text-white flex items-center justify-center transition-all cursor-pointer hover:scale-105 active:scale-95 shadow-[0_4px_16px_rgba(255,105,0,0.4)]"
-            aria-label="Next slide"
-          >
-            <RightOutlined className="text-sm" />
-          </button>
-        </div>
-      </div>
-
-      <div
-        ref={scrollRef}
-        className="flex gap-5 overflow-x-auto pb-4 snap-x snap-mandatory scroll-smooth relative z-10 scrollbar-none"
-        style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-      >
-        {winners.map((w, i) => (
-          <div
-            key={i}
-            className="w-full md:w-[calc(50%-10px)] lg:w-[calc(33.333%-14px)] shrink-0 snap-start relative group"
-          >
-            {/* Card */}
-            <div className="relative bg-gradient-to-b from-[#18103a] to-[#0e0922] border border-white/[0.07] hover:border-primary/25 transition-all duration-400 rounded-3xl p-7 text-center overflow-hidden h-full">
-              {/* Top glow streak */}
-              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent" />
-
-              {/* Hover inner glow */}
-              <div className="absolute inset-0 bg-gradient-to-b from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-400 rounded-3xl pointer-events-none" />
-
-              {/* Verified badge */}
-              <div className="absolute top-4 right-4 flex items-center gap-1.5 bg-[#0d0720] border border-primary/20 px-2.5 py-1 rounded-full">
-                <span className="w-1.5 h-1.5 rounded-full bg-primary" />
-                <span className="text-primary text-[9px] font-black uppercase tracking-wider">Verified</span>
-              </div>
-
-              {/* Avatar with glowing ring */}
-              <div className="relative w-20 h-20 mx-auto mb-5 mt-2">
-                <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-primary to-[#ffaa00] p-[2.5px] group-hover:shadow-[0_0_20px_rgba(255,105,0,0.4)] transition-shadow duration-400">
-                  <div className="w-full h-full rounded-full overflow-hidden bg-surface">
-                    <img src={w.photo} alt={w.name} className="w-full h-full object-cover" />
-                  </div>
-                </div>
-                {/* Trophy badge */}
-                <div className="absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-primary flex items-center justify-center text-[11px] shadow-lg border-2 border-[#0e0922]">
-                  🏆
-                </div>
-              </div>
-
-              <h4 className="relative z-10 text-white text-lg font-black mb-1 tracking-tight">{w.name}</h4>
-              <p className="relative z-10 text-white/35 text-[11px] font-semibold uppercase tracking-wider mb-5">Ticket #{w.ticketNumber}</p>
-
-              {/* Prize box */}
-              <div className="relative z-10 bg-[#0d0720] border border-primary/15 rounded-2xl py-3.5 px-4">
-                <span className="text-white/30 text-[9px] font-bold uppercase tracking-widest block mb-1.5">Won Prize</span>
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#ff6900] to-[#ffaa00] text-base font-black tracking-tight">{w.prize}</span>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-    </Section>
-  )
-}
-
-function DownloadApp() {
-  return (
-    <Section id="app">
-      <div className="relative rounded-[2.5rem] overflow-hidden shadow-[0_32px_80px_rgba(0,0,0,0.6)]">
-        {/* BG layers */}
-        <div className="absolute inset-0 bg-gradient-to-br from-[#1e1040] via-[#120a2a] to-[#07030f]" />
-        {/* Right warm glow */}
-        <div className="absolute right-0 top-0 w-[55%] h-full bg-[radial-gradient(ellipse_80%_100%_at_100%_50%,rgba(255,90,0,0.18),transparent)]" />
-        {/* Left cool glow */}
-        <div className="absolute left-0 top-0 w-[40%] h-full bg-[radial-gradient(ellipse_80%_100%_at_0%_50%,rgba(100,50,200,0.12),transparent)]" />
-        {/* Top highlight streak */}
-        <div className="absolute top-0 left-[10%] right-[10%] h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
-        {/* Bottom fade */}
-        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black/30 to-transparent" />
-        {/* Subtle noise/grid texture */}
-        <div className="absolute inset-0 opacity-[0.025]" style={{ backgroundImage: 'linear-gradient(white 1px,transparent 1px),linear-gradient(90deg,white 1px,transparent 1px)', backgroundSize: '48px 48px' }} />
-        {/* Border */}
-        <div className="absolute inset-0 rounded-[2.5rem] border border-white/[0.08] pointer-events-none" />
-
-        <div className="relative z-10 px-8 py-12 md:px-14 md:py-16 flex flex-col md:flex-row items-center justify-between gap-12">
-          {/* Left: Text */}
-          <div className="max-w-md text-center md:text-left">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-bold uppercase tracking-widest mb-6">
-              <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
-              Mobile App
-            </div>
-            <h2 className="text-3xl md:text-5xl font-black text-white leading-[1.1] mb-5 tracking-tight">
-              Take Gift Box <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#ff6900] via-[#ffbb00] to-[#ff6900]">everywhere you go.</span>
-            </h2>
-            <p className="text-white/50 text-base leading-relaxed mb-8 max-w-sm">
-              Never miss a draw. Upload payment proofs in one tap, track your entries, and get instant notifications when you win.
-            </p>
-
-            <div className="flex flex-wrap items-center justify-center md:justify-start gap-3">
-              <button className="h-12 flex items-center gap-3 bg-white/5 hover:bg-white/10 border border-white/12 hover:border-white/25 text-white px-5 rounded-2xl transition-all hover:scale-105 cursor-pointer backdrop-blur-md">
-                <AppleLogo />
-                <div className="text-left">
-                  <div className="text-[9px] text-white/40 font-semibold uppercase tracking-wider leading-none mb-1">Download on the</div>
-                  <div className="text-sm font-bold leading-none">App Store</div>
-                </div>
-              </button>
-              <button className="h-12 flex items-center gap-3 bg-white/5 hover:bg-white/10 border border-white/12 hover:border-white/25 text-white px-5 rounded-2xl transition-all hover:scale-105 cursor-pointer backdrop-blur-md">
-                <PlayLogo />
-                <div className="text-left">
-                  <div className="text-[9px] text-white/40 font-semibold uppercase tracking-wider leading-none mb-1">GET IT ON</div>
-                  <div className="text-sm font-bold leading-none">Google Play</div>
-                </div>
-              </button>
-            </div>
-          </div>
-
-          {/* Right: Phone Mockup */}
-          <div className="relative w-full max-w-[380px] md:w-[500px] lg:w-[540px] shrink-0 select-none transform hover:scale-[1.02] transition-transform duration-700">
-            {/* Outer glow */}
-            <div className="absolute inset-0 bg-primary/20 blur-[80px] rounded-full scale-90 pointer-events-none" />
-
-            {/* App Preview Image */}
-            <img 
-              src="/app_preview.png" 
-              alt="Gift Box App Preview" 
-              className="relative z-10 w-full h-auto object-contain drop-shadow-[0_32px_80px_rgba(0,0,0,0.7)]"
-              draggable="false"
-            />
-          </div>
-        </div>
-      </div>
-    </Section>
-  )
-}
-
-function FaqPreview() {
-  const [openIndex, setOpenIndex] = useState<number | null>(0)
-  const [showAll, setShowAll] = useState(false)
-  const faqs = [
-    { q: 'How do I participate in a draw?', a: "Create an account, pick a draw, pay the ticket via M-Pesa or Orange Money, and upload your payment proof. Once verified, you're in." },
-    { q: 'How long does payment verification take?', a: "Usually 24–48 hours. You'll be notified the moment your entry is approved or if anything is off with the proof." },
-    { q: 'How are winners chosen?', a: 'Through a certified random draw on the scheduled date. Each verified ticket has an equal chance — no preferences, no shortcuts.' },
-    { q: 'What happens if I win?', a: 'We contact you via WhatsApp or phone using your registered number, then deliver the prize free of charge within 5 days.' },
-    { q: 'Is there a limit to how many tickets I can purchase?', a: 'No, you can purchase as many tickets as you like to increase your chances of winning the featured prize.' },
-    { q: 'What payment methods are supported?', a: 'We support secure payments via popular mobile payment methods (M-Pesa, Orange Money, Wave) and standard bank transfers. Simply upload a clear screenshot of the transaction.' },
-    { q: 'Can I participate from outside the country?', a: 'Yes, Gift Box is a global platform. As long as you can make payments via our verified channels and receive deliveries, you are welcome to join.' },
-    { q: 'How can I verify the draw is genuine?', a: 'Every single draw is conducted live using a certified, completely random draw system. We publish the full draw recordings and verified winner lists on our results page.' },
-    { q: 'Are my personal details secure?', a: 'Absolutely. We only use your registration details for delivery and identification. We never sell your personal information or store financial banking credentials.' },
-    { q: 'What if I upload the wrong payment proof?', a: 'Don\'t worry! Our support team will decline the proof and add a note explaining why. You will be able to upload the correct transaction proof immediately.' }
-  ]
-
-  const visibleFaqs = showAll ? faqs : faqs.slice(0, 6)
-
-  return (
-    <Section id="faq">
-      <div className="max-w-3xl mx-auto">
-        <SectionTitle
-          eyebrow="FAQ"
-          title="Answers to your questions."
-          subtitle="Find quick, transparent answers to everything about tickets, payments, draws, and prize delivery."
-        />
-
-        <div className="space-y-4">
-          {visibleFaqs.map((f, i) => {
-            const isOpen = openIndex === i
-            return (
-              <div key={i} className={`bg-surface/40 backdrop-blur-md border rounded-2xl overflow-hidden transition-all duration-300 ${isOpen ? 'border-primary/50 bg-surface/80' : 'border-white/10 hover:border-white/20'}`}>
-                <button
-                  onClick={() => setOpenIndex(isOpen ? null : i)}
-                  className="w-full px-5 py-4 sm:px-6 sm:py-4 flex items-center justify-between text-left cursor-pointer bg-transparent border-none outline-none"
-                >
-                  <span className="text-base sm:text-lg font-bold text-white">{f.q}</span>
-                  <div className={`w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 ${isOpen ? 'bg-primary text-white rotate-180' : 'bg-white/5 text-white/50'}`}>
-                    <DownOutlined className="text-sm" />
-                  </div>
-                </button>
-                <div className={`px-5 sm:px-6 overflow-hidden transition-all duration-300 ease-in-out ${isOpen ? 'max-h-40 pb-4 sm:pb-4.5 opacity-100' : 'max-h-0 pb-0 opacity-0'}`}>
-                  <p className="text-white/60 text-sm sm:text-base leading-relaxed m-0">{f.a}</p>
-                </div>
-              </div>
-            )
-          })}
-        </div>
-
-        <div className="text-center mt-10">
-          <button
-            onClick={() => setShowAll(!showAll)}
-            className="h-12 px-8 bg-white/5 hover:bg-white/10 hover:border-primary/50 text-white border border-white/10 rounded-xl font-bold text-base transition-all cursor-pointer inline-flex items-center justify-center gap-2"
-          >
-            {showAll ? 'Show Less' : 'See More FAQs'}
-            <DownOutlined className={`text-xs transition-transform duration-300 ${showAll ? 'rotate-180' : ''}`} />
-          </button>
-        </div>
-      </div>
-    </Section>
-  )
-}
-
-function CtaSection() {
-  const router = useRouter()
-  return (
-    <Section>
-      <div className="relative rounded-[2rem] overflow-hidden shadow-2xl">
-        {/* Background layers */}
-        <div className="absolute inset-0 bg-gradient-to-br from-[#1a0d35] via-[#110828] to-[#06020f]" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_0%,rgba(255,105,0,0.13),transparent)]" />
-
-        {/* Glows */}
-        <div className="absolute -top-32 left-1/2 -translate-x-1/2 w-[700px] h-[400px] bg-primary/15 blur-[100px] rounded-full pointer-events-none" />
-        <div className="absolute bottom-0 left-0 w-[400px] h-[300px] bg-violet-600/10 blur-[100px] rounded-full pointer-events-none" />
-        <div className="absolute bottom-0 right-0 w-[400px] h-[300px] bg-primary/8 blur-[100px] rounded-full pointer-events-none" />
-
-        {/* Border */}
-        <div className="absolute inset-0 rounded-[2rem] border border-white/[0.07] pointer-events-none" />
-
-        {/* Decorative grid lines */}
-        <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'linear-gradient(white 1px,transparent 1px),linear-gradient(90deg,white 1px,transparent 1px)', backgroundSize: '60px 60px' }} />
-
-        {/* Sparkle dots */}
-        <div className="absolute top-8 left-[15%] w-1.5 h-1.5 rounded-full bg-primary/60 shadow-[0_0_8px_2px_rgba(255,105,0,0.5)]" />
-        <div className="absolute top-16 right-[18%] w-1 h-1 rounded-full bg-white/40 shadow-[0_0_6px_1px_rgba(255,255,255,0.3)]" />
-        <div className="absolute bottom-12 left-[22%] w-1 h-1 rounded-full bg-violet-400/50 shadow-[0_0_6px_1px_rgba(167,139,250,0.4)]" />
-        <div className="absolute bottom-8 right-[12%] w-1.5 h-1.5 rounded-full bg-primary/40 shadow-[0_0_8px_2px_rgba(255,105,0,0.3)]" />
-
-        <div className="relative z-10 px-6 py-14 md:py-20 text-center max-w-3xl mx-auto">
-          {/* Badge */}
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 mb-7">
-            <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
-            <span className="text-primary text-xs font-bold uppercase tracking-widest">Weekly Mega Draw — Open Now</span>
-          </div>
-
-          <h2 className="text-4xl md:text-[3.25rem] font-black text-white leading-[1.1] mb-5 tracking-tight">
-            Ready to win{' '}
-            <span className="relative inline-block">
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#ff6900] via-[#ffaa00] to-[#ff6900]">
-                something amazing?
-              </span>
-              <span className="absolute -bottom-1 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/60 to-transparent" />
-            </span>
-          </h2>
-
-          <p className="text-white/50 text-base md:text-lg font-medium leading-relaxed mb-9 max-w-xl mx-auto">
-            Create your account in under a minute and grab a ticket for this week's mega draw before time runs out.
-          </p>
-
-          <button
-            onClick={() => router.push('/register')}
-            className="h-12 px-12 bg-gradient-to-br from-[#FFB900] to-[#FF6900] hover:from-[#FFC933] hover:to-[#FF7E1A] text-[#1a0f0a] rounded-2xl font-black text-lg transition-all hover:-translate-y-px hover:scale-[1.04] shadow-[0_6px_28px_rgba(255,105,0,0.4)] hover:shadow-[0_14px_44px_rgba(255,105,0,0.55)] cursor-pointer inline-flex items-center justify-center mb-7"
-          >
-            Join Now →
-          </button>
-
-          {/* Social proof row */}
-          <div className="flex items-center justify-center gap-6 text-white/30 text-xs font-medium">
-            <span className="flex items-center gap-1.5"><span className="text-primary">✓</span> Free to join</span>
-            <span className="w-px h-3 bg-white/10" />
-            <span className="flex items-center gap-1.5"><span className="text-primary">✓</span> No credit card needed</span>
-            <span className="w-px h-3 bg-white/10" />
-            <span className="flex items-center gap-1.5"><span className="text-primary">✓</span> 10,000+ winners</span>
-          </div>
-        </div>
-      </div>
-    </Section>
-  )
-}
-
-// Keep the same SVG components
-function AppleLogo() {
-  return (
-    <svg width="32" height="32" viewBox="0 0 24 24" fill="#ffffff">
-      <path d="M17.05 12.04c-.03-2.9 2.37-4.3 2.48-4.36-1.36-1.98-3.46-2.25-4.21-2.28-1.79-.18-3.5 1.06-4.41 1.06-.93 0-2.32-1.04-3.82-1.01-1.96.03-3.78 1.14-4.79 2.9-2.06 3.57-.52 8.84 1.47 11.74.99 1.42 2.16 3.01 3.7 2.95 1.49-.06 2.05-.96 3.85-.96 1.8 0 2.31.96 3.88.93 1.61-.03 2.62-1.44 3.6-2.87 1.14-1.64 1.6-3.24 1.62-3.32-.04-.02-3.1-1.19-3.13-4.72zM14.7 4.34c.82-.99 1.36-2.36 1.21-3.74-1.17.05-2.6.78-3.45 1.77-.76.87-1.43 2.27-1.25 3.61 1.31.1 2.65-.66 3.49-1.64z" />
-    </svg>
-  )
-}
-
-function PlayLogo() {
-  return (
-    <svg width="32" height="32" viewBox="0 0 24 24">
-      <path d="M3.6 1.8c-.3.3-.4.7-.4 1.2v18c0 .5.1.9.4 1.2L13.4 12 3.6 1.8z" fill="#FE9301" />
-      <path d="M16.8 8.4 13.4 12l3.4 3.6 4.2-2.4c1.2-.7 1.2-2.4 0-3.1l-4.2-2.7z" fill="#FFB900" />
-      <path d="M3.6 1.8 13.4 12l3.4-3.6L4.6 1.4c-.3-.2-.7-.1-1 .4z" fill="#34A853" />
-      <path d="M13.4 12 3.6 22.2c.3.5.7.6 1 .4l12.2-7L13.4 12z" fill="#EA4335" />
-    </svg>
   )
 }
