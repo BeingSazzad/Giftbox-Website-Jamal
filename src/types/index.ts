@@ -2,9 +2,9 @@ export interface User {
   id: string
   name: string
   email: string
-  phone: string
+  phone?: string
   avatar?: string
-  createdAt: string
+  createdAt?: string
 }
 
 export interface Draw {

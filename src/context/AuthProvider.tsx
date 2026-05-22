@@ -1,12 +1,7 @@
 'use client'
 import { createContext, useEffect, useState, type ReactNode } from 'react'
-import { clearToken, getToken, setToken as saveToken } from '@/lib/auth'
-
-interface User {
-  id: string
-  name: string
-  email: string
-}
+import { clearToken, getToken, setToken as saveToken, getUser, setUser as saveUser } from '@/lib/auth'
+import { User } from '@/types'
 
 interface AuthContextValue {
   user: User | null
@@ -22,14 +17,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [token, setToken] = useState<string | null>(null)
 
   useEffect(() => {
-    const saved = getToken()
-    if (saved) setToken(saved)
+    const savedToken = getToken()
+    if (savedToken) setToken(savedToken)
+    const savedUser = getUser()
+    if (savedUser) setUser(savedUser)
   }, [])
 
-  function login(user: User, token: string) {
-    setUser(user)
-    setToken(token)
-    saveToken(token)
+  function login(u: User, t: string) {
+    setUser(u)
+    setToken(t)
+    saveToken(t)
+    saveUser(u)
   }
 
   function logout() {

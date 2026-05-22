@@ -7,6 +7,9 @@ export const TOKEN_STORAGE_KEY = 'token'
 /** localStorage key for the selected UI language */
 export const LANG_STORAGE_KEY = 'gb_lang'
 
+/** localStorage key for the logged-in user profile */
+export const USER_STORAGE_KEY = 'gb_user'
+
 // ── API Config ────────────────────────────────────────────────
 /** Default request timeout in milliseconds */
 export const API_TIMEOUT = 10_000
