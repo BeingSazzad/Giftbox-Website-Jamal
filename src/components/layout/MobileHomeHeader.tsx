@@ -3,6 +3,7 @@ import { Dropdown, MenuProps } from 'antd'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useAuth } from '@/hooks/useAuth'
+import { getImageUrl } from '@/utils/helpers'
 
 interface MobileHomeHeaderProps {
   userName?: string
@@ -13,7 +14,7 @@ interface MobileHomeHeaderProps {
 
 export function MobileHomeHeader({
   userName: propUserName,
-  avatar = 'https://i.pravatar.cc/200?img=12',
+  avatar: propAvatar,
   greeting = 'Welcome to Weekly Prize Draw',
   hasNotifications = true,
 }: MobileHomeHeaderProps) {
@@ -21,6 +22,7 @@ export function MobileHomeHeader({
   const { user, logout } = useAuth()
   
   const userName = propUserName || user?.name || 'Sazzad'
+  const avatar = propAvatar ? getImageUrl(propAvatar) : getImageUrl(user?.profileImage || user?.image || user?.avatar)
 
   const userMenuItems: MenuProps['items'] = [
     {

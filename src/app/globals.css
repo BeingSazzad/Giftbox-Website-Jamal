@@ -327,3 +327,64 @@ input:-webkit-autofill:active,
 .ant-form-item .ant-form-item-label {
   padding-bottom: 4px !important;
 }
+
+/* for Google Translate   */
+
+/* Hide the Google Translate banner */
+
+.antialiased {
+  position: inherit ! important;
+}
+
+/* Hide the Google Translate toolbar */
+.goog-te-gadget {
+  display: none !important;
+}
+
+/* Hide the Google Translate banner */
+.goog-te-banner-frame {
+  display: none !important;
+}
+
+/* Remove pop-up preview */
+.goog-te-balloon-frame {
+  display: none !important;
+}
+
+/* Hide the floating dropdown */
+.goog-te-menu-frame {
+  display: none !important;
+}
+
+/* Hide Google Translate Top Bar */
+.skiptranslate {
+  display: none !important;
+}
+
+.VIpgJd-ZVi9od-aZ2wEe-wOHMyf.VIpgJd-ZVi9od-aZ2wEe-wOHMyf-ti6hGc {
+  display: none !important;
+}
+
+.VIpgJd-ZVi9od-aZ2wEe {
+  display: none !important;
+}
+
+/* ::selection {
+  background: transparent !important;
+  color: white !important;
+} */
+
+/* Fix Google Translate injecting top spacing */
+body {
+  top: 0px !important;
+}
+
+/* Fix Google Translate hover highlight color */
+.goog-text-highlight {
+  background-color: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+
+
+/* finish there  */

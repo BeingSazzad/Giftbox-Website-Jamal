@@ -1,13 +1,28 @@
-'use client'
-import Link from 'next/link'
-import { useRouter, usePathname } from 'next/navigation'
-import { useEffect, useState } from 'react'
-import { BellOutlined, MenuOutlined, CloseOutlined, UserOutlined, SettingOutlined, QuestionCircleOutlined, LogoutOutlined, GlobalOutlined } from '@ant-design/icons'
-import logoImg from '@/assets/logo.png'
-import { useAuth } from '@/hooks/useAuth'
-import { Button, message } from 'antd'
+"use client";
+import Link from "next/link";
+import { useRouter, usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
+import {
+  BellOutlined,
+  MenuOutlined,
+  CloseOutlined,
+  UserOutlined,
+  SettingOutlined,
+  QuestionCircleOutlined,
+  LogoutOutlined,
+  GlobalOutlined,
+} from "@ant-design/icons";
+import logoImg from "@/assets/logo.png";
+import { useAuth } from "@/hooks/useAuth";
+import { getImageUrl } from "@/utils/helpers";
+import { Button, message } from "antd";
 
-import { PUBLIC_LINKS as publicLinks, AUTH_LINKS as authLinks, DROPDOWN_LINKS as dropdownLinks } from '@/utils/constants'
+import {
+  PUBLIC_LINKS as publicLinks,
+  AUTH_LINKS as authLinks,
+  DROPDOWN_LINKS as dropdownLinks,
+} from "@/utils/constants";
+import getProfile from "@/lib/getProfile";
 
 /**
  * Slim top bar shown only on mobile (md:hidden).
@@ -15,59 +30,80 @@ import { PUBLIC_LINKS as publicLinks, AUTH_LINKS as authLinks, DROPDOWN_LINKS as
  * has a logo + fully functional navigation menu on small screens.
  */
 export function MobileTopBar() {
-  const router = useRouter()
-  const pathname = usePathname()
-  const { token, logout, user } = useAuth()
-  const isAuthenticated = !!token
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-  const [lang, setLang] = useState('en')
+  const router = useRouter();
+  const pathname = usePathname();
+  const { token, logout } = useAuth();
+  const [user, setUser] = useState<any>(null);
+  const isAuthenticated = !!token;
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [lang, setLang] = useState("en");
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const profile = await getProfile();
+        setUser(profile);
+      } catch (error) {
+        console.error("Failed to fetch profile:", error);
+      }
+    };
 
-  const userName = user?.name || 'Sazzad'
-  const userEmail = user?.email || 'sazzad@example.com'
-  const avatar = 'https://i.pravatar.cc/200?img=12'
+    fetchProfile();
+  }, []);
+  const userName = user?.name || "Sazzad";
+  const userEmail = user?.email || "sazzad@example.com";
+  const avatar = getImageUrl(user?.profileImage || user?.image || user?.avatar);
 
-  const mainLinks = isAuthenticated ? authLinks : publicLinks
+  const mainLinks = isAuthenticated ? authLinks : publicLinks;
 
   // Manage body overflow when drawer is open
   useEffect(() => {
     if (isMobileMenuOpen) {
-      document.body.style.overflow = 'hidden'
+      document.body.style.overflow = "hidden";
     } else {
-      document.body.style.overflow = ''
+      document.body.style.overflow = "";
     }
     return () => {
-      document.body.style.overflow = ''
-    }
-  }, [isMobileMenuOpen])
+      document.body.style.overflow = "";
+    };
+  }, [isMobileMenuOpen]);
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      setLang(localStorage.getItem('gb_lang') || 'en')
+    if (typeof window !== "undefined") {
+      setLang(localStorage.getItem("gb_lang") || "en");
     }
-  }, [])
+  }, []);
 
   const handleLangChange = (key: string) => {
-    setLang(key)
-    localStorage.setItem('gb_lang', key)
-    message.success(key === 'en' ? 'Language updated to English' : 'Langue changée en Français')
-  }
+    setLang(key);
+    localStorage.setItem("gb_lang", key);
+    document.cookie = `googtrans=/en/${key}; path=/`;
+    document.cookie = `googtrans=/en/${key}; domain=${window.location.hostname}; path=/`;
+    message.success(
+      key === "en"
+        ? "Language updated to English"
+        : "Langue changée en Français",
+    );
+    setTimeout(() => {
+      window.location.reload();
+    }, 100);
+  };
 
   const handleLinkClick = (href: string) => {
-    setIsMobileMenuOpen(false)
-    if (href.startsWith('/#')) {
+    setIsMobileMenuOpen(false);
+    if (href.startsWith("/#")) {
       // Handle anchor links
-      router.push('/')
+      router.push("/");
       setTimeout(() => {
-        const id = href.replace('/#', '')
-        const el = document.getElementById(id)
+        const id = href.replace("/#", "");
+        const el = document.getElementById(id);
         if (el) {
-          el.scrollIntoView({ behavior: 'smooth' })
+          el.scrollIntoView({ behavior: "smooth" });
         }
-      }, 100)
+      }, 100);
     } else {
-      router.push(href)
+      router.push(href);
     }
-  }
+  };
 
   return (
     <>
@@ -78,8 +114,14 @@ export function MobileTopBar() {
           onClick={() => setIsMobileMenuOpen(false)}
           className="flex items-center gap-2 no-underline outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0514] rounded-lg"
         >
-          <img src={logoImg.src} alt="Gift Box Logo" className="w-8 h-8 object-contain" />
-          <span className="text-white font-bold text-base font-display tracking-tight">Gift Box</span>
+          <img
+            src={logoImg.src}
+            alt="Gift Box Logo"
+            className="w-8 h-8 object-contain"
+          />
+          <span className="text-white font-bold text-base font-display tracking-tight">
+            Gift Box
+          </span>
         </Link>
 
         {/* Right Actions */}
@@ -128,7 +170,9 @@ export function MobileTopBar() {
                   <div className="text-white text-base font-bold leading-tight truncate">
                     {userName}
                   </div>
-                  <div className="text-white/40 text-xs mt-0.5 truncate">{userEmail}</div>
+                  <div className="text-white/40 text-xs mt-0.5 truncate">
+                    {userEmail}
+                  </div>
                 </div>
                 <span className="bg-primary/10 text-primary border border-primary/20 px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider shrink-0">
                   Member
@@ -143,29 +187,31 @@ export function MobileTopBar() {
                 type="button"
                 onClick={() => handleLinkClick(l.href)}
                 className={[
-                  'w-full px-4 py-3 rounded-xl text-base font-semibold transition-all duration-200 flex items-center text-left border-none bg-transparent cursor-pointer',
+                  "w-full px-4 py-3 rounded-xl text-base font-semibold transition-all duration-200 flex items-center text-left border-none bg-transparent cursor-pointer",
                   pathname === l.href
-                    ? 'text-primary bg-primary/10'
-                    : 'text-white/70 hover:text-white hover:bg-white/5'
-                ].join(' ')}
+                    ? "text-primary bg-primary/10"
+                    : "text-white/70 hover:text-white hover:bg-white/5",
+                ].join(" ")}
               >
                 {l.label}
               </button>
             ))}
 
             <div className="h-px bg-white/10 my-2" />
-            <span className="px-4 text-xs font-bold text-white/35 uppercase tracking-wider mb-2">More Information</span>
+            <span className="px-4 text-xs font-bold text-white/35 uppercase tracking-wider mb-2">
+              More Information
+            </span>
             {dropdownLinks.map((l) => (
               <button
                 key={l.label}
                 type="button"
                 onClick={() => handleLinkClick(l.href)}
                 className={[
-                  'w-full px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 flex items-center text-left border-none bg-transparent cursor-pointer',
+                  "w-full px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 flex items-center text-left border-none bg-transparent cursor-pointer",
                   pathname === l.href
-                    ? 'text-primary bg-primary/10'
-                    : 'text-white/60 hover:text-white hover:bg-white/5'
-                ].join(' ')}
+                    ? "text-primary bg-primary/10"
+                    : "text-white/60 hover:text-white hover:bg-white/5",
+                ].join(" ")}
               >
                 {l.label}
               </button>
@@ -179,25 +225,25 @@ export function MobileTopBar() {
               <div className="flex gap-2">
                 <button
                   type="button"
-                  onClick={() => handleLangChange('en')}
+                  onClick={() => handleLangChange("en")}
                   className={[
-                    'flex-1 py-2 px-3 rounded-xl border text-sm font-semibold flex items-center justify-center gap-2 transition-all duration-200 cursor-pointer outline-none',
-                    lang === 'en'
-                      ? 'bg-primary/10 border-primary/40 text-primary font-bold'
-                      : 'bg-white/5 border-white/10 text-white/60 hover:text-white hover:bg-white/10'
-                  ].join(' ')}
+                    "flex-1 py-2 px-3 rounded-xl border text-sm font-semibold flex items-center justify-center gap-2 transition-all duration-200 cursor-pointer outline-none",
+                    lang === "en"
+                      ? "bg-primary/10 border-primary/40 text-primary font-bold"
+                      : "bg-white/5 border-white/10 text-white/60 hover:text-white hover:bg-white/10",
+                  ].join(" ")}
                 >
                   <span className="text-base select-none">🇺🇸</span> English
                 </button>
                 <button
                   type="button"
-                  onClick={() => handleLangChange('fr')}
+                  onClick={() => handleLangChange("fr")}
                   className={[
-                    'flex-1 py-2 px-3 rounded-xl border text-sm font-semibold flex items-center justify-center gap-2 transition-all duration-200 cursor-pointer outline-none',
-                    lang === 'fr'
-                      ? 'bg-primary/10 border-primary/40 text-primary font-bold'
-                      : 'bg-white/5 border-white/10 text-white/60 hover:text-white hover:bg-white/10'
-                  ].join(' ')}
+                    "flex-1 py-2 px-3 rounded-xl border text-sm font-semibold flex items-center justify-center gap-2 transition-all duration-200 cursor-pointer outline-none",
+                    lang === "fr"
+                      ? "bg-primary/10 border-primary/40 text-primary font-bold"
+                      : "bg-white/5 border-white/10 text-white/60 hover:text-white hover:bg-white/10",
+                  ].join(" ")}
                 >
                   <span className="text-base select-none">🇫🇷</span> Français
                 </button>
@@ -207,11 +253,13 @@ export function MobileTopBar() {
             {isAuthenticated && (
               <>
                 <div className="h-px bg-white/10 my-2" />
-                <span className="px-4 text-xs font-bold text-white/35 uppercase tracking-wider mb-2">Account Settings</span>
-                
+                <span className="px-4 text-xs font-bold text-white/35 uppercase tracking-wider mb-2">
+                  Account Settings
+                </span>
+
                 <button
                   type="button"
-                  onClick={() => handleLinkClick('/profile')}
+                  onClick={() => handleLinkClick("/profile")}
                   className="w-full px-4 py-2.5 rounded-xl text-sm font-medium text-white/60 hover:text-white hover:bg-white/5 transition-all duration-200 flex items-center gap-2.5 text-left border-none bg-transparent cursor-pointer"
                 >
                   <UserOutlined />
@@ -219,7 +267,7 @@ export function MobileTopBar() {
                 </button>
                 <button
                   type="button"
-                  onClick={() => handleLinkClick('/profile?tab=password')}
+                  onClick={() => handleLinkClick("/profile?tab=password")}
                   className="w-full px-4 py-2.5 rounded-xl text-sm font-medium text-white/60 hover:text-white hover:bg-white/5 transition-all duration-200 flex items-center gap-2.5 text-left border-none bg-transparent cursor-pointer"
                 >
                   <SettingOutlined />
@@ -227,19 +275,19 @@ export function MobileTopBar() {
                 </button>
                 <button
                   type="button"
-                  onClick={() => handleLinkClick('/profile?tab=support')}
+                  onClick={() => handleLinkClick("/profile?tab=support")}
                   className="w-full px-4 py-2.5 rounded-xl text-sm font-medium text-white/60 hover:text-white hover:bg-white/5 transition-all duration-200 flex items-center gap-2.5 text-left border-none bg-transparent cursor-pointer"
                 >
                   <QuestionCircleOutlined />
                   Help & Support
                 </button>
-                
+
                 <button
                   type="button"
                   onClick={() => {
-                    setIsMobileMenuOpen(false)
-                    logout()
-                    router.push('/login')
+                    setIsMobileMenuOpen(false);
+                    logout();
+                    router.push("/login");
                   }}
                   className="w-full px-4 py-2.5 rounded-xl text-sm font-bold text-danger hover:bg-white/5 transition-all duration-200 flex items-center gap-2.5 text-left border-none bg-transparent cursor-pointer"
                 >
@@ -257,8 +305,8 @@ export function MobileTopBar() {
                 size="large"
                 className="w-full h-12"
                 onClick={() => {
-                  setIsMobileMenuOpen(false)
-                  router.push('/login')
+                  setIsMobileMenuOpen(false);
+                  router.push("/login");
                 }}
               >
                 Get Started
@@ -268,5 +316,5 @@ export function MobileTopBar() {
         </div>
       )}
     </>
-  )
+  );
 }

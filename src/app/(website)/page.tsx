@@ -75,7 +75,7 @@ function Hero() {
   const isAuthenticated = !!token
 
   return (
-    <section className="relative w-full pt-20 pb-12 md:pt-36 md:pb-24 overflow-hidden">
+    <section className="relative w-full pt-20 pb-12 md:pt-16 md:pb-24 overflow-hidden">
       {/* Background Glows */}
       <div className="absolute top-20 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-primary/20 blur-[120px] rounded-full pointer-events-none"></div>
       <div className="absolute top-40 right-0 w-[400px] h-[400px] bg-purple-600/20 blur-[100px] rounded-full pointer-events-none"></div>
@@ -139,23 +139,23 @@ function Hero() {
             </div>
 
             {/* Floating Arched Winner Portrait Canvas with Custom Glow */}
-            <div 
+            <div
               className="relative z-10 w-full max-w-[340px] aspect-[3/4] bg-gradient-to-tr from-[#160d30] via-surface/40 to-primary/10 rounded-[3rem] border border-white/10 p-[1.5px] shadow-[0_30px_70px_rgba(0,0,0,0.6)] cursor-pointer"
               style={{ animation: 'float-box 6s ease-in-out infinite' }}
             >
               {/* Arched Photo container */}
               <div className="relative w-full h-full rounded-[2.9rem] overflow-hidden group">
-                <img 
-                  src="/images/winner_celebration.png" 
-                  alt="Ecstatic Winner Celebrating Success" 
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
+                <img
+                  src="/images/winner_celebration.png"
+                  alt="Ecstatic Winner Celebrating Success"
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                 />
                 {/* Warm dark bottom gradient */}
                 <div className="absolute inset-0 bg-gradient-to-t from-[#0c051a]/95 via-transparent to-transparent" />
               </div>
 
               {/* Left Floating Star Badge (Aspirational Social Proof) */}
-              <div 
+              <div
                 className="absolute top-1/4 left-2 md:-left-10 z-20 flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-[#160d30]/80 border border-white/15 text-white text-[10px] font-black uppercase tracking-widest backdrop-blur-md shadow-2xl transition-transform hover:scale-105"
                 style={{ animation: 'float-box 5.5s ease-in-out infinite alternate' }}
               >
@@ -164,7 +164,7 @@ function Hero() {
               </div>
 
               {/* Right Floating Reward Badge (Cash/Success Glow) */}
-              <div 
+              <div
                 className="absolute bottom-1/3 right-2 md:-right-8 z-20 flex items-center gap-1.5 px-4 py-2.5 rounded-2xl bg-gradient-to-r from-primary to-primary-dark text-white text-[10px] font-black uppercase tracking-widest shadow-[0_10px_25px_rgba(255,105,0,0.3)] hover:scale-105 transition-transform"
                 style={{ animation: 'float-box 7s ease-in-out infinite alternate-reverse' }}
               >
@@ -173,28 +173,28 @@ function Hero() {
 
               {/* Ambient Confetti / Star Particles floating around card */}
               {/* Gold Star Particle */}
-              <svg 
+              <svg
                 className="absolute -top-6 -right-6 z-20 w-8 h-8 text-yellow-400 animate-pulse select-none pointer-events-none drop-shadow-[0_0_10px_#EAB308]"
-                viewBox="0 0 24 24" 
+                viewBox="0 0 24 24"
                 fill="currentColor"
               >
                 <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
               </svg>
 
               {/* Orange Neon Particle */}
-              <div 
+              <div
                 className="absolute bottom-10 -left-6 z-20 w-3 h-3 rounded-full bg-primary shadow-[0_0_12px_#ff6900] animate-ping"
                 style={{ animationDuration: '3s' }}
               />
 
               {/* Purple Confetti pill */}
-              <div 
+              <div
                 className="absolute top-1/2 -right-8 z-20 w-2.5 h-6 rounded-full bg-purple-500/60 rotate-45 animate-pulse"
                 style={{ animationDuration: '4s' }}
               />
 
               {/* Green Success Confetti pill */}
-              <div 
+              <div
                 className="absolute bottom-1/4 -left-8 z-20 w-6 h-2 rounded-full bg-[#00FF66]/50 -rotate-12 animate-pulse"
                 style={{ animationDuration: '5s' }}
               />

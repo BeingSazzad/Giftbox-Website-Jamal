@@ -41,7 +41,12 @@ export function LandingHeader() {
   const handleLangChange = (key: string) => {
     setLang(key)
     localStorage.setItem('gb_lang', key)
+    document.cookie = `googtrans=/en/${key}; path=/`;
+    document.cookie = `googtrans=/en/${key}; domain=${window.location.hostname}; path=/`;
     message.success(key === 'en' ? 'Language updated to English' : 'Langue changée en Français')
+    setTimeout(() => {
+      window.location.reload();
+    }, 100);
   }
 
   const langMenuItems: MenuProps['items'] = [
@@ -279,7 +284,7 @@ export function LandingHeader() {
                   router.push('/login');
                 }}
               >
-                Get Started
+                Get Started sdfsd
               </Button>
             </div>
           )}

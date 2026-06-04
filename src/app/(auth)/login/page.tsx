@@ -3,9 +3,10 @@ import { Button, Checkbox, Form, Input, message } from 'antd'
 import { LockOutlined, MailOutlined } from '@ant-design/icons'
 import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { Suspense } from 'react'
+import { Suspense, useState } from 'react'
 import { AuthCard } from '@/components/auth/AuthCard'
 import { useAuth } from '@/hooks/useAuth'
+import { loginAction } from '@/actions/auth'
 
 interface LoginFormValues {
   email: string
@@ -20,17 +21,31 @@ function LoginForm() {
   const { login } = useAuth()
   const [form] = Form.useForm<LoginFormValues>()
 
-  const onFinish = (values: LoginFormValues) => {
-    // Mock auth — any input works, no validation
-    const mockToken = 'mock-token-' + Date.now()
-    const mockUser = {
-      id: 'user-001',
-      name: (values.email || 'User').split('@')[0] || 'User',
-      email: values.email || 'user@example.com',
+  const [loading, setLoading] = useState(false)
+
+  const onFinish = async (values: LoginFormValues) => {
+    setLoading(true)
+    try {
+      const res = await loginAction({
+        identifier: values.email,
+        password: values.password,
+      });
+      console.log('Login Response: ', res)
+
+      if (res.success) {
+        if (res.data?.user && res.data?.token) {
+          login(res.data.user, res.data.token)
+        }
+        message.success(res.message || 'Signed in successfully!')
+        router.push(redirect)
+      } else {
+        message.error(res.message || res.error || 'Failed to sign in')
+      }
+    } catch (error: any) {
+      message.error(error.message || 'An error occurred')
+    } finally {
+      setLoading(false)
     }
-    login(mockUser, mockToken)
-    message.success('Signed in successfully!')
-    router.push(redirect)
   }
 
   const handleSubmitAny = () => {
@@ -95,7 +110,7 @@ function LoginForm() {
         </div>
 
         <Form.Item className="mb-0" style={{ marginBottom: 0 }}>
-          <Button type="primary" size="large" block onClick={handleSubmitAny}>
+          <Button type="primary" size="large" block onClick={handleSubmitAny} loading={loading}>
             Sign In
           </Button>
         </Form.Item>

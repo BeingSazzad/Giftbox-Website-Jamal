@@ -1,16 +1,18 @@
 'use client'
 import { Button, Form, Input, message } from 'antd'
-import { LockOutlined, MailOutlined, PhoneOutlined, UserOutlined } from '@ant-design/icons'
+import { LockOutlined, MailOutlined, PhoneOutlined, UserOutlined, EnvironmentOutlined } from '@ant-design/icons'
 import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { Suspense } from 'react'
+import { Suspense, useState } from 'react'
 import { AuthCard } from '@/components/auth/AuthCard'
 import { useAuth } from '@/hooks/useAuth'
+import { registerAction } from '@/actions/auth'
 
 interface RegisterFormValues {
   fullName: string
   email: string
   phone: string
+  city?: string
   password: string
   confirmPassword: string
 }
@@ -21,17 +23,41 @@ function RegisterForm() {
   const redirect = searchParams?.get('redirect') || '/'
   const { login } = useAuth()
   const [form] = Form.useForm<RegisterFormValues>()
+  const [loading, setLoading] = useState(false)
 
-  const onFinish = (values: RegisterFormValues) => {
-    const mockToken = 'mock-token-' + Date.now()
-    const mockUser = {
-      id: 'user-' + Date.now(),
-      name: values.fullName || 'User',
-      email: values.email || 'user@example.com',
+  const onFinish = async (values: RegisterFormValues) => {
+    if (values.password && values.confirmPassword && values.password !== values.confirmPassword) {
+      return message.error('Passwords do not match');
     }
-    login(mockUser, mockToken)
-    message.success('Account created successfully!')
-    router.push(redirect)
+
+    setLoading(true);
+    try {
+      const payload = {
+        name: values.fullName,
+        email: values.email,
+        phone: values.phone,
+        city: values.city || "",
+        password: values.password,
+        role: "USER"
+      };
+
+      const res = await registerAction(payload);
+      console.log('Register Response: ', res)
+
+      if (res.success) {
+        if (res.data?.user && res.data?.token) {
+          login(res.data.user, res.data.token);
+        }
+        message.success(res.message || 'Account created successfully!')
+        router.push(redirect)
+      } else {
+        message.error(res.message || res.error || 'Failed to create account')
+      }
+    } catch (error: any) {
+      message.error(error.message || 'An error occurred')
+    } finally {
+      setLoading(false)
+    }
   }
 
   const handleSubmitAny = () => {
@@ -93,6 +119,19 @@ function RegisterForm() {
         </Form.Item>
 
         <Form.Item
+          name="city"
+          label={<span className="text-body">City (Optional)</span>}
+          style={{ marginBottom: '12px' }}
+        >
+          <Input
+            size="large"
+            prefix={<EnvironmentOutlined className="text-white/50" />}
+            placeholder="e.g. Kinshasa"
+            autoComplete="off"
+          />
+        </Form.Item>
+
+        <Form.Item
           name="password"
           label={<span className="text-body">Password</span>}
           style={{ marginBottom: '12px' }}
@@ -119,7 +158,7 @@ function RegisterForm() {
         </Form.Item>
 
         <Form.Item className="mt-2 mb-0" style={{ marginBottom: 0 }}>
-          <Button type="primary" size="large" block onClick={handleSubmitAny}>
+          <Button type="primary" size="large" block onClick={handleSubmitAny} loading={loading}>
             Create Account
           </Button>
         </Form.Item>

@@ -1,5 +1,12 @@
 export const APP_NAME = 'Gift Box'
 
+// ── Image URLs ────────────────────────────────────
+/** Base URL for user images from API */
+export const IMG_URL = process.env.NEXT_PUBLIC_API_URL ? `${process.env.NEXT_PUBLIC_API_URL}/` : 'http://localhost:8000/'
+
+/** Fallback image when user has no profile picture */
+export const NO_USER_IMAGE = '/assets/images/provider/no_user.png'
+
 // ── Storage Keys ──────────────────────────────────────────────
 /** localStorage key for the JWT auth token */
 export const TOKEN_STORAGE_KEY = 'token'

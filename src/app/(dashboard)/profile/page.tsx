@@ -12,6 +12,7 @@ import { Form, Input, Button, DatePicker, Select, message } from 'antd'
 import { useState, useRef, useEffect, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useAuth } from '@/hooks/useAuth'
+import { getImageUrl } from '@/utils/helpers'
 import dayjs from 'dayjs'
 import { WebShell } from '@/components/layout/WebShell'
 
@@ -22,7 +23,7 @@ function SettingsHubContent() {
   const searchParams = useSearchParams()
   const { user } = useAuth()
   const [activeTab, setActiveTab] = useState<SettingsTab>('profile')
-  const [avatar, setAvatar] = useState('https://i.pravatar.cc/200?img=12')
+  const [avatar, setAvatar] = useState<string>('')
   const fileInputRef = useRef<HTMLInputElement>(null)
   const avatarBlobRef = useRef<string | null>(null)
 
@@ -30,6 +31,15 @@ function SettingsHubContent() {
   const [supportPhotoPreview, setSupportPhotoPreview] = useState<string | null>(null)
   const supportInputRef = useRef<HTMLInputElement>(null)
   const supportPhotoBlobRef = useRef<string | null>(null)
+
+  // Initialize avatar from user data
+  useEffect(() => {
+    if (user?.profileImage) {
+      setAvatar(getImageUrl(user?.profileImage))
+    } else {
+      setAvatar('https://i.pravatar.cc/200?img=12')
+    }
+  }, [user?.profileImage])
 
   useEffect(() => () => {
     if (avatarBlobRef.current) URL.revokeObjectURL(avatarBlobRef.current)

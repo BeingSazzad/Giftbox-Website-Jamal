@@ -5,12 +5,16 @@ import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { AuthCard } from '@/components/auth/AuthCard'
+import { useAuth } from '@/hooks/useAuth'
+import { verifyAccountAction, resendOtpAction } from '@/actions/auth'
 
 const OTP_LENGTH = 6
 const RESEND_SECONDS = 60
 
 export default function OtpVerifyPage() {
   const router = useRouter()
+  const { user } = useAuth()
+  const identifier = user?.email || user?.phone || ''
 
   const [digits, setDigits] = useState<string[]>(Array(OTP_LENGTH).fill(''))
   const [countdown, setCountdown] = useState(RESEND_SECONDS)
@@ -53,26 +57,51 @@ export default function OtpVerifyPage() {
     inputs.current[Math.min(pasted.length, OTP_LENGTH - 1)]?.focus()
   }
 
-  const handleVerify = () => {
+  const handleVerify = async () => {
     const code = digits.join('')
     if (code.length < OTP_LENGTH) {
       message.error(`Please enter the ${OTP_LENGTH}-digit code`)
       return
     }
+    if (!identifier) {
+      message.error('No identifier found. Please login again.')
+      return
+    }
     setSubmitting(true)
-    setTimeout(() => {
-      message.success('Verified successfully')
+    try {
+      const res = await verifyAccountAction({ identifier, code })
+      if (res.success) {
+        message.success(res.message || 'Verified successfully')
+        router.push('/')
+      } else {
+        message.error(res.message || res.error || 'Invalid OTP')
+      }
+    } catch (e: any) {
+      message.error(e.message || 'An error occurred')
+    } finally {
       setSubmitting(false)
-      router.push('/login')
-    }, 600)
+    }
   }
 
-  const handleResend = () => {
+  const handleResend = async () => {
     if (countdown > 0) return
-    message.success('A new code has been sent')
-    setCountdown(RESEND_SECONDS)
-    setDigits(Array(OTP_LENGTH).fill(''))
-    inputs.current[0]?.focus()
+    if (!identifier) {
+      message.error('No identifier found. Please login again.')
+      return
+    }
+    try {
+      const res = await resendOtpAction({ identifier });
+      if (res.success) {
+        message.success(res.message || 'A new code has been sent')
+        setCountdown(RESEND_SECONDS)
+        setDigits(Array(OTP_LENGTH).fill(''))
+        inputs.current[0]?.focus()
+      } else {
+        message.error(res.message || res.error || 'Failed to resend code')
+      }
+    } catch (e: any) {
+      message.error(e.message || 'An error occurred')
+    }
   }
 
   return (

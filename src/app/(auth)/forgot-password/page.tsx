@@ -1,25 +1,28 @@
 'use client'
 import { Button, Form, Input, message } from 'antd'
 import type { InputRef } from 'antd'
-import { LockOutlined, PhoneOutlined } from '@ant-design/icons'
+import { LockOutlined, MailOutlined } from '@ant-design/icons'
 import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { AuthCard } from '@/components/auth/AuthCard'
+import { forgetPasswordAction, verifyAccountAction, resendOtpAction, resetPasswordAction } from '@/actions/auth'
 
-type Step = 'phone' | 'otp' | 'reset'
+type Step = 'email' | 'otp' | 'reset'
 
 const OTP_LENGTH = 6
 const RESEND_SECONDS = 60
 
 export default function ForgotPasswordPage() {
   const router = useRouter()
-  const [step, setStep] = useState<Step>('phone')
-  const [phone, setPhone] = useState('')
+  const [step, setStep] = useState<Step>('email')
+  const [email, setEmail] = useState('')
+  const [resetToken, setResetToken] = useState('')
   const [digits, setDigits] = useState<string[]>(Array(OTP_LENGTH).fill(''))
   const [countdown, setCountdown] = useState(0)
   const [submitting, setSubmitting] = useState(false)
-  const inputs = useRef<(InputRef | null)[]>([])
+  const inputs = useRef<(InputRef | null)[]>([]) 
+  console.log('resetToken: ', resetToken)
 
   useEffect(() => {
     if (step === 'otp') inputs.current[0]?.focus()
@@ -31,11 +34,23 @@ export default function ForgotPasswordPage() {
     return () => clearInterval(t)
   }, [countdown])
 
-  const handleSendOtp = (values: { phone: string }) => {
-    setPhone(values.phone)
-    message.success(`OTP sent to +243 ${values.phone}`)
-    setCountdown(RESEND_SECONDS)
-    setStep('otp')
+  const handleSendOtp = async (values: { email: string }) => {
+    setSubmitting(true);
+    try {
+      const res = await forgetPasswordAction({ identifier: values.email });
+      if (res.success) {
+        setEmail(values.email)
+        message.success(res.message || `OTP sent to ${values.email}`)
+        setCountdown(RESEND_SECONDS)
+        setStep('otp')
+      } else {
+        message.error(res.message || res.error || 'Failed to send OTP')
+      }
+    } catch (e: any) {
+      message.error(e.message || 'An error occurred')
+    } finally {
+      setSubmitting(false);
+    }
   }
 
   const handleChange = (index: number, raw: string) => {
@@ -60,37 +75,68 @@ export default function ForgotPasswordPage() {
     inputs.current[Math.min(pasted.length, OTP_LENGTH - 1)]?.focus()
   }
 
-  const handleVerifyOtp = () => {
-    if (digits.join('').length < OTP_LENGTH) {
+  const handleVerifyOtp = async () => {
+    const code = digits.join('')
+    if (code.length < OTP_LENGTH) {
       message.error(`Please enter the ${OTP_LENGTH}-digit code`)
       return
     }
     setSubmitting(true)
-    setTimeout(() => {
+    try {
+      const res = await verifyAccountAction({ identifier: email, code })
+      if (res.success) {
+        setResetToken(res.data?.resetToken || '')
+        setStep('reset')
+      } else {
+        message.error(res.message || res.error || 'Invalid OTP')
+      }
+    } catch (e: any) {
+      message.error(e.message || 'An error occurred')
+    } finally {
       setSubmitting(false)
-      setStep('reset')
-    }, 600)
+    }
   }
 
-  const handleResend = () => {
+  const handleResend = async () => {
     if (countdown > 0) return
-    message.success('A new OTP has been sent')
-    setCountdown(RESEND_SECONDS)
-    setDigits(Array(OTP_LENGTH).fill(''))
-    inputs.current[0]?.focus()
+    const res = await resendOtpAction({ identifier: email });
+    if (res.success) {
+      message.success(res.message || 'A new OTP has been sent')
+      setCountdown(RESEND_SECONDS)
+      setDigits(Array(OTP_LENGTH).fill(''))
+      inputs.current[0]?.focus()
+    } else {
+      message.error(res.message || res.error || 'Failed to resend OTP')
+    }
   }
 
-  const handleReset = (_values: { password: string; confirmPassword: string }) => {
-    message.success('Password reset successfully. Please sign in.')
-    router.push('/login')
+  const handleReset = async (values: { password: string; confirmPassword: string }) => {
+    setSubmitting(true)
+    try {
+      const res = await resetPasswordAction({
+        newPassword: values.password,
+        confirmPassword: values.confirmPassword,
+        resetToken,
+      })
+      if (res.success) {
+        message.success(res.message || 'Password reset successfully. Please sign in.')
+        router.push('/login')
+      } else {
+        message.error(res.message || res.error || 'Failed to reset password')
+      }
+    } catch (e: any) {
+      message.error(e.message || 'An error occurred')
+    } finally {
+      setSubmitting(false)
+    }
   }
 
-  // ── Step 1: Phone ─────────────────────────────────────────────
-  if (step === 'phone') {
+  // ── Step 1: Email ────────────────────────────────────────────
+  if (step === 'email') {
     return (
       <AuthCard
         title="Forgot Password?"
-        subtitle="Enter your phone number to receive an OTP"
+        subtitle="Enter your email to receive an OTP"
         footer={
           <>
             Remembered it?{' '}
@@ -102,24 +148,22 @@ export default function ForgotPasswordPage() {
       >
         <Form layout="vertical" onFinish={handleSendOtp} requiredMark={false}>
           <Form.Item
-            name="phone"
-            label={<span className="text-white/70 font-semibold text-xs">Phone Number</span>}
-            rules={[{ required: true, message: 'Please enter your phone number' }]}
+            name="email"
+            label={<span className="text-white/70 font-semibold text-xs">Email Address</span>}
+            rules={[
+              { required: true, message: 'Please enter your email' },
+              { type: 'email', message: 'Please enter a valid email' },
+            ]}
           >
             <Input
               size="large"
-              prefix={
-                <div className="flex items-center gap-2 text-white/50 text-xs font-semibold select-none mr-1">
-                  <PhoneOutlined className="text-white/30" />
-                  <span className="border-r border-white/10 pr-2">+243</span>
-                </div>
-              }
-              placeholder="Enter your phone number"
-              inputMode="tel"
+              prefix={<MailOutlined className="text-white/30 mr-1" />}
+              placeholder="Enter your email"
+              type="email"
             />
           </Form.Item>
           <Form.Item className="mb-0">
-            <Button type="primary" htmlType="submit" size="large" block className="h-12 font-bold">
+            <Button type="primary" htmlType="submit" size="large" block loading={submitting} className="h-12 font-bold">
               Send OTP
             </Button>
           </Form.Item>
@@ -133,7 +177,7 @@ export default function ForgotPasswordPage() {
     return (
       <AuthCard
         title="Verify OTP"
-        subtitle={`Enter the ${OTP_LENGTH}-digit code sent to +243 ${phone}`}
+        subtitle={`Enter the ${OTP_LENGTH}-digit code sent to ${email}`}
         footer={
           <div className="text-sm text-white/60">
             Didn&apos;t receive the code?{' '}
@@ -181,10 +225,10 @@ export default function ForgotPasswordPage() {
 
         <button
           type="button"
-          onClick={() => setStep('phone')}
+          onClick={() => setStep('email')}
           className="mt-4 w-full bg-transparent border-0 text-white/40 hover:text-white/70 text-sm cursor-pointer transition-colors"
         >
-          ← Change phone number
+          ← Change email
         </button>
       </AuthCard>
     )
@@ -243,7 +287,7 @@ export default function ForgotPasswordPage() {
         </Form.Item>
 
         <Form.Item className="mb-0">
-          <Button type="primary" htmlType="submit" size="large" block className="h-12 font-bold">
+          <Button type="primary" htmlType="submit" size="large" block loading={submitting} className="h-12 font-bold">
             Reset Password
           </Button>
         </Form.Item>

@@ -1,10 +1,21 @@
 export interface User {
   id: string
+  _id?: string
   name: string
   email: string
   phone?: string
+  countryCode?: string
   avatar?: string
+  image?: string
+  profileImage?: string
+  coverImage?: string
+  city?: string
+  dateOfBirth?: string | null
+  verified?: boolean
+  status?: string
+  role?: string
   createdAt?: string
+  updatedAt?: string
 }
 
 export interface Draw {
