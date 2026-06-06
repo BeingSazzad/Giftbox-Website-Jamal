@@ -4,7 +4,6 @@ import { cookies } from "next/headers";
 
 const getProfile = async (): Promise<any | null> => {
   const token = (await cookies()).get("accessToken")?.value; 
-  console.log('Access token in getProfile:', token);
 
   if (!token) return null;
   const res = await fetch(`${process.env.BASE_URL}api/v1/users/profile`, {
@@ -18,7 +17,6 @@ const getProfile = async (): Promise<any | null> => {
     },
   });
   const { data } = await res?.json();
-  console.log('User profile data in getProfile:', data);
 
   return data;
 };

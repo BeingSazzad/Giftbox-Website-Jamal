@@ -53,7 +53,6 @@ export async function verifyAccountAction(payload: { identifier: string; code: s
     method: "POST",
     body: payload,
   });
-console.log('Verify Account Response: ', res)
   return res;
 }
 

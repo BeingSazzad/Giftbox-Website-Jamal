@@ -20,7 +20,6 @@ export function FeaturedPrize() {
   const user = useProfile()
   const isAuthenticated = !!user?._id
   const [lotteries, setLotteries] = useState<any[]>([])
-  console.log('featured prizess: ', lotteries)
 
   useEffect(() => {
     getActiveLotteriesAction()

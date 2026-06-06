@@ -110,7 +110,7 @@ export default function DrawDetailsPage() {
       formData.append('paymentProof', file)
 
       const res = await participateLotteryAction(formData)
-      console.log(res, 'res from backend')
+
       if (res.success) {
         setShowSuccess(true)
       } else {

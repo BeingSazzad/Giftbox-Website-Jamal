@@ -42,7 +42,7 @@ function RegisterForm() {
       };
 
       const res = await registerAction(payload);
-      console.log('Register Response: ', res)
+
 
       if (res.success) {
         message.success(res.message || 'Account created successfully!')

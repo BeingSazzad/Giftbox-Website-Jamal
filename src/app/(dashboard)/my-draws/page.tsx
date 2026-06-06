@@ -22,7 +22,6 @@ export default function MyDrawsPage() {
   const [activeTab, setActiveTab] = useState<FilterStatus>('all')
   const [participations, setParticipations] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
-  console.log('participations', participations)
 
   useEffect(() => {
     getMyParticipationsAction().then((res: any) => {

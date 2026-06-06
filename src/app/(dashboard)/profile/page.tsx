@@ -44,7 +44,6 @@ function SettingsHubContent() {
       setAvatar('/default.png')
     }
   }, [user?.profileImage])
-  console.log(user?.profileImage)
 
   useEffect(() => () => {
     if (avatarBlobRef.current) URL.revokeObjectURL(avatarBlobRef.current)
@@ -95,7 +94,6 @@ function SettingsHubContent() {
     setAvatar(url)
     message.success('Avatar selected')
   }
-  console.log(avatarFileRef.current)
   const handleProfileSave = async (values: any) => {
     try {
       const formData = new FormData()

@@ -30,7 +30,6 @@ function LoginForm() {
         identifier: values.email,
         password: values.password,
       });
-      console.log('Login Response: ', res)
 
       if (res.success) {
         message.success(res.message || 'Signed in successfully!')

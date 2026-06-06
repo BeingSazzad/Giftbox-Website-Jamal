@@ -22,7 +22,6 @@ export default function ForgotPasswordPage() {
   const [countdown, setCountdown] = useState(0)
   const [submitting, setSubmitting] = useState(false)
   const inputs = useRef<(InputRef | null)[]>([]) 
-  console.log('resetToken: ', resetToken)
 
   useEffect(() => {
     if (step === 'otp') inputs.current[0]?.focus()
