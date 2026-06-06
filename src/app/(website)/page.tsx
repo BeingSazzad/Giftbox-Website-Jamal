@@ -77,6 +77,8 @@ export default function LandingPage() {
 }
 
 function Hero() {
+  const { token } = useAuth()
+  const router = useRouter()
 
   return (
     <section className="relative w-full pt-20 pb-12 md:pt-16 md:pb-24 overflow-hidden">
@@ -102,7 +104,11 @@ function Hero() {
             <div className="flex flex-wrap items-center gap-4">
               <button
                 onClick={() => {
-                  document.getElementById('prizes')?.scrollIntoView({ behavior: 'smooth' })
+                  if (!token) {
+                    router.push('/login')
+                  } else {
+                    document.getElementById('prizes')?.scrollIntoView({ behavior: 'smooth' })
+                  }
                 }}
                 className="h-12 px-8 bg-gradient-to-br from-[#FFB900] to-[#FF6900] hover:from-[#FFC933] hover:to-[#FF7E1A] text-[#1a0f0a] rounded-xl font-bold text-lg transition-all hover:-translate-y-px hover:scale-105 shadow-[0_4px_20px_rgba(255,105,0,0.35)] hover:shadow-[0_8px_32px_rgba(255,105,0,0.5)] flex items-center justify-center gap-2 cursor-pointer border-none outline-none spell-btn-glow"
               >

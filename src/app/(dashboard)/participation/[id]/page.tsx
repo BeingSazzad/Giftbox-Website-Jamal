@@ -3,6 +3,7 @@ import { Button } from 'antd'
 import {
   ArrowLeftOutlined,
   CheckCircleFilled,
+  CheckCircleOutlined,
   ClockCircleFilled,
   CustomerServiceOutlined,
   ExclamationCircleFilled,
@@ -227,7 +228,40 @@ function StatusBlock({ participation }: StatusBlockProps) {
     )
   }
 
-  if (participation.status === 'APPROVED ') {
+  if (participation.status === 'DRAWN' || participation.lottery?.status === 'DRAWN') {
+    return (
+      <div className="flex flex-col gap-5">
+        <Card borderColor="border-white/6">
+          <div className="flex items-center gap-2.5 mb-2">
+            <CheckCircleOutlined className="text-[#FFB900] text-lg" />
+            <h3 className="m-0 text-white text-base font-bold">Draw Completed</h3>
+          </div>
+          <p className="m-0 text-white/60 text-sm leading-relaxed mb-6">
+            The winner has been announced. Check the result!
+          </p>
+          <button
+            type="button"
+            onClick={() => {
+              const lotteryId = participation.lottery?.id || participation.lottery?._id;
+              if (lotteryId) {
+                localStorage.setItem('winnerLotteryId', lotteryId);
+              }
+              router.push('/#winners');
+            }}
+            className="w-full h-12 bg-gradient-to-br from-[#FFB900] to-[#FF6900] hover:from-[#FFC933] hover:to-[#FF7E1A] text-[#1a0f0a] rounded-xl font-bold text-base cursor-pointer flex items-center justify-center transition-all spell-btn-glow"
+          >
+            View Draw Result
+          </button>
+          
+          <div className="mt-8 mb-2">
+            <span className="text-danger text-lg font-black uppercase tracking-wider">DRAWN</span>
+          </div>
+        </Card>
+      </div>
+    )
+  }
+
+  if (participation.status === 'APPROVED ' || participation.status === 'APPROVED') {
     const userWon = participation.winners?.some((w: any) => w.ticketNumber === participation.userWonTicketNumber)
 
     return (

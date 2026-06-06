@@ -38,3 +38,10 @@ export async function getParticipationByIdAction(id: string) {
   });
   return res;
 }
+
+export async function getLotteryWinnersAction(id: string) {
+  const res = await myFetch(`/lottery/${id}/winners`, {
+    method: "GET",
+  });
+  return res;
+}

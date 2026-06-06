@@ -4,12 +4,46 @@ import { useRef } from 'react'
 import { LeftOutlined, RightOutlined } from '@ant-design/icons'
 import { participations } from '@/data/participations'
 import { Section } from './Section'
+import { useEffect, useState } from 'react'
+import { getLotteryWinnersAction } from '@/actions/lottery'
+import { getImageUrl } from '@/utils/helpers'
+
 
 export default function Winners() {
   const scrollRef = useRef<HTMLDivElement>(null)
-  const winners = participations
-    .filter((p) => p.status === 'completed' && p.winners && p.winners.length > 0)
-    .flatMap((p) => (p.winners ?? []).map((w) => ({ ...w, prize: p.prizeTitle })))
+  const [winners, setWinners] = useState<any[]>([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    async function fetchWinners() {
+      try {
+        const savedLotteryId = localStorage.getItem('winnerLotteryId')
+        
+        if (savedLotteryId) {
+          const res = await getLotteryWinnersAction(savedLotteryId)
+          if (res?.success && res.data?.winners && res.data.winners.length > 0) {
+            // Map backend winners data format
+            const formattedWinners = res.data.winners.map((w: any) => ({
+              ...w,
+              ticketNumber: w.ticketNumber || res.data.ticketNumber,
+              prize: w.prize || 'Special Prize',
+              photo: w.profileImage ? getImageUrl(w.profileImage) : '/default.png'
+            }))
+            setWinners(formattedWinners)
+            return
+          }
+        } else {
+          setWinners([])
+        }
+      } catch (err) {
+        console.error('Failed to fetch winners', err)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchWinners()
+  }, [])
 
   const handleScroll = (direction: 'left' | 'right') => {
     if (scrollRef.current) {
@@ -18,6 +52,10 @@ export default function Winners() {
       const offset = direction === 'left' ? -cardWidth * 3 : cardWidth * 3
       scrollRef.current.scrollTo({ left: scrollLeft + offset, behavior: 'smooth' })
     }
+  }
+
+  if (!loading && winners.length === 0) {
+    return null;
   }
 
   return (
@@ -77,17 +115,16 @@ export default function Winners() {
 
               {/* Verified badge */}
               <div className="absolute top-4 right-4 flex items-center gap-1.5 bg-[#0d0720] border border-primary/20 px-2.5 py-1 rounded-full">
-                <span className="w-1.5 h-1.5 rounded-full bg-primary" />
                 <span className="text-primary text-[9px] font-black uppercase tracking-wider">Verified</span>
               </div>
 
               {/* Avatar with glowing ring */}
               <div className="relative w-20 h-20 mx-auto mb-5 mt-2">
-                <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-primary to-[#ffaa00] p-[2.5px] group-hover:shadow-[0_0_20px_rgba(255,105,0,0.4)] transition-shadow duration-400">
-                  <div className="w-full h-full rounded-full overflow-hidden bg-surface">
-                    <img src={w.photo} alt={w.name} className="w-full h-full object-cover" />
+                  <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-primary to-[#ffaa00] p-[2.5px] group-hover:shadow-[0_0_20px_rgba(255,105,0,0.4)] transition-shadow duration-400">
+                    <div className="w-full h-full rounded-full overflow-hidden bg-surface">
+                      <img src={w.photo || '/default.png'} alt={w.name} className="w-full h-full object-cover" />
+                    </div>
                   </div>
-                </div>
                 {/* Trophy badge */}
                 <div className="absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-primary flex items-center justify-center text-[11px] shadow-lg border-2 border-[#0e0922]">
                   🏆
