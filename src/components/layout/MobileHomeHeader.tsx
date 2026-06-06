@@ -3,7 +3,11 @@ import { Dropdown, MenuProps } from 'antd'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useAuth } from '@/hooks/useAuth'
+import { clearToken } from '@/lib/auth'
+import { useEffect, useState } from 'react'
 import { getImageUrl } from '@/utils/helpers'
+import getProfile from '@/lib/getProfile'
+import { NotificationBell } from './NotificationBell'
 
 interface MobileHomeHeaderProps {
   userName?: string
@@ -19,10 +23,24 @@ export function MobileHomeHeader({
   hasNotifications = true,
 }: MobileHomeHeaderProps) {
   const router = useRouter()
-  const { user, logout } = useAuth()
+  const { user: authUser } = useAuth()
+  const [user, setUser] = useState<any>(null)
   
-  const userName = propUserName || user?.name || 'Sazzad'
-  const avatar = propAvatar ? getImageUrl(propAvatar) : getImageUrl(user?.profileImage || user?.image || user?.avatar)
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const profile = await getProfile();
+        setUser(profile);
+      } catch (error) {
+        console.error("Failed to fetch profile:", error);
+      }
+    };
+
+    fetchProfile();
+  }, []);
+  
+  const userName = propUserName || user?.name || authUser?.name || 'Sazzad'
+  const avatar = propAvatar ? getImageUrl(propAvatar) : getImageUrl(user?.profileImage || user?.image || user?.avatar || authUser?.profileImage || authUser?.image || authUser?.avatar)
 
   const userMenuItems: MenuProps['items'] = [
     {
@@ -55,7 +73,7 @@ export function MobileHomeHeader({
       label: (
         <div 
           onClick={() => {
-            logout()
+            clearToken()
             router.push('/login')
           }} 
           className="font-bold text-danger w-full cursor-pointer"
@@ -90,16 +108,7 @@ export function MobileHomeHeader({
           </div>
         </div>
       </Dropdown>
-      <button
-        type="button"
-        aria-label="Notifications"
-        className="relative w-11 h-11 min-w-11 rounded-full bg-white/5 border border-white/10 text-white flex items-center justify-center cursor-pointer transition-all duration-200"
-      >
-        <BellOutlined style={{ fontSize: 18 }} />
-        {hasNotifications && (
-          <span className="absolute top-2.5 right-3 w-2 h-2 rounded-full bg-[#FF3B30] border border-[#0a0514]" />
-        )}
-      </button>
+      <NotificationBell className="relative w-11 h-11 min-w-[44px] rounded-full bg-white/5 border border-white/10 text-white flex items-center justify-center cursor-pointer transition-all duration-200" />
     </header>
   )
 }

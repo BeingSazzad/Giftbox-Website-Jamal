@@ -10,9 +10,10 @@ export async function registerAction(payload: any) {
     body: payload,
   });
 
-  if (res.success && res.data?.token) {
+  const token = res.data?.token || res.data?.accessToken;
+  if (res.success && token) {
     const cookieStore = await cookies();
-    cookieStore.set("accessToken", res.data.token, {
+    cookieStore.set("accessToken", token, {
       path: "/",
       maxAge: 30 * 24 * 60 * 60, // 30 days
     });
@@ -26,9 +27,10 @@ export async function loginAction(payload: { identifier: string; password: strin
     body: payload,
   });
 
-  if (res.success && res.data?.token) {
+  const token = res.data?.token || res.data?.accessToken;
+  if (res.success && token) {
     const cookieStore = await cookies();
-    cookieStore.set("accessToken", res?.data?.token, {
+    cookieStore.set("accessToken", token, {
       path: "/",
       maxAge: 30 * 24 * 60 * 60, // 30 days
     });

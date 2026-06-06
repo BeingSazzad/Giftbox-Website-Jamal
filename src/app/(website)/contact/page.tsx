@@ -1,11 +1,8 @@
 'use client'
-import { Button, Form, Input, Select, message } from 'antd'
+import { Button, Form, Input, message } from 'antd'
 import { 
-  CloudUploadOutlined, 
-  MailOutlined, 
+  CloudUploadOutlined,  
   MessageOutlined, 
-  EnvironmentOutlined,
-  CopyOutlined,
   SendOutlined
 } from '@ant-design/icons'
 import { useRef, useState, useEffect } from 'react'
@@ -13,6 +10,7 @@ import { useRouter } from 'next/navigation'
 import { useAuth } from '@/hooks/useAuth'
 import { WebShell } from '@/components/layout/WebShell'
 import { PageHeader } from '@/components/layout/PageHeader'
+import { submitSupportAction } from '@/actions/support'
 
 interface ContactFormValues {
   name: string
@@ -30,6 +28,7 @@ export default function ContactPage() {
   const [form] = Form.useForm<ContactFormValues>()
   const [photo, setPhoto] = useState<File | null>(null)
   const [photoPreview, setPhotoPreview] = useState<string | null>(null)
+  const [submitting, setSubmitting] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
@@ -67,11 +66,41 @@ export default function ContactPage() {
     message.success('Email address copied to clipboard!')
   }
 
-  const onFinish = (values: ContactFormValues) => {
-    message.success('Message sent! Our support team will get back to you shortly.')
-    form.resetFields()
-    setPhoto(null)
-    setPhotoPreview(null)
+  const onFinish = async (values: ContactFormValues) => {
+    try {
+      setSubmitting(true)
+      const formData = new FormData()
+      
+      const payload: any = {
+        subject: values.subject,
+        message: values.message,
+      }
+      
+      if (!isSignedIn) {
+        payload.name = values.name
+        payload.email = values.email
+      }
+      
+      formData.append('data', JSON.stringify(payload))
+      if (photo) {
+        formData.append('attachment', photo)
+      }
+
+      const res: any = await submitSupportAction(formData)
+      if (res?.success) {
+        message.success('Message sent! Our support team will get back to you shortly.')
+        form.resetFields()
+        setPhoto(null)
+        setPhotoPreview(null)
+      } else {
+        message.error(res?.message || 'Failed to send message')
+      }
+    } catch (err) {
+      console.error(err)
+      message.error('An error occurred. Please try again.')
+    } finally {
+      setSubmitting(false)
+    }
   }
 
   const labelClass = 'text-white/80 font-bold text-sm'
@@ -228,6 +257,7 @@ export default function ContactPage() {
                   htmlType="submit" 
                   size="large" 
                   block 
+                  loading={submitting}
                   className="h-13 text-sm font-black flex items-center justify-center gap-2 shadow-[0_4px_25px_rgba(254,147,1,0.2)] hover:shadow-[0_4px_30px_rgba(254,147,1,0.3)] transition-all spell-btn-glow"
                 >
                   <SendOutlined style={{ fontSize: 13 }} /> Send Message

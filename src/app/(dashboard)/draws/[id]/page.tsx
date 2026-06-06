@@ -12,10 +12,12 @@ import {
 } from '@ant-design/icons'
 import type { ReactNode } from 'react'
 import { useEffect, useRef, useState, useCallback } from 'react'
-import { useRouter } from 'next/navigation'
+import { useParams, useRouter } from 'next/navigation'
 import { WebShell } from '@/components/layout/WebShell'
 import { SuccessModal } from '@/components/common/SuccessModal'
-import { currentDraw, paymentNumbers } from '@/data/draws'
+import { getActiveLotteryByIdAction, participateLotteryAction } from '@/actions/lottery'
+import { getSettingsAction } from '@/actions/settings'
+import { getImageUrl } from '@/utils/helpers'
 
 import { BackHeader } from '@/components/layout/BackHeader'
 import { useCountdown } from '@/hooks/useCountdown'
@@ -30,10 +32,14 @@ const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
   e.currentTarget.style.setProperty('--mouse-y', `${y}px`)
 }
 
-
-
 export default function DrawDetailsPage() {
   const router = useRouter()
+  const params = useParams()
+  const id = params?.id as string
+
+  const [lottery, setLottery] = useState<any>(null)
+  const [loading, setLoading] = useState(true)
+
   const [file, setFile] = useState<File | null>(null)
   const [preview, setPreview] = useState<string | null>(null)
   const [dragOver, setDragOver] = useState(false)
@@ -41,7 +47,25 @@ export default function DrawDetailsPage() {
   const [showSuccess, setShowSuccess] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
   const blobUrlRef = useRef<string | null>(null)
-  const countdown = useCountdown(currentDraw.endsAt)
+
+  const [paymentNumbersList, setPaymentNumbersList] = useState<any[]>([])
+
+  useEffect(() => {
+    if (id) {
+      Promise.all([
+        getActiveLotteryByIdAction(id),
+        getSettingsAction()
+      ])
+        .then(([lotteryRes, settingsRes]: any) => {
+          if (lotteryRes?.data) setLottery(lotteryRes.data)
+          if (settingsRes?.data?.paymentNumbers) setPaymentNumbersList(settingsRes.data.paymentNumbers)
+        })
+        .catch(console.error)
+        .finally(() => setLoading(false))
+    }
+  }, [id])
+
+  const countdown = useCountdown(lottery?.endAt || new Date().toISOString())
 
   useEffect(() => () => { if (blobUrlRef.current) URL.revokeObjectURL(blobUrlRef.current) }, [])
 
@@ -73,16 +97,30 @@ export default function DrawDetailsPage() {
     }
   }
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!file) {
       message.error('Please upload a screenshot first')
       return
     }
     setSubmitting(true)
-    setTimeout(() => {
+
+    try {
+      const formData = new FormData()
+      formData.append('data', JSON.stringify({ lotteryId: id }))
+      formData.append('paymentProof', file)
+
+      const res = await participateLotteryAction(formData)
+      console.log(res, 'res from backend')
+      if (res.success) {
+        setShowSuccess(true)
+      } else {
+        message.error(res.message || 'Failed to submit participation')
+      }
+    } catch (error) {
+      message.error('An error occurred while submitting')
+    } finally {
       setSubmitting(false)
-      setShowSuccess(true)
-    }, 900)
+    }
   }
 
   const timerSlot = (
@@ -94,22 +132,43 @@ export default function DrawDetailsPage() {
           <span className="w-2 h-2 rounded-full bg-primary animate-pulse shrink-0" />
           <ClockCircleOutlined className="text-primary text-sm" />
           <div className="flex items-center gap-1 font-mono text-sm font-bold">
-            <span className="text-white">{String(countdown.d).padStart(2,'0')}</span>
+            <span className="text-white">{String(countdown.d).padStart(2, '0')}</span>
             <span className="text-white/30">d</span>
             <span className="text-white/30">:</span>
-            <span className="text-white">{String(countdown.h).padStart(2,'0')}</span>
+            <span className="text-white">{String(countdown.h).padStart(2, '0')}</span>
             <span className="text-white/30">h</span>
             <span className="text-white/30">:</span>
-            <span className="text-white">{String(countdown.m).padStart(2,'0')}</span>
+            <span className="text-white">{String(countdown.m).padStart(2, '0')}</span>
             <span className="text-white/30">m</span>
             <span className="text-white/30">:</span>
-            <span className="text-primary">{String(countdown.s).padStart(2,'0')}</span>
+            <span className="text-primary">{String(countdown.s).padStart(2, '0')}</span>
             <span className="text-primary/60">s</span>
           </div>
         </>
       )}
     </div>
   )
+
+  if (loading) {
+    return (
+      <WebShell maxWidth={1200}>
+        <div className="flex items-center justify-center min-h-[500px]">
+          <div className="w-8 h-8 rounded-full border-2 border-primary border-t-transparent animate-spin" />
+        </div>
+      </WebShell>
+    )
+  }
+
+  if (!lottery) {
+    return (
+      <WebShell maxWidth={1200}>
+        <div className="flex flex-col items-center justify-center min-h-[500px] text-white/50">
+          <ExclamationCircleFilled className="text-4xl text-white/20 mb-4" />
+          <p>Lottery not found or has ended.</p>
+        </div>
+      </WebShell>
+    )
+  }
 
   return (
     <WebShell maxWidth={1200}>
@@ -125,22 +184,22 @@ export default function DrawDetailsPage() {
         <div className="flex flex-col gap-5">
 
           {/* Prize Card */}
-          <div 
+          <div
             onMouseMove={handleMouseMove}
             className="bg-surface/60 border border-primary/30 rounded-2xl p-4 md:p-5 flex flex-col sm:flex-row gap-4 md:gap-5 spell-glow-card"
           >
-            <div className="w-full sm:w-44 sm:min-w-44 h-40 sm:h-32 rounded-xl overflow-hidden bg-night shrink-0">
+            <div className="w-full sm:w-44 sm:min-w-44 h-40 sm:h-32 rounded-xl overflow-hidden bg-night shrink-0 flex items-center justify-center">
               <img
-                src={currentDraw.image}
-                alt={currentDraw.title}
+                src={getImageUrl(lottery.banner)}
+                alt={lottery.title}
                 className="w-full h-full object-cover spell-float-image"
               />
             </div>
             <div className="flex-1 min-w-0">
-              <div className="text-white text-base md:text-lg font-bold mb-2">{currentDraw.title}</div>
-              <div className="text-white/65 text-[13px] leading-relaxed mb-3.5">{currentDraw.description}</div>
+              <div className="text-white text-base md:text-lg font-bold mb-2">{lottery.title}</div>
+              <div className="text-white/65 text-[13px] leading-relaxed mb-3.5">{lottery.description}</div>
               <div className="text-primary text-base font-bold flex items-center gap-2">
-                🎟️ {currentDraw.ticketPrice.toLocaleString()} {currentDraw.currency}
+                🎟️ {lottery.ticketPrice.toLocaleString()} {lottery.currency}
               </div>
             </div>
           </div>
@@ -175,15 +234,15 @@ export default function DrawDetailsPage() {
           </InfoCard>
 
           {/* Payment Numbers */}
-          <div 
+          <div
             onMouseMove={handleMouseMove}
             className="bg-surface/55 border border-white/6 rounded-2xl p-5 spell-glow-card"
           >
             <h3 className="m-0 mb-4 text-white text-[17px] font-bold">Payment Numbers</h3>
             <div className="flex flex-col gap-3">
-              {paymentNumbers.map((pn) => (
+              {paymentNumbersList.map((pn, idx) => (
                 <div
-                  key={pn.id}
+                  key={pn.number + idx}
                   className="bg-deep/60 border border-white/6 rounded-xl p-3.5 sm:px-4 sm:py-3.5 flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-3.5"
                 >
                   <div className="flex items-center gap-3.5 flex-1 min-w-0">
@@ -191,13 +250,13 @@ export default function DrawDetailsPage() {
                       <CreditCardOutlined style={{ fontSize: 20 }} />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <div className="text-white/60 text-xs">{pn.provider}</div>
+                      <div className="text-white/60 text-xs">{pn.label}</div>
                       <div className="text-white text-[15px] font-semibold">{pn.number}</div>
                     </div>
                   </div>
                   <button
                     type="button"
-                    onClick={() => handleCopy(pn.number, pn.provider)}
+                    onClick={() => handleCopy(pn.number, pn.label)}
                     className="w-full sm:w-auto bg-deep/60 border border-white/10 rounded-lg px-3.5 py-2 text-white/85 text-[13px] cursor-pointer flex items-center justify-center gap-1.5 hover:bg-white/10 transition-colors"
                   >
                     <CopyOutlined />
@@ -213,7 +272,7 @@ export default function DrawDetailsPage() {
         <div className="lg:sticky lg:top-24 flex flex-col gap-5">
 
           {/* Upload Card */}
-          <div 
+          <div
             onMouseMove={handleMouseMove}
             className="bg-surface/50 backdrop-blur-md border border-white/10 rounded-3xl p-5 md:p-6 shadow-xl flex flex-col gap-5 spell-glow-card"
           >
@@ -221,7 +280,7 @@ export default function DrawDetailsPage() {
             <div className="flex items-center justify-between">
               <h3 className="m-0 text-white text-base font-bold">Payment Proof</h3>
               <div className="bg-primary/10 border border-primary/20 text-primary text-sm font-black px-3 py-1 rounded-xl">
-                {currentDraw.ticketPrice.toLocaleString()} {currentDraw.currency}
+                {lottery.ticketPrice.toLocaleString()} {lottery.currency}
               </div>
             </div>
 
@@ -355,7 +414,7 @@ interface InfoCardProps {
 
 function InfoCard({ icon, title, children }: InfoCardProps) {
   return (
-    <div 
+    <div
       onMouseMove={handleMouseMove}
       className="bg-surface/55 border border-white/6 rounded-2xl p-5 spell-glow-card"
     >

@@ -4,43 +4,24 @@ import { PageHeader } from '@/components/layout/PageHeader'
 import { FileTextOutlined } from '@ant-design/icons'
 import { useState, useEffect } from 'react'
 
-import { getDynamicTerms, TermsSection } from '@/data/websiteContent'
+import { getTermsAction } from '@/actions/rules'
 
 export default function TermsPage() {
-  const [activeSection, setActiveSection] = useState('intro')
-  const [sections, setSections] = useState<TermsSection[]>([])
+  const [content, setContent] = useState<string>('')
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    setSections(getDynamicTerms())
-  }, [])
-
-  const handleScrollTo = (id: string) => {
-    const el = document.getElementById(id)
-    if (el) {
-      const top = el.getBoundingClientRect().top + window.scrollY - 96
-      window.scrollTo({ top, behavior: 'smooth' })
-      setActiveSection(id)
-    }
-  }
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollPos = window.scrollY + 130
-      for (const section of sections) {
-        const el = document.getElementById(section.id)
-        if (el) {
-          const top = el.offsetTop
-          const height = el.offsetHeight
-          if (scrollPos >= top && scrollPos < top + height) {
-            setActiveSection(section.id)
-            break
-          }
+    getTermsAction()
+      .then((res: any) => {
+        if (res?.data?.content) {
+          setContent(res.data.content)
         }
-      }
-    }
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
+      })
+      .catch(console.error)
+      .finally(() => setLoading(false))
   }, [])
+
+
 
   return (
     <WebShell>
@@ -67,38 +48,16 @@ export default function TermsPage() {
           </div>
         </div>
 
-        {/* Document content — continuous, no boxes */}
-        <div className="max-w-5xl space-y-10">
-          {sections.map((s) => (
-            <section
-              key={s.id}
-              id={s.id}
-              className="scroll-mt-28"
-            >
-              <h2 className="flex items-center gap-3 text-white text-lg font-bold m-0 mb-4 tracking-tight">
-                <span className="text-primary/70 text-base font-black tabular-nums">{s.number}.</span>
-                {s.title}
-              </h2>
-
-              {s.paragraphs?.map((p, i) => (
-                <p key={i} className="m-0 mb-4 last:mb-0 text-white/60 text-base leading-[1.8]">
-                  {p}
-                </p>
-              ))}
-
-              {s.bullets && (
-                <ul className="m-0 pl-0 list-none space-y-3">
-                  {s.bullets.map((b, i) => (
-                    <li key={i} className="flex items-start gap-3 text-white/60 text-base leading-[1.8]">
-                      <span className="text-primary/60 mt-2 shrink-0 text-[8px]">●</span>
-                      {b}
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </section>
-          ))}
-        </div>
+        {/* Document content */}
+        {loading ? (
+          <div className="flex items-center justify-center min-h-[300px]">
+            <div className="w-8 h-8 rounded-full border-2 border-primary border-t-transparent animate-spin" />
+          </div>
+        ) : (
+          <div className="max-w-5xl space-y-6 text-white/60 leading-relaxed text-base [&>p]:mb-4 [&>h1]:text-white [&>h1]:font-bold [&>h1]:text-xl [&>h1]:mb-4 [&>h2]:text-white [&>h2]:font-bold [&>h2]:text-lg [&>h2]:mb-3 [&>ul]:list-disc [&>ul]:ml-5 [&>ul]:mb-4">
+            <div dangerouslySetInnerHTML={{ __html: content }} />
+          </div>
+        )}
       </div>
     </WebShell>
   )

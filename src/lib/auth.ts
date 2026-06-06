@@ -1,13 +1,14 @@
-import { TOKEN_STORAGE_KEY, USER_STORAGE_KEY } from '@/utils/constants'
+import { USER_STORAGE_KEY } from '@/utils/constants'
 import { User } from '@/types'
+import Cookies from 'js-cookie'
 
 export function getToken(): string | null {
   if (typeof window === 'undefined') return null
-  return localStorage.getItem(TOKEN_STORAGE_KEY)
+  return Cookies.get('accessToken') || null
 }
 
 export function setToken(token: string): void {
-  localStorage.setItem(TOKEN_STORAGE_KEY, token)
+  Cookies.set('accessToken', token, { path: '/', expires: 30 })
 }
 
 export function getUser(): User | null {
@@ -30,7 +31,7 @@ export function clearUser(): void {
 }
 
 export function clearToken(): void {
-  localStorage.removeItem(TOKEN_STORAGE_KEY)
+  Cookies.remove('accessToken', { path: '/' })
   clearUser()
 }
 

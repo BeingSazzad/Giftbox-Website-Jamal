@@ -1,10 +1,11 @@
 'use client';
 import { ExclamationCircleOutlined, SearchOutlined, InboxOutlined, CompassOutlined } from '@ant-design/icons'
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { WebShell } from '@/components/layout/WebShell'
 import { StatusBadge } from '@/components/common/StatusBadge'
-import { participations } from '@/data/participations'
+import { getMyParticipationsAction } from '@/actions/lottery'
+import { getImageUrl } from '@/utils/helpers'
 
 type FilterStatus = 'all' | 'pending' | 'approved' | 'completed' | 'rejected'
 
@@ -19,10 +20,21 @@ function formatShortDate(iso: string) {
 export default function MyDrawsPage() {
   const router = useRouter()
   const [activeTab, setActiveTab] = useState<FilterStatus>('all')
+  const [participations, setParticipations] = useState<any[]>([])
+  const [loading, setLoading] = useState(true)
+  console.log('participations', participations)
+
+  useEffect(() => {
+    getMyParticipationsAction().then((res: any) => {
+      if (res && res.data) {
+        setParticipations(res.data)
+      }
+    }).catch(console.error).finally(() => setLoading(false))
+  }, [])
 
   const filteredParticipations = participations.filter((p) => {
     if (activeTab === 'all') return true
-    return p.status === activeTab
+    return p.status?.toLowerCase() === activeTab
   })
 
   const tabs: { value: FilterStatus; label: string }[] = [
@@ -49,9 +61,9 @@ export default function MyDrawsPage() {
       <div className="flex border-b border-white/10 mb-6 overflow-x-auto scrollbar-none gap-2 md:gap-4" style={{ WebkitOverflowScrolling: 'touch' }}>
         {tabs.map((tab) => {
           const isActive = activeTab === tab.value
-          const count = tab.value === 'all' 
-            ? participations.length 
-            : participations.filter((p) => p.status === tab.value).length
+          const count = tab.value === 'all'
+            ? participations.length
+            : participations.filter((p) => p.status?.toLowerCase() === tab.value).length
 
           return (
             <button
@@ -78,18 +90,22 @@ export default function MyDrawsPage() {
       </div>
 
       {/* Grid Container */}
-      {filteredParticipations.length > 0 ? (
+      {loading ? (
+        <div className="flex items-center justify-center min-h-[300px]">
+          <div className="w-8 h-8 rounded-full border-2 border-primary border-t-transparent animate-spin" />
+        </div>
+      ) : filteredParticipations.length > 0 ? (
         <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6">
           {filteredParticipations.map((p) => {
-            const isRejected = p.status === 'rejected'
-            const isCompleted = p.status === 'completed'
-            const userWon = isCompleted && p.winners?.some(w => w.ticketNumber === p.userWonTicketNumber)
+            const isRejected = p.status?.toLowerCase() === 'rejected'
+            const isCompleted = p.status?.toLowerCase() === 'completed'
+            const userWon = false // Assuming no winners array in the API response yet
 
             return (
               <button
-                key={p.id}
+                key={p.participantId}
                 type="button"
-                onClick={() => router.push(`/participation/${p.id}`)}
+                onClick={() => router.push(`/participation/${p.participantId}`)}
                 className={[
                   'w-full bg-surface/40 hover:bg-surface/50 backdrop-blur-md rounded-2xl p-3 sm:p-5 flex flex-col justify-between cursor-pointer text-left transition-all duration-300 relative overflow-hidden group',
                   'border',
@@ -105,12 +121,12 @@ export default function MyDrawsPage() {
                   {/* Card Image */}
                   <div className="w-full h-24 sm:h-40 rounded-xl overflow-hidden bg-night mb-2.5 sm:mb-4 relative">
                     <img
-                      src={p.prizeImage}
-                      alt={p.prizeTitle}
+                      src={getImageUrl(p.lottery?.banner)}
+                      alt={p.lottery?.title || 'Prize'}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />
                     <div className="absolute top-2 right-2 sm:top-3 sm:right-3 z-10">
-                      <StatusBadge status={p.status} />
+                      <StatusBadge status={p.status?.toLowerCase() || 'pending'} />
                     </div>
                     {userWon && (
                       <div className="absolute inset-0 bg-gradient-to-t from-primary/20 to-transparent pointer-events-none" />
@@ -119,7 +135,7 @@ export default function MyDrawsPage() {
 
                   {/* Title & Info */}
                   <div className="text-white text-xs sm:text-base font-bold mb-1.5 sm:mb-2 line-clamp-1 group-hover:text-primary transition-colors flex items-center justify-between gap-1.5 sm:gap-2">
-                    <span className="truncate">{p.prizeTitle}</span>
+                    <span className="truncate">{p.lottery?.title || 'Unknown Prize'}</span>
                     {isCompleted && (
                       userWon ? (
                         <span className="shrink-0 bg-primary/20 text-primary border border-primary/30 px-1.5 sm:px-2 py-0.5 rounded-lg text-[8px] sm:text-[9px] font-black uppercase tracking-wider animate-pulse">
@@ -132,10 +148,10 @@ export default function MyDrawsPage() {
                       )
                     )}
                   </div>
-                  
+
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 sm:gap-0 text-[10px] sm:text-xs text-white/50 mb-3 sm:mb-4">
-                    <span>Ticket: <strong className="text-white/80 font-mono">{p.ticketNumber}</strong></span>
-                    <span>Price: <strong className="text-primary">{p.ticketPrice} {p.currency}</strong></span>
+                    <span>Ticket: <strong className="text-white/80 font-mono">{p.ticketNumber || 'N/A'}</strong></span>
+                    <span>Price: <strong className="text-primary">{p.amount || p.lottery?.ticketPrice} {p.lottery?.currency || 'CDF'}</strong></span>
                   </div>
                 </div>
 
@@ -143,7 +159,7 @@ export default function MyDrawsPage() {
                 <div className="pt-2.5 border-t border-white/5 flex flex-col gap-2 w-full">
                   <div className="text-white/40 text-[9px] sm:text-[11px] font-semibold flex items-center justify-between">
                     <span>SUBMISSION DATE</span>
-                    <span className="text-white/60">{formatShortDate(p.submittedOn)}</span>
+                    <span className="text-white/60">{formatShortDate(p.createdAt)}</span>
                   </div>
 
                   {isRejected && p.rejectionReason && (

@@ -12,7 +12,9 @@ import {
 } from '@ant-design/icons'
 import { useRouter } from 'next/navigation';
 import dynamic from 'next/dynamic'
-import { LandingHeader } from '@/components/landing/LandingHeader'
+import { TopNav } from '@/components/layout/TopNav'
+import { MobileTopBar } from '@/components/layout/MobileTopBar'
+import { BottomNav } from '@/components/layout/BottomNav'
 import { LandingFooter } from '@/components/landing/LandingFooter'
 import { Countdown } from '@/components/common/Countdown'
 import { currentDraw } from '@/data/draws'
@@ -20,6 +22,7 @@ import giftBoxImg from '@/assets/images/luxury_gift_box.png'
 import premiumPrizesImg from '@/assets/images/luxury_premium_prizes.png'
 import { useAuth } from '@/hooks/useAuth'
 import { Section, SectionTitle } from '@/components/landing/Section'
+import { FeaturedPrize } from '@/components/landing/FeaturedPrize'
 
 // Below-the-fold sections are lazy-loaded to improve initial bundle and page performance
 const Winners = dynamic(() => import('@/components/landing/Winners'), {
@@ -52,27 +55,28 @@ const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
 
 export default function LandingPage() {
   return (
-    <div className="bg-[#0a0514] min-h-screen font-sans selection:bg-primary/30 selection:text-white">
-      <LandingHeader />
-      <Hero />
-      <StatsBar />
-      <AboutUsShort />
-      <HowItWorks />
-      <FeaturedPrize />
-      <WhyUs />
-      <Winners />
-      <DownloadApp />
-      <FaqPreview />
-      <CtaSection />
+    <div className="bg-[#0a0514] min-h-screen font-sans selection:bg-primary/30 selection:text-white flex flex-col">
+      <TopNav />
+      <MobileTopBar />
+      <main className="flex-1 w-full pb-[calc(80px+env(safe-area-inset-bottom))] md:pb-0">
+        <Hero />
+        <StatsBar />
+        <AboutUsShort />
+        <HowItWorks />
+        <FeaturedPrize />
+        <WhyUs />
+        <Winners />
+        <DownloadApp />
+        <FaqPreview />
+        <CtaSection />
+      </main>
       <LandingFooter />
+      <BottomNav />
     </div>
   )
 }
 
 function Hero() {
-  const router = useRouter()
-  const { token } = useAuth()
-  const isAuthenticated = !!token
 
   return (
     <section className="relative w-full pt-20 pb-12 md:pt-16 md:pb-24 overflow-hidden">
@@ -83,10 +87,6 @@ function Hero() {
       <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           <div className="text-left">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 text-white/80 text-sm font-medium mb-8 backdrop-blur-md">
-              <span className="w-2.5 h-2.5 rounded-full bg-success animate-pulse" />
-              Live Now: Weekly Mega Draw
-            </div>
 
             <h1 className="text-4xl sm:text-5xl md:text-7xl font-black text-white leading-[1.1] tracking-tight mb-6">
               Win premium <br />
@@ -354,72 +354,10 @@ function HowItWorks() {
   )
 }
 
-function FeaturedPrize() {
-  const router = useRouter()
-  const { token } = useAuth()
-  const isAuthenticated = !!token
-  return (
-    <Section id="prizes">
-      <SectionTitle eyebrow="Featured" title="The prize on the line" subtitle="Brand new, sealed, and ready to ship to the winner free of charge." />
-
-      <div className="relative bg-gradient-to-br from-[#1a0f3d] to-[#0d0722] border border-primary/20 rounded-[2rem] p-4 md:p-10 overflow-hidden shadow-2xl shadow-primary/10">
-        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/10 blur-[100px] rounded-full"></div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 items-stretch relative z-10">
-          <div className="relative overflow-hidden rounded-[2rem] border border-white/10 shadow-2xl aspect-square lg:aspect-auto lg:h-[380px] bg-night/20 backdrop-blur-sm">
-            <img
-              src={currentDraw.image}
-              alt={currentDraw.title}
-              className="w-full h-full object-cover hover:scale-105 transition-transform duration-700 select-none"
-            />
-          </div>
-
-          <div className="flex flex-col justify-center">
-            <h3 className="text-3xl md:text-4xl font-black text-white mb-4 leading-tight">{currentDraw.title}</h3>
-            <p className="text-white/70 text-base leading-relaxed mb-6">
-              {currentDraw.description}
-            </p>
-
-            {/* Clean, Premium Info Bar */}
-            <div className="flex flex-col sm:flex-row sm:items-center gap-x-8 gap-y-6 mb-8 py-5 border-y border-white/10">
-              <div className="shrink-0">
-                <span className="text-white/40 text-xs font-bold uppercase tracking-wider block mb-2">Ticket Price</span>
-                <span className="text-primary text-2xl lg:text-3xl font-black block leading-none select-none">
-                  {currentDraw.ticketPrice.toLocaleString()} {currentDraw.currency}
-                </span>
-              </div>
-
-              {/* Vertical divider line on desktop */}
-              <div className="hidden sm:block w-px h-12 bg-white/10 shrink-0 self-center" />
-
-              <div className="min-w-0 flex-grow">
-                <span className="text-white/40 text-xs font-bold uppercase tracking-wider block mb-2">Countdown</span>
-                <Countdown endsAt={currentDraw.endsAt} />
-              </div>
-            </div>
-
-            <button
-              onClick={() => {
-                if (isAuthenticated) {
-                  router.push(`/draws/${currentDraw.id}`)
-                } else {
-                  router.push(`/login?redirect=/draws/${currentDraw.id}`)
-                }
-              }}
-              className="h-12 w-full bg-gradient-to-br from-[#FFB900] to-[#FF6900] hover:from-[#FFC933] hover:to-[#FF7E1A] text-[#1a0f0a] rounded-xl font-bold text-lg shadow-[0_4px_20px_rgba(255,105,0,0.3)] hover:shadow-[0_8px_28px_rgba(255,105,0,0.45)] hover:-translate-y-px hover:scale-[1.02] transition-all cursor-pointer flex justify-center items-center gap-2 spell-btn-glow"
-            >
-              {isAuthenticated ? 'Participate Now' : 'Sign In to Participate'} <ArrowRightOutlined />
-            </button>
-          </div>
-        </div>
-      </div>
-    </Section>
-  )
-}
 
 function WhyUs() {
   const cards = [
-    { icon: <SafetyCertificateFilled className="text-2xl transition-colors duration-300 text-primary group-hover:text-white" />, title: 'Secure transactions', desc: 'Pay safely via trusted mobile platforms (M-Pesa, Orange Money). We only verify the transaction receipt, keeping your bank details 100% private.' },
+    { icon: <SafetyCertificateFilled className="text-2xl transition-colors duration-300 text-primary group-hover:text-white" />, title: 'Secure transactions', desc: 'Pay safely via trusted mobile platforms (M-Pesa, Orange Money, Airtel Money). We only verify the transaction receipt, keeping your bank details 100% private.' },
     { icon: <CheckCircleFilled className="text-2xl transition-colors duration-300 text-primary group-hover:text-white" />, title: 'Transparent draw system', desc: 'Every entry is recorded, every ticket number is verifiable, and all draws are live-announced. No hidden shortcuts, no preferences.' },
     { icon: <TrophyFilled className="text-2xl transition-colors duration-300 text-primary group-hover:text-white" />, title: 'Fast reward delivery', desc: 'Verified winners are processed instantly. Your brand-new, sealed prize is delivered completely free of charge to your door.' },
   ]

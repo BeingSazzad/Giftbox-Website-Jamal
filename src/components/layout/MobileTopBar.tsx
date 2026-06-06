@@ -14,8 +14,11 @@ import {
 } from "@ant-design/icons";
 import logoImg from "@/assets/logo.png";
 import { useAuth } from "@/hooks/useAuth";
+import { clearToken } from "@/lib/auth";
+import { NotificationBell } from "./NotificationBell";
 import { getImageUrl } from "@/utils/helpers";
 import { Button, message } from "antd";
+import Cookies from "js-cookie";
 
 import {
   PUBLIC_LINKS as publicLinks,
@@ -32,23 +35,10 @@ import getProfile from "@/lib/getProfile";
 export function MobileTopBar() {
   const router = useRouter();
   const pathname = usePathname();
-  const { token, logout } = useAuth();
-  const [user, setUser] = useState<any>(null);
+  const { token, user } = useAuth();
   const isAuthenticated = !!token;
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [lang, setLang] = useState("en");
-  useEffect(() => {
-    const fetchProfile = async () => {
-      try {
-        const profile = await getProfile();
-        setUser(profile);
-      } catch (error) {
-        console.error("Failed to fetch profile:", error);
-      }
-    };
-
-    fetchProfile();
-  }, []);
   const userName = user?.name || "Sazzad";
   const userEmail = user?.email || "sazzad@example.com";
   const avatar = getImageUrl(user?.profileImage || user?.image || user?.avatar);
@@ -68,24 +58,38 @@ export function MobileTopBar() {
   }, [isMobileMenuOpen]);
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      setLang(localStorage.getItem("gb_lang") || "en");
+    const storedLanguage = Cookies.get("currentLanguage");
+
+    if (storedLanguage) {
+      setLang(storedLanguage);
+    } else {
+      Cookies.set("currentLanguage", "fr");
+      document.cookie = `googtrans=/en/fr; path=/`;
+      document.cookie = `googtrans=/en/fr; domain=${window.location.hostname}; path=/`;
+      setLang("fr");
+
+      window.location.hash = "#googtrans/en/fr";
     }
   }, []);
 
-  const handleLangChange = (key: string) => {
-    setLang(key);
-    localStorage.setItem("gb_lang", key);
-    document.cookie = `googtrans=/en/${key}; path=/`;
-    document.cookie = `googtrans=/en/${key}; domain=${window.location.hostname}; path=/`;
-    message.success(
-      key === "en"
-        ? "Language updated to English"
-        : "Langue changée en Français",
-    );
+  const handleLangChange = (language: string) => {
+    Cookies.set("currentLanguage", language);
+    document.cookie = `googtrans=/en/${language}; path=/`;
+    document.cookie = `googtrans=/en/${language}; domain=${window.location.hostname}; path=/`;
+
+    setLang(language);
+
+    window.location.hash = `#googtrans/en/${language}`;
+
     setTimeout(() => {
       window.location.reload();
     }, 100);
+
+    message.success(
+      language === "en"
+        ? "Language updated to English"
+        : "Langue mise à jour en Français",
+    );
   };
 
   const handleLinkClick = (href: string) => {
@@ -127,13 +131,7 @@ export function MobileTopBar() {
         {/* Right Actions */}
         <div className="flex items-center gap-2">
           {isAuthenticated && (
-            <button
-              type="button"
-              aria-label="Notifications"
-              className="w-9 h-9 rounded-full bg-white/5 border border-white/10 text-white flex items-center justify-center cursor-pointer transition-all hover:bg-white/10 relative"
-            >
-              <BellOutlined style={{ fontSize: 16 }} />
-            </button>
+            <NotificationBell className="w-9 h-9 rounded-full bg-white/5 border border-white/10 text-white flex items-center justify-center cursor-pointer transition-all hover:bg-white/10 relative" />
           )}
 
           {/* Menu Toggle button */}
@@ -286,7 +284,7 @@ export function MobileTopBar() {
                   type="button"
                   onClick={() => {
                     setIsMobileMenuOpen(false);
-                    logout();
+                    clearToken();
                     router.push("/login");
                   }}
                   className="w-full px-4 py-2.5 rounded-xl text-sm font-bold text-danger hover:bg-white/5 transition-all duration-200 flex items-center gap-2.5 text-left border-none bg-transparent cursor-pointer"

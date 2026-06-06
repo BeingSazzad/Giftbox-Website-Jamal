@@ -33,9 +33,6 @@ function LoginForm() {
       console.log('Login Response: ', res)
 
       if (res.success) {
-        if (res.data?.user && res.data?.token) {
-          login(res.data.user, res.data.token)
-        }
         message.success(res.message || 'Signed in successfully!')
         router.push(redirect)
       } else {

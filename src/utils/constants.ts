@@ -40,7 +40,7 @@ export interface NavItem {
 
 export const PUBLIC_LINKS: NavItem[] = [
   { href: '/about', label: 'About Us' },
-  { href: '/#how-it-works', label: 'How it Works' },
+  // { href: '/#how-it-works', label: 'How it Works' }, 
   { href: '/contact', label: 'Contact' },
 ]
 

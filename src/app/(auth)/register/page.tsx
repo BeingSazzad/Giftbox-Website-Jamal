@@ -45,9 +45,6 @@ function RegisterForm() {
       console.log('Register Response: ', res)
 
       if (res.success) {
-        if (res.data?.user && res.data?.token) {
-          login(res.data.user, res.data.token);
-        }
         message.success(res.message || 'Account created successfully!')
         router.push(redirect)
       } else {

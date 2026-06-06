@@ -1,11 +1,16 @@
-'use client';
+'use client'
+
 import { Button, DatePicker, Form, Input, message } from 'antd'
 import { useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { useAuth } from '@/hooks/useAuth'
 import dayjs, { type Dayjs } from 'dayjs'
+
 import { WebShell } from '@/components/layout/WebShell'
 import { BackHeader } from '@/components/layout/BackHeader'
+
+import { useProfile } from '@/hooks/useProfile'
+import { updateProfileAction } from '@/actions/profile'
+import { getImageUrl } from '@/utils/helpers'
 
 interface EditProfileValues {
   fullName: string
@@ -16,32 +21,84 @@ interface EditProfileValues {
 }
 
 export default function EditProfilePage() {
-  const router = useRouter()
-  const { user } = useAuth()
-  const [form] = Form.useForm<EditProfileValues>()
-  const [avatar, setAvatar] = useState<string>(user?.avatar || 'https://i.pravatar.cc/200?img=12')
-  const inputRef = useRef<HTMLInputElement>(null)
-  const avatarBlobRef = useRef<string | null>(null)
+  const user = useProfile()
 
-  useEffect(() => () => { if (avatarBlobRef.current) URL.revokeObjectURL(avatarBlobRef.current) }, [])
+  const [form] = Form.useForm<EditProfileValues>()
+
+  const [avatar, setAvatar] = useState<string>(
+    getImageUrl(user?.profileImage) || '/default.png'
+  )
+
+  const inputRef = useRef<HTMLInputElement>(null)
+  const fileRef = useRef<File | null>(null)
+  const blobRef = useRef<string | null>(null)
+
+  useEffect(() => {
+    return () => {
+      if (blobRef.current) URL.revokeObjectURL(blobRef.current)
+    }
+  }, [])
+
+  useEffect(() => {
+    if (user) {
+      form.setFieldsValue({
+        fullName: user.name,
+        email: user.email,
+        phone: user.phone,
+        city: user.city,
+        dob: user.dateOfBirth ? dayjs(user.dateOfBirth) : undefined,
+      })
+
+      setAvatar(getImageUrl(user.profileImage))
+    }
+  }, [user, form])
 
   const handleAvatarPick = () => inputRef.current?.click()
 
-  const handleAvatarChange = (f: File | null) => {
-    if (!f) return
-    if (!f.type.startsWith('image/')) {
+  const handleAvatarChange = (file: File | null) => {
+    if (!file) return
+
+    if (!file.type.startsWith('image/')) {
       message.error('Please choose an image file')
       return
     }
-    if (avatarBlobRef.current) URL.revokeObjectURL(avatarBlobRef.current)
-    const url = URL.createObjectURL(f)
-    avatarBlobRef.current = url
+
+    fileRef.current = file
+
+    if (blobRef.current) URL.revokeObjectURL(blobRef.current)
+
+    const url = URL.createObjectURL(file)
+    blobRef.current = url
     setAvatar(url)
   }
 
-  const onFinish = (values: EditProfileValues) => {
-    message.success('Profile updated')
-    router.push('/profile')
+  const onFinish = async (values: EditProfileValues) => {
+    try {
+      const formData = new FormData()
+
+      const dataObj: any = {
+        name: values.fullName,
+        phone: values.phone,
+        city: values.city,
+      }
+
+      if (values.dob) {
+        dataObj.dateOfBirth = values.dob.toISOString()
+      }
+
+      formData.append('data', JSON.stringify(dataObj))
+
+      if (fileRef.current) {
+        formData.append('profileimage', fileRef.current)
+      }
+
+      await updateProfileAction(formData)
+      
+      message.success('Profile updated')
+      window.location.reload()
+    } catch (err: any) {
+      message.error(err?.message || 'Update failed')
+    }
   }
 
   const labelClass = 'text-body font-semibold'
@@ -60,6 +117,7 @@ export default function EditProfilePage() {
             />
           </div>
         </div>
+
         <div className="mt-2.5">
           <button
             type="button"
@@ -69,12 +127,15 @@ export default function EditProfilePage() {
             Change Photo
           </button>
         </div>
+
         <input
           ref={inputRef}
           type="file"
           accept="image/*"
           className="hidden"
-          onChange={(e) => handleAvatarChange(e.target.files?.[0] ?? null)}
+          onChange={(e) =>
+            handleAvatarChange(e.target.files?.[0] ?? null)
+          }
         />
       </div>
 
@@ -82,53 +143,39 @@ export default function EditProfilePage() {
         form={form}
         layout="vertical"
         requiredMark={false}
-        initialValues={{
-          fullName: user?.name || '',
-          email: user?.email || '',
-          phone: user?.phone || '',
-          city: '',
-        }}
         onFinish={onFinish}
       >
         <Form.Item
           name="fullName"
           label={<span className={labelClass}>Full Name</span>}
-          rules={[{ required: true, message: 'Please enter your full name' }]}
+          rules={[{ required: true }]}
         >
-          <Input size="large" placeholder="Your name" />
+          <Input size="large" />
         </Form.Item>
 
         <Form.Item
           name="email"
           label={<span className={labelClass}>Email</span>}
-          rules={[
-            { required: true, message: 'Please enter your email' },
-            { type: 'email', message: 'Enter a valid email' },
-          ]}
         >
-          <Input size="large" placeholder="Enter your email address" />
+          <Input size="large" readOnly disabled className="opacity-60 cursor-not-allowed" />
         </Form.Item>
 
         <Form.Item
           name="phone"
           label={<span className={labelClass}>Phone Number</span>}
-          rules={[{ required: true, message: 'Please enter your phone number' }]}
+          rules={[{ required: true }]}
         >
-          <Input 
-            size="large" 
-            placeholder="9876543210" 
-            prefix={
-              <span className="text-white/50 text-xs font-semibold select-none border-r border-white/10 pr-2 mr-1">+243</span>
-            } 
-          />
+          <Input size="large" />
         </Form.Item>
 
-        <Form.Item name="dob" label={<span className={labelClass}>Date of Birth</span>}>
+        <Form.Item
+          name="dob"
+          label={<span className={labelClass}>Date of Birth</span>}
+        >
           <DatePicker
             size="large"
             className="w-full"
             format="MM/DD/YYYY"
-            placeholder="mm/dd/yyyy"
             disabledDate={(d) => d && d.isAfter(dayjs())}
           />
         </Form.Item>
@@ -136,9 +183,9 @@ export default function EditProfilePage() {
         <Form.Item
           name="city"
           label={<span className={labelClass}>City</span>}
-          rules={[{ required: true, message: 'Please enter your city' }]}
+          rules={[{ required: true }]}
         >
-          <Input size="large" placeholder="Your city" />
+          <Input size="large" />
         </Form.Item>
 
         <Form.Item className="mt-6 mb-0">

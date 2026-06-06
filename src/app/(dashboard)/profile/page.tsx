@@ -11,24 +11,28 @@ import {
 import { Form, Input, Button, DatePicker, Select, message } from 'antd'
 import { useState, useRef, useEffect, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { useAuth } from '@/hooks/useAuth'
+import { changePasswordAction, updateProfileAction } from '@/actions/profile'
+import { submitSupportAction } from '@/actions/support'
 import { getImageUrl } from '@/utils/helpers'
 import dayjs from 'dayjs'
 import { WebShell } from '@/components/layout/WebShell'
+import { useProfile } from '@/hooks/useProfile'
 
 type SettingsTab = 'profile' | 'password' | 'support'
 
 function SettingsHubContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
-  const { user } = useAuth()
+  const user = useProfile();
   const [activeTab, setActiveTab] = useState<SettingsTab>('profile')
   const [avatar, setAvatar] = useState<string>('')
   const fileInputRef = useRef<HTMLInputElement>(null)
   const avatarBlobRef = useRef<string | null>(null)
+  const avatarFileRef = useRef<File | null>(null)
 
   const [supportPhoto, setSupportPhoto] = useState<File | null>(null)
   const [supportPhotoPreview, setSupportPhotoPreview] = useState<string | null>(null)
+  const [supportSubmitting, setSupportSubmitting] = useState(false)
   const supportInputRef = useRef<HTMLInputElement>(null)
   const supportPhotoBlobRef = useRef<string | null>(null)
 
@@ -37,19 +41,32 @@ function SettingsHubContent() {
     if (user?.profileImage) {
       setAvatar(getImageUrl(user?.profileImage))
     } else {
-      setAvatar('https://i.pravatar.cc/200?img=12')
+      setAvatar('/default.png')
     }
   }, [user?.profileImage])
+  console.log(user?.profileImage)
 
   useEffect(() => () => {
     if (avatarBlobRef.current) URL.revokeObjectURL(avatarBlobRef.current)
     if (supportPhotoBlobRef.current) URL.revokeObjectURL(supportPhotoBlobRef.current)
   }, [])
-  
+
   // Forms
   const [profileForm] = Form.useForm()
   const [passwordForm] = Form.useForm()
   const [supportForm] = Form.useForm()
+
+  useEffect(() => {
+    if (user) {
+      profileForm.setFieldsValue({
+        fullName: user.name || '',
+        email: user.email || '',
+        phone: user.phone || '',
+        city: user.city || 'Kinshasa',
+        dob: user.dateOfBirth ? dayjs(user.dateOfBirth) : dayjs('1998-05-12'),
+      })
+    }
+  }, [user, profileForm])
 
   useEffect(() => {
     const tabParam = searchParams.get('tab') as SettingsTab
@@ -69,31 +86,94 @@ function SettingsHubContent() {
       message.error('Please choose a valid image file')
       return
     }
+
+    avatarFileRef.current = file
+
     if (avatarBlobRef.current) URL.revokeObjectURL(avatarBlobRef.current)
     const url = URL.createObjectURL(file)
     avatarBlobRef.current = url
     setAvatar(url)
-    message.success('Avatar updated successfully')
+    message.success('Avatar selected')
   }
+  console.log(avatarFileRef.current)
+  const handleProfileSave = async (values: any) => {
+    try {
+      const formData = new FormData()
 
-  const handleProfileSave = (_values: any) => {
-    message.success('Profile updated successfully!')
-  }
+      const dataObj: any = {
+        name: values.fullName,
+        phone: values.phone,
+        city: values.city,
+      }
 
-  const handlePasswordSave = (_values: any) => {
-    message.success('Password changed successfully!')
-    passwordForm.resetFields()
-  }
+      if (values.dob) {
+        dataObj.dateOfBirth = values.dob.toISOString()
+      }
 
-  const handleSupportSubmit = (_values: any) => {
-    message.success('Support ticket submitted! We will respond shortly.')
-    supportForm.resetFields()
-    setSupportPhoto(null)
-    if (supportPhotoBlobRef.current) {
-      URL.revokeObjectURL(supportPhotoBlobRef.current)
-      supportPhotoBlobRef.current = null
+      formData.append('data', JSON.stringify(dataObj))
+
+      if (avatarFileRef.current) {
+        formData.append('profileimage', avatarFileRef.current)
+      }
+
+      await updateProfileAction(formData)
+
+      message.success('Profile updated successfully!')
+      setTimeout(() => window.location.reload(), 500)
+    } catch (err: any) {
+      message.error(err?.message || 'Failed to update profile')
     }
-    setSupportPhotoPreview(null)
+  }
+
+const handlePasswordSave = async (values: any) => {
+  try {
+    await changePasswordAction({
+      currentPassword: values.currentPassword,
+      newPassword: values.newPassword,
+      confirmPassword: values.confirmPassword,
+    });
+
+    message.success("Password changed successfully!");
+    passwordForm.resetFields();
+  } catch (err: any) {
+    message.error(err?.message || "Failed to change password");
+  }
+};
+
+  const handleSupportSubmit = async (values: any) => {
+    try {
+      setSupportSubmitting(true)
+      const formData = new FormData()
+      
+      const payload: any = {
+        subject: values.subject,
+        message: values.message,
+      }
+      
+      formData.append('data', JSON.stringify(payload))
+      if (supportPhoto) {
+        formData.append('attachment', supportPhoto)
+      }
+
+      const res: any = await submitSupportAction(formData)
+      if (res?.success) {
+        message.success('Support ticket submitted! We will respond shortly.')
+        supportForm.resetFields()
+        setSupportPhoto(null)
+        if (supportPhotoBlobRef.current) {
+          URL.revokeObjectURL(supportPhotoBlobRef.current)
+          supportPhotoBlobRef.current = null
+        }
+        setSupportPhotoPreview(null)
+      } else {
+        message.error(res?.message || 'Failed to submit support ticket')
+      }
+    } catch (err) {
+      console.error(err)
+      message.error('An error occurred. Please try again.')
+    } finally {
+      setSupportSubmitting(false)
+    }
   }
 
   const handleSupportFile = (file: File | null) => {
@@ -129,7 +209,7 @@ function SettingsHubContent() {
 
       {/* Grid Container */}
       <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-6 md:gap-8 items-start">
-        
+
         {/* Left Side: Profile Summary & Vertical Navigation Tabs */}
         <div className="flex flex-col gap-5">
           {/* User Card */}
@@ -138,7 +218,7 @@ function SettingsHubContent() {
               <div className="w-full h-full rounded-full border-2 border-primary overflow-hidden shadow-lg bg-surface relative z-10">
                 <img src={avatar} alt="User Avatar" className="w-full h-full object-cover" />
               </div>
-              <button 
+              <button
                 type="button"
                 onClick={() => fileInputRef.current?.click()}
                 className="absolute bottom-0 right-0 z-20 w-7 h-7 bg-primary hover:bg-primary-hover text-[#1a0f0a] rounded-full flex items-center justify-center shadow-lg transition-transform hover:scale-110 cursor-pointer border border-[#1f1545]"
@@ -168,8 +248,8 @@ function SettingsHubContent() {
                   onClick={() => handleTabChange(tab.value)}
                   className={[
                     'px-4 py-3 text-xs md:text-sm font-semibold rounded-xl text-left transition-all cursor-pointer flex items-center gap-3 shrink-0',
-                    isActive 
-                      ? 'bg-primary/10 text-primary' 
+                    isActive
+                      ? 'bg-primary/10 text-primary'
                       : 'text-white/60 hover:text-white hover:bg-white/5',
                   ].join(' ')}
                 >
@@ -184,7 +264,7 @@ function SettingsHubContent() {
 
         {/* Right Side: Tab Form Panel */}
         <div className="bg-surface/50 backdrop-blur-md border border-white/10 rounded-3xl p-5 md:p-6 shadow-xl min-h-[450px]">
-          
+
           {/* 1. Edit Profile Form */}
           {activeTab === 'profile' && (
             <div>
@@ -215,12 +295,8 @@ function SettingsHubContent() {
                   <Form.Item
                     name="email"
                     label={<span className="text-white/70 font-semibold text-xs">Email Address</span>}
-                    rules={[
-                      { required: true, message: 'Please enter your email' },
-                      { type: 'email', message: 'Enter a valid email' }
-                    ]}
                   >
-                    <Input size="large" placeholder="user@example.com" prefix={<MailOutlined className="text-white/20 mr-1" />} />
+                    <Input size="large" readOnly disabled className="opacity-60 cursor-not-allowed" prefix={<MailOutlined className="text-white/20 mr-1" />} />
                   </Form.Item>
                 </div>
 
@@ -230,15 +306,15 @@ function SettingsHubContent() {
                     label={<span className="text-white/70 font-semibold text-xs">Phone Number</span>}
                     rules={[{ required: true, message: 'Please enter your phone number' }]}
                   >
-                    <Input 
-                      size="large" 
-                      placeholder="9876543210" 
+                    <Input
+                      size="large"
+                      placeholder="9876543210"
                       prefix={
                         <div className="flex items-center gap-2 text-white/50 text-xs font-semibold select-none mr-1.5">
                           <PhoneOutlined className="text-white/25" />
                           <span className="border-r border-white/10 pr-2">+243</span>
                         </div>
-                      } 
+                      }
                     />
                   </Form.Item>
                   <Form.Item
@@ -361,7 +437,7 @@ function SettingsHubContent() {
                   >
                     <Input size="large" placeholder="What can we help you with?" />
                   </Form.Item>
- 
+
                   <Form.Item
                     name="message"
                     label={<span className="text-white/70 font-semibold text-xs">Message</span>}
@@ -374,7 +450,7 @@ function SettingsHubContent() {
                     <span className="text-white/70 font-semibold text-xs block mb-2">
                       Attach Photo (Optional)
                     </span>
-                    
+
                     <button
                       type="button"
                       onClick={() => supportInputRef.current?.click()}
@@ -415,9 +491,9 @@ function SettingsHubContent() {
                       onChange={(e) => handleSupportFile(e.target.files?.[0] ?? null)}
                     />
                   </div>
- 
+
                   <Form.Item className="mb-0">
-                    <Button type="primary" htmlType="submit" size="large" block className="h-12 font-bold">
+                    <Button type="primary" htmlType="submit" size="large" block loading={supportSubmitting} className="h-12 font-bold">
                       Send Message
                     </Button>
                   </Form.Item>

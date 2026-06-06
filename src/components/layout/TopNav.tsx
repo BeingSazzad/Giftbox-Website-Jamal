@@ -13,32 +13,21 @@ import {
   AUTH_LINKS as authLinks,
   DROPDOWN_LINKS as dropdownLinks,
 } from "@/utils/constants";
-import getProfile from "@/lib/getProfile";
+import { useProfile } from "@/hooks/useProfile";
+import { clearToken } from "@/lib/auth";
+import { NotificationBell } from "./NotificationBell";
 
 export function TopNav() {
   const pathname = usePathname();
   const router = useRouter();
-  const { token, logout } = useAuth();
-  const [user, setUser] = useState<any>(null);
-  const isAuthenticated = !!token;
+ const user = useProfile();
+  const isAuthenticated = !!user?._id;
   const userName = user?.name || "User";
-  const avatar = getImageUrl(user?.profileImage || user?.image || user?.avatar);
+  const avatar = getImageUrl(user?.profileImage) || "/default.png";
   const mainLinks = isAuthenticated ? authLinks : publicLinks;
 
   const [lang, setLang] = useState<string>("en");
-  useEffect(() => {
-    const fetchProfile = async () => {
-      try {
-        const profile = await getProfile();
-        setUser(profile);
-      } catch (error) {
-        console.error("Failed to fetch profile:", error);
-      }
-    };
 
-    fetchProfile();
-  }, []);
-  console.log("User info in TopNav:", user);
 
   useEffect(() => {
     const storedLanguage = Cookies.get("currentLanguage");
@@ -152,7 +141,7 @@ export function TopNav() {
       label: (
         <div
           onClick={() => {
-            logout();
+            clearToken();
             router.push("/login");
           }}
           className="font-bold text-danger"
@@ -242,32 +231,7 @@ export function TopNav() {
           {user?._id ? (
             <>
               {/* Notifications Dropdown */}
-              <Dropdown
-                trigger={["click"]}
-                placement="bottomRight"
-                popupRender={() => (
-                  <div className="bg-[#110a20] border border-white/10 rounded-2xl shadow-2xl shadow-black/50 w-72 overflow-hidden">
-                    <div className="px-4 py-3 border-b border-white/10 bg-white/2">
-                      <span className="text-white font-bold text-sm">
-                        Notifications
-                      </span>
-                    </div>
-                    <div className="p-8 text-center text-white/40 flex flex-col items-center justify-center gap-3">
-                      <BellOutlined className="text-3xl opacity-20" />
-                      <p className="text-xs m-0">
-                        You have no new notifications.
-                      </p>
-                    </div>
-                  </div>
-                )}
-              >
-                <button
-                  type="button"
-                  className="w-10 h-10 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-white flex items-center justify-center cursor-pointer relative transition-all duration-200 outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0514]"
-                >
-                  <BellOutlined style={{ fontSize: 16 }} />
-                </button>
-              </Dropdown>
+              <NotificationBell />
 
               {/* User Dropdown */}
               <Dropdown
@@ -289,7 +253,7 @@ export function TopNav() {
             </>
           ) : (
             <div className="flex items-center gap-4">
-              <Button type="primary" onClick={() => router.push("/login")}>
+              <Button type="primary" onClick={() => router.push("/login")} style={{paddingInline:"10px"}}>
                 Get Started
               </Button>
             </div>

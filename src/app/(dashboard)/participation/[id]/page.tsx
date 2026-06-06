@@ -13,8 +13,9 @@ import type { ReactNode } from 'react'
 import { WebShell } from '@/components/layout/WebShell'
 import { BackHeader } from '@/components/layout/BackHeader'
 import { StatusBadge } from '@/components/common/StatusBadge'
-import { getParticipation } from '@/data/participations'
-import type { Participation } from '@/data/participations'
+import { getParticipationByIdAction } from '@/actions/lottery'
+import { getImageUrl } from '@/utils/helpers'
+import { useState, useEffect } from 'react'
 
 function formatLongDate(iso: string) {
   return new Date(iso).toLocaleDateString('en-US', {
@@ -43,7 +44,32 @@ function formatWeekdayDate(iso: string) {
 export default function ParticipationDetailsPage() {
   const router = useRouter()
   const { id } = useParams<{ id: string }>()
-  const participation = id ? getParticipation(id) : undefined
+
+  const [participation, setParticipation] = useState<any>(null)
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    if (id) {
+      getParticipationByIdAction(id)
+        .then((res: any) => {
+          if (res?.data) {
+            setParticipation(res.data)
+          }
+        })
+        .catch(console.error)
+        .finally(() => setLoading(false))
+    }
+  }, [id])
+
+  if (loading) {
+    return (
+      <WebShell maxWidth={1200}>
+        <div className="flex items-center justify-center min-h-[500px]">
+          <div className="w-8 h-8 rounded-full border-2 border-primary border-t-transparent animate-spin" />
+        </div>
+      </WebShell>
+    )
+  }
 
   if (!participation) {
     return (
@@ -61,34 +87,34 @@ export default function ParticipationDetailsPage() {
   return (
     <WebShell maxWidth={1200}>
       {/* Header */}
-      <BackHeader 
-        title="Participation Details" 
+      <BackHeader
+        title="Participation Details"
         subtitle="View status and details of your draw ticket"
       />
 
       {/* Main Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-[1.3fr_1fr] gap-6 md:gap-8 items-start">
-        
+
         {/* Left Column: Image, Description, & Timeline */}
         <div className="flex flex-col gap-6">
           {/* Main Info Card */}
           <div className="bg-surface/50 backdrop-blur-md border border-white/10 rounded-3xl p-5 md:p-6 shadow-xl">
             <div className="rounded-2xl overflow-hidden bg-night aspect-video mb-6 relative">
               <img
-                src={participation.prizeImage}
-                alt={participation.prizeTitle}
+                src={getImageUrl(participation.lottery?.banner)}
+                alt={participation.lottery?.title}
                 className="w-full h-full object-cover"
               />
               <div className="absolute top-4 right-4 z-10">
-                <StatusBadge status={participation.status} />
+                <StatusBadge status={participation.status?.toLowerCase()} />
               </div>
             </div>
 
             <h2 className="m-0 text-white text-2xl font-black mb-3">
-              {participation.prizeTitle}
+              {participation.lottery?.title}
             </h2>
             <p className="m-0 text-white/70 text-sm leading-relaxed mb-4">
-              {participation.prizeDescription}
+              {participation.lottery?.description}
             </p>
           </div>
 
@@ -97,28 +123,28 @@ export default function ParticipationDetailsPage() {
 
         {/* Right Column: Ticket Info & Action Status */}
         <div className="flex flex-col gap-6 lg:sticky lg:top-24">
-          
+
           {/* Ticket Information Card */}
           <div className="bg-surface/50 backdrop-blur-md border border-white/10 rounded-3xl p-5 md:p-6 shadow-xl">
             <div className="flex items-center gap-2.5 mb-4">
               <span className="text-primary text-lg">🎟️</span>
               <h3 className="m-0 text-white text-base font-bold">Ticket Information</h3>
             </div>
-            
+
             <div className="space-y-3.5">
               <div className="bg-deep/50 border border-white/5 rounded-xl px-4 py-3">
                 <div className="text-white/50 text-[10px] font-bold uppercase tracking-wider mb-1">Ticket Number</div>
-                <div className="text-white text-lg font-mono font-bold tracking-wider">{participation.ticketNumber}</div>
+                <div className="text-white text-lg font-mono font-bold tracking-wider">{participation.lottery?.ticketNumber || 'N/A'}</div>
               </div>
 
               <div className="bg-deep/50 border border-white/5 rounded-xl px-4 py-3 flex items-center justify-between">
                 <div className="text-white/70 text-sm">Ticket Price</div>
-                <div className="text-primary text-base font-bold">{participation.ticketPrice.toLocaleString()} {participation.currency}</div>
+                <div className="text-primary text-base font-bold">{participation.amount || participation.lottery?.ticketPrice} {participation.lottery?.currency || 'CDF'}</div>
               </div>
 
               <div className="bg-deep/50 border border-white/5 rounded-xl px-4 py-3 flex items-center justify-between">
                 <div className="text-white/70 text-sm">Submitted On</div>
-                <div className="text-white text-sm font-bold">{participation.submittedOn}</div>
+                <div className="text-white text-sm font-bold">{formatLongDate(participation.createdAt)}</div>
               </div>
             </div>
           </div>
@@ -147,13 +173,13 @@ function Card({ children, borderColor = 'border-white/6' }: CardProps) {
 }
 
 interface StatusBlockProps {
-  participation: Participation
+  participation: any
 }
 
 function StatusBlock({ participation }: StatusBlockProps) {
   const router = useRouter()
 
-  if (participation.status === 'pending') {
+  if (participation.status === 'PENDING') {
     return (
       <Card borderColor="border-primary/35">
         <div className="flex items-center gap-2.5 mb-2">
@@ -175,7 +201,7 @@ function StatusBlock({ participation }: StatusBlockProps) {
     )
   }
 
-  if (participation.status === 'rejected') {
+  if (participation.status === 'REJECTED') {
     return (
       <div className="flex flex-col gap-4">
         <Card borderColor="border-danger/35">
@@ -201,9 +227,9 @@ function StatusBlock({ participation }: StatusBlockProps) {
     )
   }
 
-  if (participation.status === 'completed') {
-    const userWon = participation.winners?.some(w => w.ticketNumber === participation.userWonTicketNumber)
-    
+  if (participation.status === 'APPROVED ') {
+    const userWon = participation.winners?.some((w: any) => w.ticketNumber === participation.userWonTicketNumber)
+
     return (
       <div className="flex flex-col gap-5">
         <Card borderColor="border-primary/35">
@@ -216,23 +242,23 @@ function StatusBlock({ participation }: StatusBlockProps) {
           </p>
 
           <div className="space-y-3">
-            {participation.winners?.map((w) => {
+            {participation.winners?.map((w: any) => {
               const isCurrentUserWinner = w.ticketNumber === participation.userWonTicketNumber
               return (
-                <div 
-                  key={w.id} 
+                <div
+                  key={w.id}
                   className={[
                     'p-3.5 rounded-xl border flex items-center justify-between gap-3 transition-all',
-                    isCurrentUserWinner 
-                      ? 'border-primary/40 bg-primary/8 shadow-[0_0_15px_rgba(254,147,1,0.05)]' 
+                    isCurrentUserWinner
+                      ? 'border-primary/40 bg-primary/8 shadow-[0_0_15px_rgba(254,147,1,0.05)]'
                       : 'border-white/5 bg-deep/40'
                   ].join(' ')}
                 >
                   <div className="flex items-center gap-3">
-                    <img 
-                      src={w.photo} 
-                      alt={w.name} 
-                      className="w-10 h-10 rounded-full object-cover border border-white/10" 
+                    <img
+                      src={w.photo}
+                      alt={w.name}
+                      className="w-10 h-10 rounded-full object-cover border border-white/10"
                     />
                     <div>
                       <div className="text-white text-xs font-bold">{w.name}</div>

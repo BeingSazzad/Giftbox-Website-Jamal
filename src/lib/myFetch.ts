@@ -7,6 +7,7 @@ export interface FetchResponse<T = any> {
   success: boolean;
   message?: string;
   data?: T;
+  meta?: any;
   error?: string | null;
 }
 
@@ -67,6 +68,7 @@ export const myFetch = async <T = any>(
       success: true,
       message: json?.message,
       data: json?.data,
+      meta: json?.meta,
       error: null,
     };
   } catch (err) {

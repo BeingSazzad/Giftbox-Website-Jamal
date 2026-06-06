@@ -39,10 +39,10 @@ export default function ChangePasswordPage() {
             label={<span className={labelClass}>Current Password</span>}
             rules={[{ required: true, message: 'Please enter your current password' }]}
           >
-            <Input.Password 
-              size="large" 
+            <Input.Password
+              size="large"
               prefix={<LockOutlined className="text-white/30 mr-1" />}
-              placeholder="Enter your current password" 
+              placeholder="Enter your current password"
             />
           </Form.Item>
 
@@ -54,10 +54,10 @@ export default function ChangePasswordPage() {
               { min: 8, message: 'At least 8 characters' },
             ]}
           >
-            <Input.Password 
-              size="large" 
+            <Input.Password
+              size="large"
               prefix={<LockOutlined className="text-white/30 mr-1" />}
-              placeholder="Enter new password (min. 8 chars)" 
+              placeholder="Enter new password (min. 8 chars)"
             />
           </Form.Item>
 
@@ -77,10 +77,10 @@ export default function ChangePasswordPage() {
               }),
             ]}
           >
-            <Input.Password 
-              size="large" 
+            <Input.Password
+              size="large"
               prefix={<LockOutlined className="text-white/30 mr-1" />}
-              placeholder="Confirm your new password" 
+              placeholder="Confirm your new password"
             />
           </Form.Item>
 
