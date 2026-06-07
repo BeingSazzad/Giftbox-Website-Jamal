@@ -49,6 +49,8 @@ export default function ParticipationDetailsPage() {
   const [participation, setParticipation] = useState<any>(null)
   const [loading, setLoading] = useState(true)
 
+
+
   useEffect(() => {
     if (id) {
       getParticipationByIdAction(id)
@@ -252,7 +254,7 @@ function StatusBlock({ participation }: StatusBlockProps) {
           >
             View Draw Result
           </button>
-          
+
           <div className="mt-8 mb-2">
             <span className="text-danger text-lg font-black uppercase tracking-wider">DRAWN</span>
           </div>

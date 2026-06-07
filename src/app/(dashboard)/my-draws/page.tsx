@@ -1,14 +1,12 @@
 'use client';
-import { ExclamationCircleOutlined, SearchOutlined, InboxOutlined, CompassOutlined } from '@ant-design/icons'
+import { ExclamationCircleOutlined, InboxOutlined, CompassOutlined } from '@ant-design/icons'
 import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import { WebShell } from '@/components/layout/WebShell'
 import { StatusBadge } from '@/components/common/StatusBadge'
 import { getMyParticipationsAction } from '@/actions/lottery'
 import { getImageUrl } from '@/utils/helpers'
-
-type FilterStatus = 'all' | 'pending' | 'approved' | 'completed' | 'rejected'
-
+type FilterStatus = 'all' | 'pending' | 'approved' | 'drawn' | 'completed' | 'rejected'
 function formatShortDate(iso: string) {
   const d = new Date(iso)
   const dd = String(d.getDate()).padStart(2, '0')
@@ -22,7 +20,6 @@ export default function MyDrawsPage() {
   const [activeTab, setActiveTab] = useState<FilterStatus>('all')
   const [participations, setParticipations] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
-  console.log('participations', participations)
 
   useEffect(() => {
     getMyParticipationsAction().then((res: any) => {
@@ -34,14 +31,14 @@ export default function MyDrawsPage() {
 
   const filteredParticipations = participations.filter((p) => {
     if (activeTab === 'all') return true
+    if (activeTab === 'drawn') return p.status?.toLowerCase() === 'drawn' || p.status?.toLowerCase() === 'completed'
     return p.status?.toLowerCase() === activeTab
   })
-
   const tabs: { value: FilterStatus; label: string }[] = [
     { value: 'all', label: 'All Entries' },
     { value: 'pending', label: 'Pending Review' },
     { value: 'approved', label: 'Confirmed' },
-    { value: 'completed', label: 'Completed' },
+    { value: 'drawn', label: 'Drawn / Completed' },
     { value: 'rejected', label: 'Rejected' },
   ]
 
@@ -60,10 +57,15 @@ export default function MyDrawsPage() {
       {/* Filter Tabs */}
       <div className="flex border-b border-white/10 mb-6 overflow-x-auto scrollbar-none gap-2 md:gap-4" style={{ WebkitOverflowScrolling: 'touch' }}>
         {tabs.map((tab) => {
-          const isActive = activeTab === tab.value
-          const count = tab.value === 'all'
-            ? participations.length
-            : participations.filter((p) => p.status?.toLowerCase() === tab.value).length
+          const isActive = activeTab === tab.value;
+          let count = 0;
+          if (tab.value === 'all') {
+            count = participations.length;
+          } else if (tab.value === 'drawn') {
+            count = participations.filter((p) => p.status?.toLowerCase() === 'drawn' || p.status?.toLowerCase() === 'completed').length;
+          } else {
+            count = participations.filter((p) => p.status?.toLowerCase() === tab.value).length;
+          }
 
           return (
             <button
@@ -98,7 +100,7 @@ export default function MyDrawsPage() {
         <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6">
           {filteredParticipations.map((p) => {
             const isRejected = p.status?.toLowerCase() === 'rejected'
-            const isCompleted = p.status?.toLowerCase() === 'completed'
+            const isCompleted = p.status?.toLowerCase() === 'completed' || p.status?.toLowerCase() === 'drawn'
             const userWon = false // Assuming no winners array in the API response yet
 
             return (

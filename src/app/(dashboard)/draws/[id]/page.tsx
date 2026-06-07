@@ -53,7 +53,7 @@ export default function DrawDetailsPage() {
   useEffect(() => {
     if (id) {
       Promise.all([
-        getActiveLotteryByIdAction(id),
+        getActiveLotteryByIdAction(id), 
         getSettingsAction()
       ])
         .then(([lotteryRes, settingsRes]: any) => {

@@ -1,6 +1,6 @@
 import type { ParticipationStatus } from '../../data/participations'
 
-const STYLES: Record<ParticipationStatus, { label: string; cls: string }> = {
+const STYLES: Record<string, { label: string; cls: string }> = {
   pending: {
     label: 'Pending',
     cls: 'text-primary bg-[#1f150e]/95 border-primary/50 shadow-lg shadow-black/40',
@@ -17,16 +17,23 @@ const STYLES: Record<ParticipationStatus, { label: string; cls: string }> = {
     label: 'Completed',
     cls: 'text-[#06b6d4] bg-[#0c1820]/95 border-[#06b6d4]/50 shadow-lg shadow-black/40',
   },
+  drawn: {
+    label: 'Drawn',
+    cls: 'text-[#06b6d4] bg-[#0c1820]/95 border-[#06b6d4]/50 shadow-lg shadow-black/40',
+  },
 }
 
 interface StatusBadgeProps {
-  status: ParticipationStatus
+  status: ParticipationStatus | string
   size?: 'sm' | 'md'
 }
 
 export function StatusBadge({ status, size = 'sm' }: StatusBadgeProps) {
-  const s = STYLES[status]
+  const s = STYLES[status] || STYLES.pending
   const sizeCls = size === 'md' ? 'px-3.5 py-1.5 text-[13px]' : 'px-3 py-1 text-xs'
+  
+  const label = STYLES[status] ? s.label : (status ? status.charAt(0).toUpperCase() + status.slice(1) : 'Pending')
+
   return (
     <span
       className={[
@@ -35,7 +42,7 @@ export function StatusBadge({ status, size = 'sm' }: StatusBadgeProps) {
         s.cls,
       ].join(' ')}
     >
-      {s.label}
+      {label}
     </span>
   )
 }
