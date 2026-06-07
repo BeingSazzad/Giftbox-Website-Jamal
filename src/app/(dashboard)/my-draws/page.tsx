@@ -22,6 +22,7 @@ export default function MyDrawsPage() {
   const [activeTab, setActiveTab] = useState<FilterStatus>('all')
   const [participations, setParticipations] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
+  console.log('participations', participations)
 
   useEffect(() => {
     getMyParticipationsAction().then((res: any) => {
@@ -149,8 +150,8 @@ export default function MyDrawsPage() {
                   </div>
 
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 sm:gap-0 text-[10px] sm:text-xs text-white/50 mb-3 sm:mb-4">
-                    <span>Ticket: <strong className="text-white/80 font-mono">{p.ticketNumber || 'N/A'}</strong></span>
-                    <span>Price: <strong className="text-primary">{p.amount || p.lottery?.ticketPrice} {p.lottery?.currency || 'CDF'}</strong></span>
+                    <span>Ticket: <strong className="text-white/80 font-mono">{p?.lottery?.ticketNumber || 'N/A'}</strong></span>
+                    <span>Price: <strong className="text-primary">{p.amount || p?.lottery?.ticketPrice} {p.lottery?.currency || 'CDF'}</strong></span>
                   </div>
                 </div>
 

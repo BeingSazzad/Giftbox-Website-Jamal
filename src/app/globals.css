@@ -388,5 +388,8 @@ font {
   pointer-events: none !important;
 }
 
+::-webkit-scrollbar {
+  display: none;
+}
 
 /* finish there  */

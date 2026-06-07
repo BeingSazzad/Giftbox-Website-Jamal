@@ -23,11 +23,11 @@ export default function FaqPage() {
 
   return (
     <WebShell>
-      <PageHeader title="Frequently Asked Questions" subtitle="Everything you need to know about Gift Box" />
+      <PageHeader title="Frequently Asked Questions dfsfgsd" subtitle="Everything you need to know about Gift Box" />
 
       <div className="max-w-3xl mx-auto mt-8">
         {loading ? (
-          <div className="flex items-center justify-center min-h-[300px]">
+          <div className="flex items-center justify-center min-h-75">
             <div className="w-8 h-8 rounded-full border-2 border-primary border-t-transparent animate-spin" />
           </div>
         ) : (

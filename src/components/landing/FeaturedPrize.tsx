@@ -80,7 +80,7 @@ export function FeaturedPrize() {
                         <div className="w-7 h-7 rounded-full bg-primary/20 border-2 border-[#1a0f3d] flex items-center justify-center text-xs shadow-sm">🎁</div>
                       </div>
                       <span className="text-white/80 text-sm font-bold pr-2 tracking-wide">
-                        +{draw.manualParticipants > 0 ? draw.manualParticipants : 10} Participated
+                        {draw.manualParticipants} Participated
                       </span>
                     </div>
 

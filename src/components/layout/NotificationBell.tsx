@@ -3,7 +3,7 @@
 import { BellOutlined } from "@ant-design/icons";
 import { Dropdown } from "antd";
 import { useEffect, useState } from "react";
-import { getNotificationsAction } from "@/actions/notification";
+import { getNotificationsAction, markNotificationAsReadAction } from "@/actions/notification";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 
@@ -20,7 +20,7 @@ export function NotificationBell({ className }: { className?: string }) {
 
   const fetchNotifications = async () => {
     try {
-      const res = await getNotificationsAction(1, 10);
+      const res = await getNotificationsAction(1, 10); 
       if (res?.success) {
         setNotifications(res.data || []);
         setUnreadCount(res?.meta?.unreadCount || 0);
@@ -30,7 +30,24 @@ export function NotificationBell({ className }: { className?: string }) {
     } finally {
       setLoading(false);
     }
-  };
+  }; 
+
+  if (!notifications || notifications.length === 0) {
+    return null;
+  } 
+  const MarkAsRead = (id: string) => { 
+    try{ 
+      markNotificationAsReadAction(id).then((res) => { 
+     
+        if(res?.success){ 
+          setUnreadCount(unreadCount - 1);
+          fetchNotifications(); 
+        }
+      }).catch(console.error)
+    }catch(err){
+      console.error("Failed to mark notification as read", err);
+    }
+    }
 
   return (
     <Dropdown
@@ -42,7 +59,7 @@ export function NotificationBell({ className }: { className?: string }) {
         }
       }}
       popupRender={() => (
-        <div className="bg-[#110a20] border border-white/10 rounded-2xl shadow-2xl shadow-black/50 w-80 max-h-[400px] flex flex-col overflow-hidden">
+        <div className="bg-[#110a20] border border-white/10 rounded-2xl shadow-2xl shadow-black/50 w-80 max-h-100 flex flex-col overflow-hidden">
           <div className="px-4 py-3 border-b border-white/10 bg-white/2 shrink-0 flex items-center justify-between">
             <span className="text-white font-bold text-sm">Notifications</span>
             {unreadCount > 0 && (
@@ -62,7 +79,8 @@ export function NotificationBell({ className }: { className?: string }) {
                 {notifications.map((notif) => (
                   <div 
                     key={notif._id} 
-                    className={`p-4 border-b border-white/5 last:border-b-0 hover:bg-white/5 transition-colors cursor-pointer ${notif.read ? 'opacity-60' : 'bg-primary/5'}`}
+                    className={`p-4 border-b border-white/5 last:border-b-0 hover:bg-white/5 transition-colors cursor-pointer ${notif.read ? 'opacity-60' : 'bg-primary/5'}`} 
+                    onClick={() => { MarkAsRead(notif._id); }}
                   >
                     <div className="flex items-start gap-3">
                       <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 ${notif.read ? 'bg-white/10 text-white/50' : 'bg-primary/20 text-primary'}`}>
@@ -95,7 +113,7 @@ export function NotificationBell({ className }: { className?: string }) {
       <button
         type="button"
         aria-label="Notifications"
-        className={className || "w-10 h-10 min-w-[40px] rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-white flex items-center justify-center cursor-pointer relative transition-all duration-200 outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0514]"}
+        className={className || "w-10 h-10 min-w-10 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-white flex items-center justify-center cursor-pointer relative transition-all duration-200 outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0514]"}
       >
         <BellOutlined style={{ fontSize: 16 }} />
         {unreadCount > 0 && (

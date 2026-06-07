@@ -6,7 +6,7 @@ const getProfile = async (): Promise<any | null> => {
   const token = (await cookies()).get("accessToken")?.value; 
 
   if (!token) return null;
-  const res = await fetch(`${process.env.BASE_URL}api/v1/users/profile`, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}api/v1/users/profile`, {
     next: {
       tags: ["user-profile"],
     },

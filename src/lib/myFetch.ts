@@ -46,7 +46,7 @@ export const myFetch = async <T = any>(
   };
 
   try {
-    const res = await fetch(`${process.env.BASE_URL}api/v1${url}`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}api/v1${url}`, {
       method,
       headers: reqHeaders,
       ...(hasBody && { body: isFormData ? body : JSON.stringify(body) }),

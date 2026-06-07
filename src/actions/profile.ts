@@ -9,11 +9,14 @@ export async function getProfileAction() {
 }
 
 export async function updateProfileAction(formData: FormData) {
+  for (const [key, value] of formData.entries()) {
+    console.log(key, value)
+  }
   return await myFetch("/users", {
     method: "PATCH",
     body: formData,
   });
-} 
+}
 
 export async function changePasswordAction(payload: {
   currentPassword: string;

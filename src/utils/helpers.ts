@@ -17,8 +17,8 @@ export function truncate(str: string, max: number): string {
 
 export function getImageUrl(image?: string): string {
   const IMG_URL = typeof window !== 'undefined' 
-    ? process.env.BASE_URL 
-      ? `${process.env.BASE_URL}`
+    ? process.env.NEXT_PUBLIC_BASE_URL 
+      ? `${process.env.NEXT_PUBLIC_BASE_URL}`
       : 'http://localhost:8000/'
     : 'http://localhost:8000/'
   const NO_USER_IMAGE = '/default.png'

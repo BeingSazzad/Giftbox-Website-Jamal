@@ -89,11 +89,11 @@ export default function EditProfilePage() {
       formData.append('data', JSON.stringify(dataObj))
 
       if (fileRef.current) {
-        formData.append('profileimage', fileRef.current)
+        formData.append('profileImage', fileRef.current)
       }
 
       await updateProfileAction(formData)
-      
+
       message.success('Profile updated')
       window.location.reload()
     } catch (err: any) {
@@ -107,37 +107,7 @@ export default function EditProfilePage() {
     <WebShell maxWidth={640}>
       <BackHeader title="Edit Profile" />
 
-      <div className="text-center mb-7">
-        <div className="inline-block relative">
-          <div className="w-28 h-28 rounded-full p-1 gradient-brand">
-            <img
-              src={avatar}
-              alt="Avatar"
-              className="w-full h-full rounded-full object-cover"
-            />
-          </div>
-        </div>
 
-        <div className="mt-2.5">
-          <button
-            type="button"
-            onClick={handleAvatarPick}
-            className="bg-transparent border-0 text-primary font-bold text-sm cursor-pointer p-0"
-          >
-            Change Photo
-          </button>
-        </div>
-
-        <input
-          ref={inputRef}
-          type="file"
-          accept="image/*"
-          className="hidden"
-          onChange={(e) =>
-            handleAvatarChange(e.target.files?.[0] ?? null)
-          }
-        />
-      </div>
 
       <Form<EditProfileValues>
         form={form}
