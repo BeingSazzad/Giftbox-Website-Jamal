@@ -152,7 +152,7 @@ export default function DrawDetailsPage() {
   if (loading) {
     return (
       <WebShell maxWidth={1200}>
-        <div className="flex items-center justify-center min-h-[500px]">
+        <div className="flex items-center justify-center min-h-125">
           <div className="w-8 h-8 rounded-full border-2 border-primary border-t-transparent animate-spin" />
         </div>
       </WebShell>
@@ -162,7 +162,7 @@ export default function DrawDetailsPage() {
   if (!lottery) {
     return (
       <WebShell maxWidth={1200}>
-        <div className="flex flex-col items-center justify-center min-h-[500px] text-white/50">
+        <div className="flex flex-col items-center justify-center min-h-125 text-white/50">
           <ExclamationCircleFilled className="text-4xl text-white/20 mb-4" />
           <p>Lottery not found or has ended.</p>
         </div>
@@ -211,13 +211,13 @@ export default function DrawDetailsPage() {
             </p>
             <ul className="instr-list">
               <li>
-                Be 18 years or older, provide accurate information during registration, and reside in one of the following cities: Kinshasa, Matadi, Boma, Moanda, Kimpese, Kisantu, and Mbanza-Ngungu.
+                To participate in the lottery, please transfer the amount indicated for the prize you wish to win to one of the numbers displayed in the application. NB: To avoid any errors, please copy the number before proceeding with the transfer.
               </li>
               <li>
-                Make the payment for the ticket via Orange Money or M-Pesa, using one of the numbers displayed in the app.
+                Once the transaction has been completed, take a screenshot or a clear photo of the confirmation message. Then, go to the next page, upload it in the designated area, and press “SUBMIT PROOF.”
               </li>
               <li>
-                Take a clear screenshot or photo of the proof of payment, then upload it in the designated area and press CONFIRM.
+                You must be at least 18 years of age or older, provide accurate information during registration, and reside in the Democratic Republic of the Congo (DRC).
               </li>
             </ul>
           </InfoCard>
@@ -367,7 +367,7 @@ export default function DrawDetailsPage() {
               type="button"
               disabled={submitting}
               onClick={handleSubmit}
-              className="w-full h-12 bg-gradient-to-br from-[#FFB900] to-[#FF6900] hover:from-[#FFC933] hover:to-[#FF7E1A] disabled:opacity-60 disabled:cursor-not-allowed text-[#1a0f0a] rounded-xl font-bold text-sm cursor-pointer flex items-center justify-center gap-2.5 transition-all shadow-[0_4px_20px_rgba(255,105,0,0.3)] hover:shadow-[0_6px_28px_rgba(255,105,0,0.45)] hover:-translate-y-px hover:scale-[1.02] active:scale-[0.99] border-0 spell-btn-glow"
+              className="w-full h-12 bg-linear-to-br from-[#FFB900] to-[#FF6900] hover:from-[#FFC933] hover:to-[#FF7E1A] disabled:opacity-60 disabled:cursor-not-allowed text-[#1a0f0a] rounded-xl font-bold text-sm cursor-pointer flex items-center justify-center gap-2.5 transition-all shadow-[0_4px_20px_rgba(255,105,0,0.3)] hover:shadow-[0_6px_28px_rgba(255,105,0,0.45)] hover:-translate-y-px hover:scale-[1.02] active:scale-[0.99] border-0 spell-btn-glow"
             >
               {submitting ? (
                 <span className="flex items-center gap-2">

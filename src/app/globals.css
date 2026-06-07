@@ -369,10 +369,10 @@ input:-webkit-autofill:active,
   display: none !important;
 }
 
-/* ::selection {
+::selection {
   background: transparent !important;
   color: white !important;
-} */
+}
 
 /* Fix Google Translate injecting top spacing */
 body {
@@ -380,10 +380,12 @@ body {
 }
 
 /* Fix Google Translate hover highlight color */
-.goog-text-highlight {
+.goog-text-highlight,
+font {
   background-color: transparent !important;
   box-shadow: none !important;
   border: none !important;
+  pointer-events: none !important;
 }
 
 

@@ -65,7 +65,7 @@ export default function ParticipationDetailsPage() {
   if (loading) {
     return (
       <WebShell maxWidth={1200}>
-        <div className="flex items-center justify-center min-h-[500px]">
+        <div className="flex items-center justify-center min-h-125">
           <div className="w-8 h-8 rounded-full border-2 border-primary border-t-transparent animate-spin" />
         </div>
       </WebShell>
