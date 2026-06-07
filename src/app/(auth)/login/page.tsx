@@ -1,30 +1,30 @@
-'use client'
-import { Button, Checkbox, Form, Input, message } from 'antd'
-import { LockOutlined, MailOutlined } from '@ant-design/icons'
-import Link from 'next/link'
-import { useRouter, useSearchParams } from 'next/navigation'
-import { Suspense, useState } from 'react'
-import { AuthCard } from '@/components/auth/AuthCard'
-import { useAuth } from '@/hooks/useAuth'
-import { loginAction } from '@/actions/auth'
+"use client";
+import { Button, Checkbox, Form, Input, message } from "antd";
+import { LockOutlined, MailOutlined } from "@ant-design/icons";
+import Link from "next/link";
+import { useRouter, useSearchParams } from "next/navigation";
+import { Suspense, useState } from "react";
+import { AuthCard } from "@/components/auth/AuthCard";
+import { useAuth } from "@/hooks/useAuth";
+import { loginAction } from "@/actions/auth";
 
 interface LoginFormValues {
-  email: string
-  password: string
-  remember: boolean
+  email: string;
+  password: string;
+  remember: boolean;
 }
 
 function LoginForm() {
-  const router = useRouter()
-  const searchParams = useSearchParams()
-  const redirect = searchParams?.get('redirect') || '/'
-  const { login } = useAuth()
-  const [form] = Form.useForm<LoginFormValues>()
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const redirect = searchParams?.get("redirect") || "/";
+  const { login } = useAuth();
+  const [form] = Form.useForm<LoginFormValues>();
 
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
 
   const onFinish = async (values: LoginFormValues) => {
-    setLoading(true)
+    setLoading(true);
     try {
       const res = await loginAction({
         identifier: values.email,
@@ -32,22 +32,22 @@ function LoginForm() {
       });
 
       if (res.success) {
-        message.success(res.message || 'Signed in successfully!')
-        router.push(redirect)
+        message.success(res.message || "Signed in successfully!");
+        router.push(redirect);
       } else {
-        message.error(res.message || res.error || 'Failed to sign in')
+        message.error(res.message || res.error || "Failed to sign in");
       }
     } catch (error: any) {
-      message.error(error.message || 'An error occurred')
+      message.error(error.message || "An error occurred");
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   const handleSubmitAny = () => {
-    const values = form.getFieldsValue()
-    onFinish(values as LoginFormValues)
-  }
+    const values = form.getFieldsValue();
+    onFinish(values as LoginFormValues);
+  };
 
   return (
     <AuthCard
@@ -55,10 +55,20 @@ function LoginForm() {
       subtitle="Sign in to continue to Gift Box"
       footer={
         <>
-          Don&apos;t have an account?{' '}
-          <Link href={redirect ? `/register?redirect=${encodeURIComponent(redirect)}` : '/register'} className="text-primary font-semibold">
-            Create one
-          </Link>
+          Don&apos;t have an account?{" "}
+          <button
+            type="button" 
+            className="cursor-pointer text-primary font-medium hover:underline"
+            onClick={() => {
+              router.push(
+                redirect
+                  ? `/register?redirect=${encodeURIComponent(redirect)}`
+                  : "/register",
+              );
+            }}
+          >
+            Create one{" "}
+          </button>
         </>
       }
     >
@@ -73,7 +83,7 @@ function LoginForm() {
         <Form.Item
           name="email"
           label={<span className="text-body">Email</span>}
-          style={{ marginBottom: '12px' }}
+          style={{ marginBottom: "12px" }}
         >
           <Input
             size="large"
@@ -86,7 +96,7 @@ function LoginForm() {
         <Form.Item
           name="password"
           label={<span className="text-body">Password</span>}
-          style={{ marginBottom: '16px' }}
+          style={{ marginBottom: "16px" }}
         >
           <Input.Password
             size="large"
@@ -100,25 +110,36 @@ function LoginForm() {
           <Form.Item name="remember" valuePropName="checked" noStyle>
             <Checkbox className="text-body">Remember me</Checkbox>
           </Form.Item>
-          <Link href="/forgot-password" className="text-primary text-sm font-medium">
+          <Link
+            href="/forgot-password"
+            className="text-primary text-sm font-medium"
+          >
             Forgot password?
           </Link>
         </div>
 
         <Form.Item className="mb-0" style={{ marginBottom: 0 }}>
-          <Button type="primary" size="large" block onClick={handleSubmitAny} loading={loading}>
+          <Button
+            type="primary"
+            size="large"
+            block
+            onClick={handleSubmitAny}
+            loading={loading}
+          >
             Sign In
           </Button>
         </Form.Item>
       </Form>
     </AuthCard>
-  )
+  );
 }
 
 export default function LoginPage() {
   return (
-    <Suspense fallback={<div className="text-white text-center py-8">Loading...</div>}>
+    <Suspense
+      fallback={<div className="text-white text-center py-8">Loading...</div>}
+    >
       <LoginForm />
     </Suspense>
-  )
+  );
 }

@@ -146,7 +146,7 @@ export default function OtpVerifyPage() {
           <button
             type="button"
             onClick={handleResend}
-            className="bg-transparent border-0 text-primary font-semibold cursor-pointer p-0 text-sm"
+            className="bg-transparent border-0  font-semibold p-0 text-sm cursor-pointer text-primary  hover:underline"
           >
             Resend code
           </button>
