@@ -142,14 +142,14 @@ export default function OtpVerifyPage() {
         Didn&apos;t receive the code?{' '}
         {countdown > 0 ? (
           <span className="text-white/50">Resend in {countdown}s</span>
-        ) : (
-          <button
-            type="button"
-            onClick={handleResend}
-            className="bg-transparent border-0  font-semibold p-0 text-sm cursor-pointer text-primary  hover:underline"
+        ) : ( 
+           <button
+            type="button" 
+            className="cursor-pointer text-primary font-medium hover:underline"
+             onClick={handleResend}
           >
-            Resend code
-          </button>
+            Resend code{" "}
+          </button>  
         )}
       </div>
     </AuthCard>

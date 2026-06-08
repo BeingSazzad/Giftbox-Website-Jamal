@@ -195,7 +195,7 @@ function Hero() {
 
             {/* Rotating Glowing Core Ring */}
             <div
-              className="absolute w-[280px] h-[280px] rounded-full border border-white/10"
+              className="absolute w-[380px] h-[280px] rounded-full border border-white/10"
               style={{ animation: "orbit-rotate 60s linear infinite" }}
             >
               {/* Ambient small neon dot floating on core ring */}
@@ -204,7 +204,7 @@ function Hero() {
 
             {/* Floating Arched Winner Portrait Canvas with Custom Glow */}
             <div
-              className="relative z-10 w-full max-w-[340px] aspect-[3/4] bg-gradient-to-tr from-[#160d30] via-surface/40 to-primary/10 rounded-[3rem] border border-white/10 p-[1.5px] shadow-[0_30px_70px_rgba(0,0,0,0.6)] cursor-pointer"
+              className="relative z-10 w-full max-w-98 aspect-3/4 bg-linear-to-tr from-[#160d30] via-surface/40 to-primary/10 rounded-[3rem] border border-white/10 p-[1.5px] shadow-[0_30px_70px_rgba(0,0,0,0.6)] cursor-pointer"
               style={{ animation: "float-box 6s ease-in-out infinite" }}
             >
               {/* Arched Photo container */}
@@ -215,41 +215,10 @@ function Hero() {
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                 />
                 {/* Warm dark bottom gradient */}
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0c051a]/95 via-transparent to-transparent" />
+                <div className="absolute inset-0 bg-linear-to-t from-[#0c051a]/95 via-transparent to-transparent" />
               </div>
 
-              {/* Left Floating Star Badge (Aspirational Social Proof) */}
-              <div
-                className="absolute top-1/4 left-2 md:-left-10 z-20 flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-[#160d30]/80 border border-white/15 text-white text-[10px] font-black uppercase tracking-widest backdrop-blur-md shadow-2xl transition-transform hover:scale-105"
-                style={{
-                  animation: "float-box 5.5s ease-in-out infinite alternate",
-                }}
-              >
-                <span className="w-1.5 h-1.5 rounded-full bg-[#00FF66] animate-pulse" />
-                ðŸ† Verified Success
-              </div>
-
-              {/* Right Floating Reward Badge (Cash/Success Glow) */}
-              <div
-                className="absolute bottom-1/3 right-2 md:-right-8 z-20 flex items-center gap-1.5 px-4 py-2.5 rounded-2xl bg-gradient-to-r from-primary to-primary-dark text-white text-[10px] font-black uppercase tracking-widest shadow-[0_10px_25px_rgba(255,105,0,0.3)] hover:scale-105 transition-transform"
-                style={{
-                  animation:
-                    "float-box 7s ease-in-out infinite alternate-reverse",
-                }}
-              >
-                ðŸŽ‰ Mega Prize Claimed
-              </div>
-
-              {/* Ambient Confetti / Star Particles floating around card */}
-              {/* Gold Star Particle */}
-              <svg
-                className="absolute -top-6 -right-6 z-20 w-8 h-8 text-yellow-400 animate-pulse select-none pointer-events-none drop-shadow-[0_0_10px_#EAB308]"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-              >
-                <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
-              </svg>
-
+ 
               {/* Orange Neon Particle */}
               <div
                 className="absolute bottom-10 -left-6 z-20 w-3 h-3 rounded-full bg-primary shadow-[0_0_12px_#ff6900] animate-ping"

@@ -18,7 +18,7 @@ function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const redirect = searchParams?.get("redirect") || "/";
-  const { login } = useAuth();
+  const {} = useAuth(); // kept to ensure AuthProvider context exists if needed
   const [form] = Form.useForm<LoginFormValues>();
 
   const [loading, setLoading] = useState(false);
@@ -32,8 +32,22 @@ function LoginForm() {
       });
 
       if (res.success) {
+        const token = res.data?.token || res.data?.accessToken;
+        if (token) {
+          try {
+            const { setToken, setUser } = await import("@/lib/auth");
+            setToken(token);
+            const { getProfileAction } = await import("@/actions/profile");
+            const profileRes = await getProfileAction();
+            if (profileRes) {
+              setUser(profileRes.data || profileRes);
+            }
+          } catch (e) {
+            console.error(e);
+          }
+        }
         message.success(res.message || "Signed in successfully!");
-        router.push(redirect);
+        window.location.href = redirect;
       } else {
         message.error(res.message || res.error || "Failed to sign in");
       }
