@@ -127,9 +127,13 @@ function SettingsHubContent() {
   // ---------------- PASSWORD ----------------
   const handlePasswordSave = async (values: any) => {
     try {
-      await changePasswordAction(values)
-      message.success('Password updated')
-      passwordForm.resetFields()
+      const res = await changePasswordAction(values)
+      if (res?.success) {
+        message.success('Password updated')
+        passwordForm.resetFields()
+      } else {
+        message.error(res?.message || 'Failed to update password')
+      }
     } catch (e: any) {
       message.error(e?.message || 'Failed')
     }

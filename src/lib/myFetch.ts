@@ -57,9 +57,28 @@ export const myFetch = async <T = any>(
     const json = await res.json();
 
     if (!res.ok) {
+      let errorMessage = json?.message || "Request failed";
+
+      if (Array.isArray(json?.errorMessages) && json.errorMessages.length > 0) {
+        const cleanedMessages = json.errorMessages
+          .map((err: any) => {
+            const rawMsg = err?.message || "";
+            return rawMsg.replace(/^Path\s+/i, "");
+          })
+          .filter(Boolean);
+
+        if (cleanedMessages.length > 0) {
+          errorMessage = cleanedMessages.join(", ");
+        }
+      } else if (typeof json?.errorMessages === "string") {
+        errorMessage = json.errorMessages.replace(/^Path\s+/i, "");
+      } else if (json?.message) {
+        errorMessage = json.message.replace(/^Path\s+/i, "");
+      }
+
       return {
         success: false,
-        message: json?.message,
+        message: errorMessage,
         error: json?.errorMessages || "Request failed",
       };
     }

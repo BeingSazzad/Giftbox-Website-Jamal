@@ -171,6 +171,12 @@ function RegisterForm() {
           name="password"
           label={<span className="text-body">Password</span>}
           style={{ marginBottom: "12px" }}
+          extra={
+            <div className="text-[11px] text-white/40 mt-1 leading-normal flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-primary shrink-0 animate-pulse" />
+              <span>Password must be at least 8 characters.</span>
+            </div>
+          }
         >
           <Input.Password
             size="large"

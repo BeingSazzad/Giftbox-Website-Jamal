@@ -19,7 +19,20 @@ api.interceptors.response.use(
   (res) => res,
   (err) => {
     // Extract server-provided error message or fallback
-    const message = err.response?.data?.message || err.message || 'An unexpected error occurred'
+    let message = err.response?.data?.message || err.message || 'An unexpected error occurred'
+
+    // Extract detailed validation message if available
+    const errorMessages = err.response?.data?.errorMessages
+    if (Array.isArray(errorMessages) && errorMessages.length > 0) {
+      const cleaned = errorMessages
+        .map((e: any) => (e?.message || '').replace(/^Path\s+/i, ''))
+        .filter(Boolean)
+      if (cleaned.length > 0) {
+        message = cleaned.join(', ')
+      }
+    } else {
+      message = message.replace(/^Path\s+/i, '')
+    }
     
     // Create a normalized error object
     const normalizedError = new Error(message)
